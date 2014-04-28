@@ -5,6 +5,7 @@ function preload() {
   game.load.image('sky', 'assets/sprites/sky.png');
   game.load.spritesheet('brick', 'assets/sprites/brick.png', 16, 16);
   game.load.spritesheet('mario', 'assets/sprites/mario.png', 32, 32);
+  game.load.spritesheet('land', 'assets/sprites/land.png', 16, 16);
 }
 
 function create() {
@@ -19,7 +20,7 @@ function create() {
   platforms.enableBody = true;
 
   for (var i = 0; i < 15; i++) {
-    var ground = platforms.create(i * 48, game.world.height - 48, 'brick');
+    var ground = platforms.create(i * 48, game.world.height - 48, 'land', 1);
     ground.scale.setTo(3, 3);
     ground.body.immovable = true;
   }
