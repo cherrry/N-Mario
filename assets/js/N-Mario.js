@@ -26,7 +26,7 @@ function create() {
   }
 
   for (var i = 0; i < 6; i++) {
-    var ledge = platforms.create(i * 48, 5 * 48, 'brick');
+    var ledge = platforms.create(i * 48, 6 * 3 * 16, 'brick');
     ledge.scale.setTo(3, 3);
     ledge.body.immovable = true;
 
@@ -35,7 +35,7 @@ function create() {
 
     ledge.animations.play('brick');
 
-    var ledge = platforms.create((14 - i) * 48, 2 * 48, 'brick');
+    ledge = platforms.create((14 - i) * 3 * 16, 4 * 3 * 16, 'brick');
     ledge.scale.setTo(3, 3);
     ledge.body.immovable = true;
 
@@ -49,7 +49,7 @@ function create() {
   player = game.add.sprite(48, 0, 'mario');
   game.physics.arcade.enable(player);
 
-  player.body.gravity.y = 800;
+  player.body.gravity.y = 1000;
   player.body.collideWorldBounds = true;
 
   player.scale.setTo(3, 3);
@@ -92,14 +92,10 @@ function update() {
 
   if (cursors.up.isDown && player.body.touching.down) {
     // jump
-    if (cursors.left.isDown) {
-      player.body.velocity.x = -Math.sqrt(400*400/2);
-      player.body.velocity.y = -1.5*Math.sqrt(400*400/2);
-    } else if (cursors.right.isDown) {
-      player.body.velocity.x = Math.sqrt(400*400/2);
-      player.body.velocity.y = -1.5*Math.sqrt(400*400/2);
+    if (cursors.left.isDown || cursors.right.isDown) {
+      player.body.velocity.y = -600;
     } else {
-      player.body.velocity.y = -500;
+      player.body.velocity.y = -650;
     }
   }
 }
