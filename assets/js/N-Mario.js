@@ -1,4 +1,4 @@
-var scale = 2;
+var scale = 3;
 var player, platforms, cursors;
 var game = new Phaser.Game(16 * scale * 15, 16 * scale * 12, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render: render }, false, false);
 
