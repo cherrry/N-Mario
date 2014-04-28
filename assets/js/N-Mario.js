@@ -55,7 +55,7 @@ function create() {
   player.scale.setTo(3, 3);
   player.body.setSize(14, 16, 0, 24);
 
-  player.animations.add('walk', [3, 6], 5, true);
+  player.animations.add('walk', [3, 6], 15, true);
   player.animations.add('jump', [5], 5, true);
   player.animations.play('walk');
   player.anchor.setTo(0.5, 0.5);
@@ -69,13 +69,13 @@ function update() {
 
   if (cursors.left.isDown) {
     // move to left
-    player.body.velocity.x = -400;
+    player.body.velocity.x = -200;
     player.animations.play('walk');
     player.scale.x = -3;
 
   } else if (cursors.right.isDown) {
     // move to right
-    player.body.velocity.x = 400;
+    player.body.velocity.x = 200;
     player.animations.play('walk');
     player.scale.x = 3;
     player.body.setSize(14, 16, 0, 24);
