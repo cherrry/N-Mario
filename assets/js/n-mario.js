@@ -54,7 +54,7 @@ function create() {
   player.scale.setTo(3, 3);
   player.body.setSize(14, 16, 0, 24);
 
-  player.animations.add('walk', [3, 5, 6, 7, 2], 5, true);
+  player.animations.add('walk', [3, 6, 7, 2], 5, true);
   player.animations.play('walk');
   player.anchor.setTo(0.5, 0.5);
 
@@ -76,6 +76,7 @@ function update() {
     player.body.velocity.x = 300;
     player.animations.play('walk');
     player.scale.x = 3;
+    player.body.setSize(14, 16, 0, 24);
 
   } else {
     // stand still
@@ -90,5 +91,5 @@ function update() {
 }
 
 function render() {
-  game.debug.body(player);
+  // game.debug.body(player);
 }
