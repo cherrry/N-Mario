@@ -55,6 +55,7 @@ function create() {
   player.body.setSize(14, 16, 0, 24);
 
   player.animations.add('walk', [3, 6, 7, 2], 5, true);
+  player.animations.add('jump', [5], 5, true);
   player.animations.play('walk');
   player.anchor.setTo(0.5, 0.5);
 
@@ -67,13 +68,13 @@ function update() {
 
   if (cursors.left.isDown) {
     // move to left
-    player.body.velocity.x = -300;
+    player.body.velocity.x = -400;
     player.animations.play('walk');
     player.scale.x = -3;
 
   } else if (cursors.right.isDown) {
     // move to right
-    player.body.velocity.x = 300;
+    player.body.velocity.x = 400;
     player.animations.play('walk');
     player.scale.x = 3;
     player.body.setSize(14, 16, 0, 24);
@@ -84,9 +85,21 @@ function update() {
     player.frame = 2;
   }
 
+  if (!player.body.touching.down) {
+    player.animations.play('jump');
+  }
+
   if (cursors.up.isDown && player.body.touching.down) {
     // jump
-    player.body.velocity.y = -800;
+    if (cursors.left.isDown) {
+      player.body.velocity.x = -Math.sqrt(400*400/2);
+      player.body.velocity.y = -1.5*Math.sqrt(400*400/2);
+    } else if (cursors.right.isDown) {
+      player.body.velocity.x = Math.sqrt(400*400/2);
+      player.body.velocity.y = -1.5*Math.sqrt(400*400/2);
+    } else {
+      player.body.velocity.y = -500;
+    }
   }
 }
 
