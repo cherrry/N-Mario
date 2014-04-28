@@ -1,5 +1,5 @@
 var player, platforms, cursors;
-var game = new Phaser.Game(48 * 15, 48 * 10, Phaser.AUTO, '', { preload: preload, create: create, update: update }, false, false);
+var game = new Phaser.Game(48 * 15, 48 * 10, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render: render }, false, false);
 
 function preload() {
   game.load.image('sky', 'assets/sprites/1x/sky.png');
@@ -45,13 +45,14 @@ function create() {
   }
 
   // mario
-  player = game.add.sprite(0, 0, 'mario');
+  player = game.add.sprite(48, 0, 'mario');
   game.physics.arcade.enable(player);
 
   player.body.gravity.y = 800;
   player.body.collideWorldBounds = true;
 
   player.scale.setTo(3, 3);
+  player.body.setSize(14, 16, 0, 24);
 
   player.animations.add('walk', [3, 5, 6, 7, 2], 5, true);
   player.animations.play('walk');
@@ -86,4 +87,8 @@ function update() {
     // jump
     player.body.velocity.y = -800;
   }
+}
+
+function render() {
+  game.debug.body(player);
 }
