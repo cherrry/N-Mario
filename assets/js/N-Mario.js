@@ -54,7 +54,7 @@ function create() {
   player.scale.setTo(3, 3);
   player.body.setSize(14, 16, 0, 24);
 
-  player.animations.add('walk', [3, 6, 7, 2], 5, true);
+  player.animations.add('walk', [3, 6], 5, true);
   player.animations.add('jump', [5], 5, true);
   player.animations.play('walk');
   player.anchor.setTo(0.5, 0.5);
