@@ -2,9 +2,9 @@ var player, platforms, cursors;
 var game = new Phaser.Game(48 * 15, 48 * 10, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render: render }, false, false);
 
 function preload() {
-  game.load.image('sky', 'assets/sprites/1x/sky.png');
-  game.load.spritesheet('brick', 'assets/sprites/1x/brick.png', 16, 16);
-  game.load.spritesheet('mario', 'assets/sprites/1x/mario.png', 32, 32);
+  game.load.image('sky', 'assets/sprites/sky.png');
+  game.load.spritesheet('brick', 'assets/sprites/brick.png', 16, 16);
+  game.load.spritesheet('mario', 'assets/sprites/mario.png', 32, 32);
 }
 
 function create() {
