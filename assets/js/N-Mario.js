@@ -1,6 +1,6 @@
-var scale = 4;
+var scale = 2;
 var player, platforms, cursors;
-var game = new Phaser.Game(16 * scale * 15, 16 * scale * 10, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render: render }, false, false);
+var game = new Phaser.Game(16 * scale * 15, 16 * scale * 12, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render: render }, false, false);
 
 function preload() {
   game.load.image('sky', 'assets/sprites/sky.png');
@@ -27,7 +27,7 @@ function create() {
   }
 
   for (var i = 0; i < 6; i++) {
-    var ledge = platforms.create(i * 16 * scale, 6 * 16 * scale, 'brick');
+    var ledge = platforms.create(i * 16 * scale, 8 * 16 * scale, 'brick');
     ledge.scale.setTo(scale, scale);
     ledge.body.immovable = true;
 
@@ -36,7 +36,7 @@ function create() {
 
     ledge.animations.play('brick');
 
-    ledge = platforms.create((14 - i) * 16 * scale, 4 * 16 * scale, 'brick');
+    ledge = platforms.create((14 - i) * 16 * scale, 6 * 16 * scale, 'brick');
     ledge.scale.setTo(scale, scale);
     ledge.body.immovable = true;
 
@@ -47,58 +47,14 @@ function create() {
   }
 
   // mario
-  player = game.add.sprite(16 * scale, 0, 'mario');
-  game.physics.arcade.enable(player);
-
-  player.body.gravity.y = 333 * scale;
-  player.body.collideWorldBounds = true;
-
-  player.scale.setTo(scale, scale);
-  player.body.setSize(14, 16, 0 * scale, 8 * scale);
-
-  player.animations.add('walk', [3, 6], 15, true);
-  player.animations.add('jump', [5], 5, true);
-  player.animations.play('walk');
-  player.anchor.setTo(0.5, 0.5);
+  player = new Mario({ color: 0 }, game, platforms);
 
 }
 
 function update() {
-  game.physics.arcade.collide(player, platforms);
-
-  player.body.velocity.x = 0;
-
-  if (cursors.left.isDown) {
-    // move to left
-    player.body.velocity.x = -50 * scale;
-    player.animations.play('walk');
-    player.scale.x = -scale;
-
-  } else if (cursors.right.isDown) {
-    // move to right
-    player.body.velocity.x = 50 * scale;
-    player.animations.play('walk');
-    player.scale.x = scale;
-  } else {
-    // stand still
-    player.animations.stop();
-    player.frame = 2;
-  }
-
-  if (!player.body.touching.down) {
-    player.animations.play('jump');
-  }
-
-  if (cursors.up.isDown && player.body.touching.down) {
-    // jump
-    if (cursors.left.isDown || cursors.right.isDown) {
-      player.body.velocity.y = -200 * scale;
-    } else {
-      player.body.velocity.y = -210 * scale;
-    }
-  }
+  player.update(cursors.left.isDown, cursors.right.isDown, cursors.up.isDown);
 }
 
 function render() {
-  // game.debug.body(player);
+  // player.debug();
 }
