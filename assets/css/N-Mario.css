@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+div.container {
+  margin: 0 auto;
+  padding: 0 60px;
+  max-width: 960px;
+}
+
+div#content {
+  padding-top: 60px;
+  padding-bottom: 48px;
+}
