@@ -43,5 +43,6 @@ function update() {
 }
 
 function render() {
-  //player.debug();
+  // player.debug();
+  // game.debug.body(globalTile);
 }
