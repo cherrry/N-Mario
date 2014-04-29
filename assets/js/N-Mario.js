@@ -1,5 +1,5 @@
 var scale = 3;
-var player, platforms, cursors;
+var player, platforms, keyboard;
 var game = new Phaser.Game(16 * scale * 15, 16 * scale * 12, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render: render }, false, false);
 
 function preload() {
@@ -10,7 +10,7 @@ function preload() {
 }
 
 function create() {
-  cursors = game.input.keyboard.createCursorKeys();
+  keyboard = game.input.keyboard;
 
   // sky
   game.add.tileSprite(0, 0, game.world.width, game.world.height, 'sky');
@@ -52,7 +52,7 @@ function create() {
 }
 
 function update() {
-  player.update(cursors.left.isDown, cursors.right.isDown, cursors.up.isDown);
+  player.update({ keyboard: keyboard });
 }
 
 function render() {
