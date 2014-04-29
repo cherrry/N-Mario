@@ -53,13 +53,13 @@ function Mario(identity, game, solids) {
     if (leftKeyDown) {
       // move to left
       player.body.velocity.x = -50 * scale;
-      player.scale.x = -scale;
+      player.flipped = true;
       player.animations.play(anim.walk);
 
     } else if (rightKeyDown) {
       // move to right
       player.body.velocity.x = 50 * scale;
-      player.scale.x = scale;
+      player.flipped = false;
       player.animations.play(anim.walk);
 
     } else {
