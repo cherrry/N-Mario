@@ -42,6 +42,9 @@ function Mario(identity, game, solids) {
   player.anchor.setTo(0.5, 0.5);
   player.animations.play(anim.stand);
 
+  // game.camera.follow(player, Phaser.Camera.FOLLOW_PLATFORMER);
+  game.camera.follow(player);
+
   function smallMario() {
     player.body.setSize(14, 16, 0 * scale, 8 * scale);
     anim.stand = 'small-stand';
@@ -140,6 +143,10 @@ function Mario(identity, game, solids) {
     }
 
   };
+
+  this.__defineGetter__('player', function() {
+    return player;
+  });
 
   this.debug = function() {
     game.debug.body(player);
