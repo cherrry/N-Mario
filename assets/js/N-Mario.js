@@ -29,6 +29,12 @@ function create() {
       if (tile.type == 'land') {
         Land(platforms, i, j, tile.callback);
       }
+      if (tile.type == 'brick'){
+        Brick(platforms, i, j, tile.callback);
+      }
+      if (tile.type == 'question'){
+        Question(platforms, i, j, tile.callback);
+      }
     }
   }
 
