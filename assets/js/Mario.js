@@ -5,7 +5,8 @@ function Mario(identity, game, solids) {
     return new Mario(identity, game, solids);
   }
 
-  var player, spriteOffset = 26 * identity.color;
+  var player;
+  var spriteOffset = 26 * identity.color;
   var anim = {
     stand: 'samll-stand',
     walk: 'small-walk',
@@ -13,6 +14,7 @@ function Mario(identity, game, solids) {
     turn: 'small-turn',
     slide: 'small-slide'
   };
+  var state = 'small';
 
   player = game.add.sprite(16 * scale, 0, 'mario');
   game.physics.arcade.enable(player);
@@ -23,7 +25,6 @@ function Mario(identity, game, solids) {
   player.body.collideWorldBounds = true;
 
   player.scale.setTo(scale, scale);
-  smallMario();
 
   // initialize animations
   player.animations.add('small-stand', [0 + spriteOffset], 1, true);
@@ -37,6 +38,7 @@ function Mario(identity, game, solids) {
   player.animations.add('super-jump', [17 + spriteOffset], 1, true);
   player.animations.add('super-turn', [18 + spriteOffset], 1, true);
   player.animations.add('super-slide', [19 + spriteOffset], 1, true);
+  player.animations.add('super-head', [25 + spriteOffset], 1, true);
 
   // set anchor and start animation
   player.anchor.setTo(0.5, 0.5);
@@ -52,6 +54,8 @@ function Mario(identity, game, solids) {
     anim.jump = 'small-jump';
     anim.turn = 'small-turn';
     anim.slide = 'small-slide';
+    anim.head = 'small-slide';
+    state = 'small';
   }
 
   function superMario() {
@@ -61,12 +65,20 @@ function Mario(identity, game, solids) {
     anim.jump = 'super-jump';
     anim.turn = 'super-turn';
     anim.slide = 'super-slide';
+    anim.head = 'super-head';
+    state = 'super';
   }
 
   this.update = function(data) {
     var keyboard = data.keyboard;
 
     game.physics.arcade.collide(player, solids);
+
+    if (state == 'small') {
+      smallMario();
+    } else if (state == 'super') {
+      superMario();
+    }
 
     if (keyboard.isDown(Phaser.Keyboard.LEFT)) {
       // move to left
@@ -124,7 +136,12 @@ function Mario(identity, game, solids) {
           player.body.acceleration.x = 100 * scale;
         }
 
-        player.animations.play(anim.slide);
+        if (keyboard.isDown(Phaser.Keyboard.DOWN)) {
+          player.animations.play(anim.head);
+          player.body.setSize(14, 16, 0 * scale, 8 * scale);
+        } else {
+          player.animations.play(anim.slide);
+        }
       }
 
     }
@@ -138,7 +155,7 @@ function Mario(identity, game, solids) {
       if (keyboard.isDown(Phaser.Keyboard.LEFT) || keyboard.isDown(Phaser.Keyboard.RIGHT)) {
         player.body.velocity.y = -200 * scale;
       } else {
-        player.body.velocity.y = -210 * scale;
+        player.body.velocity.y = -220 * scale;
       }
     }
 

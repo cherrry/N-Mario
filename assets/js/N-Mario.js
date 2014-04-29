@@ -28,7 +28,7 @@ function create() {
       var tile = world.map[i][j];
 
       if (tile.type != null) {
-        window[tile.type](platforms, i, j, tile.callback);
+        window[tile.type](platforms, i, j, tile.attr);
       }
     }
   }

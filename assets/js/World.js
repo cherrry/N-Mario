@@ -21,7 +21,7 @@ function World(rows, cols, data) {
 
     this.map[tile.y][tile.x] = new Object();
     this.map[tile.y][tile.x].type = tile.type;
-    this.map[tile.y][tile.x].callback = tile.callback;
+    this.map[tile.y][tile.x].attr = tile.attr;
   }
 
   return this;
