@@ -4,7 +4,12 @@ function Mario(identity, game, solids) {
     return new Mario(identity, game, solids);
   }
 
-  var player, spriteOffset = 46 * identity.color;
+  var player, spriteOffset = 26 * identity.color;
+  var anim = {
+    stand: 'samll-stand',
+    walk: 'small-walk',
+    jump: 'small-jump'
+  };
 
   player = game.add.sprite(16 * scale, 0, 'mario');
   game.physics.arcade.enable(player);
@@ -15,13 +20,29 @@ function Mario(identity, game, solids) {
   player.scale.setTo(scale, scale);
   smallMario();
 
-  player.animations.add('walk', [3 + spriteOffset, 6 + spriteOffset], 15, true);
-  player.animations.add('jump', [5 + spriteOffset], 1, true);
-  player.animations.play('walk');
+  player.animations.add('small-stand', [0 + spriteOffset], 1, true);
+  player.animations.add('small-walk', [1 + spriteOffset, 2 + spriteOffset], 15, true);
+  player.animations.add('small-jump', [3 + spriteOffset], 1, true);
+
+  player.animations.add('super-stand', [14 + spriteOffset], 1, true);
+  player.animations.add('super-walk', [15 + spriteOffset, 16 + spriteOffset, 15 + spriteOffset, 14 + spriteOffset], 30, true);
+  player.animations.add('super-jump', [17 + spriteOffset], 1, true);
+
   player.anchor.setTo(0.5, 0.5);
+  player.animations.play(anim.walk);
 
   function smallMario() {
     player.body.setSize(14, 16, 0 * scale, 8 * scale);
+    anim.stand = 'small-stand';
+    anim.walk = 'small-walk';
+    anim.jump = 'small-jump';
+  }
+
+  function superMario() {
+    player.body.setSize(14, 27, 0 * scale, 2 * scale);
+    anim.stand = 'super-stand';
+    anim.walk = 'super-walk';
+    anim.jump = 'super-jump';
   }
 
   this.update = function(leftKeyDown, rightKeyDown, upKeyDown) {
@@ -33,23 +54,22 @@ function Mario(identity, game, solids) {
       // move to left
       player.body.velocity.x = -50 * scale;
       player.scale.x = -scale;
-      player.animations.play('walk');
+      player.animations.play(anim.walk);
 
     } else if (rightKeyDown) {
       // move to right
       player.body.velocity.x = 50 * scale;
       player.scale.x = scale;
-      player.animations.play('walk');
+      player.animations.play(anim.walk);
 
     } else {
       // stand still
-      player.animations.stop();
-      player.frame = 2 + spriteOffset;
+      player.animations.play(anim.stand);
 
     }
 
     if (!player.body.touching.down) {
-      player.animations.play('jump');
+      player.animations.play(anim.jump);
     }
 
     if (upKeyDown && player.body.touching.down) {
