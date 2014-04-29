@@ -1,6 +1,6 @@
 var scale = 3, globalScale = scale;
 var player, platforms, keyboard, world = WorldOne;
-var game = new Phaser.Game(16 * scale * 15, 16 * scale * 10, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render: render }, false, false);
+var game = new Phaser.Game(16 * scale * 15, 16 * scale * 10, Phaser.CANVAS, 'world', { preload: preload, create: create, update: update, render: render }, false, false);
 
 function preload() {
   game.load.image('sky', 'assets/sprites/sky.png');
