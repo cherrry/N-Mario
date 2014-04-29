@@ -1,6 +1,6 @@
-var scale = 3;
-var player, platforms, keyboard;
-var game = new Phaser.Game(16 * scale * 15, 16 * scale * 12, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render: render }, false, false);
+var scale = 3, globalScale = scale;
+var player, platforms, keyboard, world = WorldOne;
+var game = new Phaser.Game(16 * scale * 15, 16 * scale * 10, Phaser.CANVAS, '', { preload: preload, create: create, update: update, render: render }, false, false);
 
 function preload() {
   game.load.image('sky', 'assets/sprites/sky.png');
@@ -12,6 +12,8 @@ function preload() {
 function create() {
   keyboard = game.input.keyboard;
 
+  game.world.setBounds(0, 0, 16 * scale * world.cols, 16 * scale * world.rows);
+
   // sky
   game.add.tileSprite(0, 0, game.world.width, game.world.height, 'sky');
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -19,6 +21,18 @@ function create() {
   // platform
   platforms = game.add.group();
   platforms.enableBody = true;
+
+  for (var i = 0; i < world.rows; i++) {
+    for (var j = 0; j < world.cols; j++) {
+      var tile = world.map[i][j];
+
+      if (tile.type == 'land') {
+        Land(platforms, i, j, tile.callback);
+      }
+    }
+  }
+
+  /*
 
   for (var i = 0; i < 15; i++) {
     var ground = platforms.create(i * 16 * scale, game.world.height - 16 * scale, 'land', 1);
@@ -45,6 +59,7 @@ function create() {
 
     ledge.animations.play('question');
   }
+  */
 
   // mario
   player = new Mario({ color: 0 }, game, platforms);
