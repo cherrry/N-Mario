@@ -1,5 +1,5 @@
 body {
-  font-family: 'SMB Outline';
+  font-family: 'SMB Outline' !important;
   margin: 0;
   padding: 0;
 }
@@ -16,5 +16,5 @@ div#content {
 }
 
 .button, textarea, input, div#message_board {
-  font-family: 'SMB Filled';
+  font-family: 'SMB Filled' !important;
 }
