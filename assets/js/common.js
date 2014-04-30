@@ -2,7 +2,12 @@ $(document).ready(function() {
 
   localStorage.name = localStorage.name || 'Player';
 
-  $('#player_name').html(localStorage.name);
+  $('#player_name')
+    .html(localStorage.name)
+    .popup({
+      content: 'Change your name',
+      position: 'bottom center'
+    });
   $('#input_player_name').val(localStorage.name);
 
   $('#edit_player_name')
