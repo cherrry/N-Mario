@@ -1,4 +1,4 @@
-define('World', ['Land', 'Brick', 'Question', 'Tube'], function() {
+define('World', ['Brick', 'Coin', 'Land', 'Question', 'Tube'], function() {
   var World = function(rows, cols, data) {
     return World.prototype.init(rows, cols, data);
   };

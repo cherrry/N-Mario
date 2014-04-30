@@ -28,6 +28,7 @@ define('NMario', ['phaser'], function() {
         // load all sprite sheet
         game.load.image('sky', 'assets/sprites/sky.png');
         game.load.spritesheet('brick', 'assets/sprites/brick.png', 16, 16);
+        game.load.spritesheet('coin', 'assets/sprites/coin.png', 16, 16);
         game.load.spritesheet('mario', 'assets/sprites/mario.png', 32, 32);
         game.load.spritesheet('land', 'assets/sprites/land.png', 16, 16);
         game.load.spritesheet('tube', 'assets/sprites/tube.png', 16, 16);
