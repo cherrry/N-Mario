@@ -17,6 +17,9 @@ require.config({
 require(['NMario', 'World'], function(NMario, World) {
   
   console.log('game.js loaded');
+
+  localStorage.name = localStorage.name || 'Player';
+  $('#player_name').html(localStorage.name);
   /*
   require(['../map/WorldOne'], function() {
     // need to be careful
