@@ -14,6 +14,11 @@ define('WorldOne', ['World'], function(World) {
     for (var i = 0; i < 6; i++) {
       data.push({ x: i, y: 6, type: 'Brick', attr: null });
     }
+    
+    // coin
+    for (var i = 0; i < 3; i++) {
+      data.push({ x: i, y: 5, type: 'Coin', attr: null });
+    }
 
     // question
     for (var i = 0; i < 6; i++) {
