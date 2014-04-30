@@ -30,40 +30,24 @@
                 <th class='two wide'>Kick</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>Cherry</td>
-                <td>Red</td>
-                <td><i class='icon checkmark'></i></td>
-                <td></td>
+            <tbody id="playlist">
+              <tr id='tr_player_0'>
               </tr>
-              <tr>
-                <td>Fishball</td>
-                <td>Green</td>
-                <td><i class='icon checkmark'></i></td>
-                <td><i class='icon close'></i></td>
+              <tr id='tr_player_1'>
               </tr>
-              <tr>
-                <td>Simon</td>
-                <td>Blue</td>
-                <td><i class='icon checkmark'></i></td>
-                <td><i class='icon close'></i></td>
+              <tr id='tr_player_2'>
               </tr>
-              <tr>
-                <td>Francis</td>
-                <td>Yellow</td>
-                <td><i class='icon checkmark'></i></td>
-                <td><i class='icon close'></i></td>
+              <tr id='tr_player_3'>
               </tr>
             </tbody>
           </table>
           <div class='ui red segment'>
             <div class='ui form'>
               <div class='field'>
-                <textarea>Chatroom</textarea>
+                <div id='message_board'></div>
               </div>
               <div class='field'>
-                <input type='text' placeholder='Send a message...'>
+                <input id='textbox' type='text' placeholder='Send a message...'>
               </div>
             </div>
           </div>
@@ -117,6 +101,7 @@
     <script src='//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js' type='text/javascript'></script>
     <script src='./assets/js/common.js' type='text/javascript'></script>
     <script type='text/javascript'>
+      var colors = ['Red', 'Green', 'Blue', 'Yellow'];
       var socket = io.connect('http://n-mario.herokuapp.com:80');
       //var socket = io.connect('http://localhost:8080');
 
@@ -137,17 +122,68 @@
 
       socket.on('connect', function() {
         // request to join a room
+        socket.emit('fetch players', {room:room});
+      });
+
+      socket.on('return players', function(data){
+        sessionStorage['players'] = JSON.stringify(data);
+        for (var i=0; i < 4; i++) {
+          if (data[i]){
+            setTrPlayer(i, data[i].name, colors[data[i].color]);
+          }
+        }
         socket.emit('join', { name: name, id: id, room: room });
       });
 
       socket.on('join accept', function(data) {
         sessionStorage['id'] = data.id;
         id = data.id;
+        var players = JSON.parse(sessionStorage['players']);
+        players[data.pos] = { id: id, name: name, pos: data.pos };
+        sessionStorage['players'] = JSON.stringify(players);
+        setTrPlayer(data.pos, name, colors[data.pos]);
+      });
 
-      });
       socket.on('new player', function(data) {
-        console.log(data);
+        var players = JSON.parse(sessionStorage['players']);
+        players[data.pos] = { id: data.id, name: data.name, pos: data.pos, color: data.color};
+        sessionStorage['players'] = JSON.stringify(players);
+        setTrPlayer(data.pos, data.name, colors[data.pos]);
       });
+
+      socket.on('new message', function(data){
+        //console.log(data);
+        $('#message_board').append('<p>'+data['name']+': '+data['message']+'</p>');
+      });
+
+      socket.on('player left', function(data){
+        var players = JSON.parse(sessionStorage['players']);
+        for (var i = 0;i<4;i++){
+          //console.log(data);
+          if(players[i]['id'] == data.id){
+            $('#message_board').append('<p>'+players[i]['name']+' has left.</p>');
+            $('#tr_player_'+players[i]['pos']).html('');
+            players[i] = null;
+          }
+        }
+        sessionStorage['players'] = JSON.stringify(players);        
+      });
+
+      $(document).ready(function(){ 
+        $("#textbox").keyup(function(event){
+          if(event.keyCode == 13){
+            var text = $('#textbox').val();
+            socket.emit('send message', {message:text});
+            $('#textbox').val('');
+          }
+        });
+      });
+
+      function setTrPlayer(pos, name, color){
+        $('#tr_player_'+pos).html('<td>'+name+'</td><td>'+color+'</td><td><i class="icon checkmark"></i></td>');
+          if(pos != 0)
+            $('#tr_player_'+pos).append('<td><i class="icon close"></i></td>');
+      }
     </script>
   </body>
 </html>

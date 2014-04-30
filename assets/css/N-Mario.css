@@ -15,6 +15,6 @@ div#content {
   padding-bottom: 48px;
 }
 
-.button, textarea, input {
+.button, textarea, input, div#message_board {
   font-family: 'SMB Filled';
 }
