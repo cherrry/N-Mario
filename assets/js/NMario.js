@@ -1,5 +1,7 @@
-(function() {
+define('NMario', ['phaser'], function() {
   var NMario = function(container_id, scale, first_level) { return NMario.prototype.init(container_id, scale, first_level); };
+
+  console.log('N-Mario.js loaded');
 
   NMario.prototype = {
     constructor: NMario,
@@ -18,7 +20,7 @@
       }, false, false);
 
       // define variables used later
-      var keyboard;
+      var keyboard, solids;
       
       function preload() {
         // load all sprite sheet
@@ -46,6 +48,7 @@
       // some getter
       this.__defineGetter__('scale', function() { return scale; });
       this.__defineGetter__('game', function() { return game; });
+      this.__defineGetter__('solids', function() { return solids; });
 
       this.__defineSetter__('world', function(world) {
         // set new level
@@ -54,8 +57,8 @@
         game.add.tileSprite(0, 0, game.world.width, game.world.height, 'sky');
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        var platforms = game.add.group();
-        platforms.enableBody = true;
+        solids = game.add.group();
+        solids.enableBody = true;
 
         // add objects to the game
         for (var i = 0; i < world.rows; i++) {
@@ -65,7 +68,9 @@
             if (tile.type != null) {
 
               // need to pull those init function into 'NMario' scope to avoid this brain damaging line of code
-              window[tile.type](platforms, i, j, tile.attr);
+              if (tile.type == 'Land') {
+                window[tile.type](solids, i, j, tile.attr);
+              }
             }
           }
         }
@@ -78,13 +83,13 @@
   };
   NMario.prototype.init.prototype = NMario.prototype;
 
-  window.NMario = NMario;
-})();
+  return NMario;
+});
 
 // TODO: name variable and hide them from global scope
-var mario = NMario('world', 3, WorldOne);
-var game = mario.game;
-var globalScale = mario.scale, scale = globalScale;
+//var mario = NMario('world', 3, WorldOne);
+//var game = mario.game;
+//var globalScale = mario.scale, scale = globalScale;
 
 /*
 var scale = 3, globalScale = scale;
