@@ -68,9 +68,7 @@ define('NMario', ['phaser'], function() {
             if (tile.type != null) {
 
               // need to pull those init function into 'NMario' scope to avoid this brain damaging line of code
-              if (tile.type == 'Land') {
-                NMario[tile.type](solids, i, j, tile.attr);
-              }
+              NMario[tile.type](solids, i, j, tile.attr);
             }
           }
         }
