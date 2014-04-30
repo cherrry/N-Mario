@@ -93,7 +93,33 @@
     <script type='text/javascript'>
       var socket = io.connect('http://n-mario.herokuapp.com:80');
       //var socket = io.connect('http://localhost:8080');
-      socket.on('message', function(data) {
+
+      var id = sessionStorage['id'],
+          name,
+          room = sessionStorage['room'];
+
+      if (!localStorage['name']) {
+        localStorage['name'] = 'Player';
+      }
+      name = localStorage['name'];
+
+      if (!id) id = null;
+      if (!room) {
+        room = 0;
+        sessionStorage['room'] = room;
+      }
+
+      socket.on('connect', function() {
+        // request to join a room
+        socket.emit('join', { name: name, id: id, room: room });
+      });
+
+      socket.on('join accept', function(data) {
+        sessionStorage['id'] = data.id;
+        id = data.id;
+
+      });
+      socket.on('new player', function(data) {
         console.log(data);
       });
     </script>
