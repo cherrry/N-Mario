@@ -2,9 +2,7 @@ require.config({
   paths: {
     phaser: '../libs/phaser/phaser.min',
     NMario: 'NMario',
-    game: 'game',
-    World: 'World',
-    WorldOne: '../map/WorldOne'
+    World: 'World'
   },
   shim: {
     NMario: {
@@ -16,12 +14,17 @@ require.config({
   }
 });
 
-define('game', ['NMario', 'World', 'WorldOne'], function(NMario, World) {
+require(['NMario', 'World'], function(NMario, World) {
   
   console.log('game.js loaded');
-  
-  // need to be careful
-  window.game = NMario('world', 3, World.WorldOne);
-  window.globalScale = 3;
-  window.scale = 3;
+  /*
+  require(['../map/WorldOne'], function() {
+    // need to be careful
+    window.game = NMario('world', 3, World.WorldOne);
+    window.globalScale = 3;
+    window.scale = 3;
+  });
+  */
+  World.load('WorldOne');
+
 });

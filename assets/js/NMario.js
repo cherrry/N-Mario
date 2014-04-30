@@ -21,6 +21,8 @@ define('NMario', ['phaser'], function() {
 
       // define variables used later
       var keyboard, solids;
+
+      console.log('create NMario instance');
       
       function preload() {
         // load all sprite sheet

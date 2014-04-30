@@ -1,4 +1,4 @@
-define('WorldOne', ['World'], function(World) {
+require(['World'], function(World) {
 
   console.log('WorldOne.js loaded');
 
@@ -28,4 +28,5 @@ define('WorldOne', ['World'], function(World) {
   })();
 
   World.WorldOne = WorldOne;
+
 });

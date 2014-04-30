@@ -9,6 +9,7 @@ define('World', ['Land', 'Brick', 'Question', 'Tube'], function() {
     constructor: World,
     init: function(rows, cols, data) {
 
+
       var self = this;
       var map = new Array(rows);
       for (var i = 0; i < rows; i++) {
@@ -32,7 +33,18 @@ define('World', ['Land', 'Brick', 'Question', 'Tube'], function() {
 
       return this;
 
-    }
+    },
+  };
+
+  World.load = function(mapFile) {
+    // It works, I don't know why
+    require(['NMario', '../map/' + mapFile], function(NMario) {
+      require(['../map/' + mapFile], function() {
+        window.game = NMario('world', 3, World.WorldOne);
+        window.globalScale = 3;
+        window.scale = 3;
+      });
+    });
   };
 
   World.prototype.init.prototype = World.prototype;
