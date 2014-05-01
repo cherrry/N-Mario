@@ -46,6 +46,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
     })
     .modal('attach events', '#player_name', 'show');
   // initialize session
+  sessionStorage.id = '';
   sessionStorage.room = -1;
 
 
@@ -106,8 +107,8 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
     update_room(data.rooms);
   });
 
-    // chat when wating game to start
-  $("#chatbox").keyup(function(evt){
+  // chat when wating game to start
+  $("#content_room #chatbox").keyup(function(evt){
     if (evt.keyCode == 13 && $('#chatbox').val() != ''){
       socket.emit('chat message send', { message: $('#chatbox').val() });
       $('#chatbox').val('');
@@ -115,9 +116,9 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
   });
   socket.on('chat message recieved', function (data) {
     if (sessionStorage.room != -1) {
-      $('#message_board')
+      $('#content_room #message_board')
         .append('<p>'+data.name+': '+data.message+'</p>')
-        .scrollTop($('#message_board').height());
+        .scrollTop($('#content_room #message_board').height());
     }
   });
 
@@ -179,6 +180,6 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
         }
       }
     }
-
   }
+
 });
