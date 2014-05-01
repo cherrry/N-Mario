@@ -52,6 +52,22 @@ div.container {
 #content_room {
   #message_board {
     font-family: 'SMB Filled' !important;
+    height: 140px;
+    overflow-y: auto;
+  }
+  #player_list {
+    .self {
+      .player_name {
+        &:before {
+          content: '* ';
+        }
+      }
+      .player_color {
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
   }
 }
 

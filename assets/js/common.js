@@ -88,7 +88,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
 
   // player leaves room
   $('#content_room #leave_room').click(function (evt) {
-    console.log(sessionStorage.room);
+    //console.log(sessionStorage.room);
     if (sessionStorage.room != -1) {
       socket.emit('leave room request', { id: sessionStorage.id });
     }
@@ -100,7 +100,33 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
     $('#content_index').show();
     $('#content_room').hide();
 
+    $('#message_board').html('');
+    $('#chatbox').val('');
+
     update_room(data.rooms);
+  });
+
+    // chat when wating game to start
+  $("#chatbox").keyup(function(evt){
+    if (evt.keyCode == 13 && $('#chatbox').val() != ''){
+      socket.emit('chat message send', { message: $('#chatbox').val() });
+      $('#chatbox').val('');
+    }
+  });
+  socket.on('chat message recieved', function (data) {
+    if (sessionStorage.room != -1) {
+      $('#message_board')
+        .append('<p>'+data.name+': '+data.message+'</p>')
+        .scrollTop($('#message_board').height());
+    }
+  });
+
+  // player change color
+  $('#player_list .player_color').click(function (evt) {
+    console.log('change color');
+    if ($(this).data('player') == sessionStorage.id) {
+      socket.emit('change color request', { id: sessionStorage.id });
+    }
   });
 
   function update_room(rooms) {
@@ -135,7 +161,10 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
         if (player != null) {
           $('#player_list .empty_'+i).hide();
           $('#player_list .player_'+i).show();
+
           $('#player_list .player_'+i+' .player_color').css('background-position', '-' + (player.color + 1) * 16 + 'px 0px');
+          $('#player_list .player_'+i+' .player_color').data('player', player.id);
+
           $('#player_list .player_'+i+' .player_name').html(player.name);
 
           if (player.id == sessionStorage.id) {
@@ -150,5 +179,6 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
         }
       }
     }
+
   }
 });
