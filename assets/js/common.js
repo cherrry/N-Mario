@@ -124,10 +124,15 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
 
   // player change color
   $('#player_list .player_color').click(function (evt) {
-    console.log('change color');
     if ($(this).data('player') == sessionStorage.id) {
       socket.emit('change color request', { id: sessionStorage.id });
     }
+  });
+
+  // ready state change
+  $('#content_room #im_ready').on('change', function (evt) {
+    var state = $('#content_room #im_ready').is(':checked');
+    socket.emit('ready state change', { id: sessionStorage.id, ready: state });
   });
 
   function update_room(rooms) {
@@ -167,6 +172,11 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
           $('#player_list .player_'+i+' .player_color').data('player', player.id);
 
           $('#player_list .player_'+i+' .player_name').html(player.name);
+          if (player.ready) {
+            $('#player_list .player_'+i+' .player_ready').show();
+          } else {
+            $('#player_list .player_'+i+' .player_ready').hide();
+          }
 
           if (player.id == sessionStorage.id) {
             $('#player_list .player_'+i).addClass('self');
