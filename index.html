@@ -12,7 +12,7 @@
   <body>
     <div class='ui fixed inverted red main menu'>
       <div class='container'>
-        <a class='ui title item' href='./'>N-Mario</a>
+        <span class='ui title item'>N-Mario</span>
         <a class='ui item floated right' href='#' id='player_name'></a>
       </div>
     </div>
@@ -288,33 +288,71 @@
 
     <!-- Waiting Room -->
     <div class='container' id='content_room' style='display: none;'>
-      <h1 class='ui header center aligned'>N-Mario Room <span class='room.number'></span></h1>
+      <h1 class='ui header center aligned'>N-Mario Room <span class='room number'></span></h1>
       <div class='ui grid'>
         <div class='eleven wide column'>
-          <table class='ui red basic table segment'>
-            <thead>
-              <tr>
-                <th class='ten wide'>Name</th>
-                <th class='two wide'>Color</th>
-                <th class='two wide'>Ready</th>
-                <th class='two wide'>Kick</th>
-              </tr>
-            </thead>
-            <tbody id="player_list">
-              <tr id='tr_player_0'>
-                <td>Cherry</td>
-                <td><span class='player_color'></span></td>
-                <td></td>
-                <td></td>
-              </tr>
-              <tr id='tr_player_1'>
-              </tr>
-              <tr id='tr_player_2'>
-              </tr>
-              <tr id='tr_player_3'>
-              </tr>
-            </tbody>
-          </table>
+          <div class='ui red segment'>
+            <table class='ui basic table'>
+              <thead>
+                <tr>
+                  <th class='ten wide'>Name</th>
+                  <th class='two wide'>Color</th>
+                  <th class='two wide'>Ready</th>
+                  <th class='two wide'>Kick</th>
+                </tr>
+              </thead>
+              <tbody id="player_list">
+                <tr class='player_0'>
+                  <td class='player_name'></td>
+                  <td><span class='player_color'></span></td>
+                  <td class='player_ready'></td>
+                  <td class='player_kick'></td>
+                </tr>
+                <tr class='player_1'>
+                  <td class='player_name'></td>
+                  <td><span class='player_color'></span></td>
+                  <td class='player_ready'></td>
+                  <td class='player_kick'></td>
+                </tr>
+                <tr class='player_2'>
+                  <td class='player_name'></td>
+                  <td><span class='player_color'></span></td>
+                  <td class='player_ready'></td>
+                  <td class='player_kick'></td>
+                </tr>
+                <tr class='player_3'>
+                  <td class='player_name'></td>
+                  <td><span class='player_color'></span></td>
+                  <td class='player_ready'></td>
+                  <td class='player_kick'></td>
+                </tr>
+                <tr class='empty_0'>
+                  <td>-- Not Occupied --</td>
+                  <td><span class='player_color'></span></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr class='empty_1'>
+                  <td>-- Not Occupied --</td>
+                  <td><span class='player_color'></span></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr class='empty_2'>
+                  <td>-- Not Occupied --</td>
+                  <td><span class='player_color'></span></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+                <tr class='empty_3'>
+                  <td>-- Not Occupied --</td>
+                  <td><span class='player_color'></span></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <div class='ui red segment'>
             <div class='ui form'>
               <div class='field'>
@@ -335,8 +373,8 @@
             <button class='ui red large button'>
               Start Game
             </button>
-            <button class='ui large button floated right'>
-              Cancel
+            <button class='ui large button floated right' id='leave_room'>
+              Leave Room
             </button>
           </div>
         </div>
