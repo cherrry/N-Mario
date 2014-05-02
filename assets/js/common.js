@@ -122,6 +122,24 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
           }
         });
 
+        // player starts the game
+        $('#content_room #start_game').click(function (evt) {
+          if (sessionStorage.room != -1) {
+            socket.emit('start game request', { id: sessionStorage.id });
+          }
+        });
+        socket.on('start game response', function(data) {
+          if(data.status == 'accept') {
+            $('#content_room #message_board')
+              .append('<p>The game is about to begin.</p>')
+              .scrollTop($('#content_room #message_board').height());
+          }else{
+            $('#content_room #message_board')
+              .append('<p>All players should be ready before starting game.</p>')
+              .scrollTop($('#content_room #message_board').height());
+          }
+        });
+
         // player leaves room
         $('#content_room #leave_room').click(function (evt) {
           //console.log(sessionStorage.room);
