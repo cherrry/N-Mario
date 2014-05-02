@@ -57,6 +57,10 @@ div.container {
     overflow-y: auto;
   }
   #player_list {
+    td:nth-child(2), td:nth-child(3), td:nth-child(4) {
+      text-align: center;
+    }
+
     .empty_0, .empty_1, .empty_2, .empty_3 {
       .player_color {
         background-position: 2px 2px;
@@ -76,10 +80,10 @@ div.container {
         }
       }
       .player_color {
-        border-color: rgba(255, 0, 0, 0.3);
+        border-color: rgba(0, 0, 0, 0.3);
         &:hover {
           cursor: pointer;
-          border-color: rgba(255, 0, 0, 0.6);
+          border-color: rgba(255, 0, 0, 0.4);
         }
       }
     }
