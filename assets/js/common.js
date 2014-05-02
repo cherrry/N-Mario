@@ -25,6 +25,10 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
   $('#choose_server')
     .modal('setting', {
       closable: false,
+      onVisible: function () {
+        // It works, but I dont' know why
+        setTimeout(function() { $('#button_server_address').focus(); }, 10);
+      },
       onApprove: function() {
         // connect to server
         localStorage.server = $('#input_server_address').val();
@@ -33,6 +37,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
 
         // player name
         localStorage.name = localStorage.name || 'Player';
+        localStorage.scale = localStorage.scale || 2;
         $('#player_name')
           .html(localStorage.name)
           .popup({
@@ -163,8 +168,8 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
         });
 
         // chat when wating game to start
-        $("#content_room #chatbox").keyup(function(evt){
-          if (evt.keyCode == 13 && $('#chatbox').val() != ''){
+        $("#content_room #chatbox").keyup(function (evt) {
+          if (evt.keyCode == 13 && $('#chatbox').val() != '') {
             socket.emit('chat message send', { message: $('#chatbox').val() });
             $('#chatbox').val('');
           }
@@ -257,16 +262,32 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
                     $('#start_game').removeClass('disabled');
                     //$('#setting_world').activate();
                     //$('#setting_life').activate();
-                    $('#setting_scale').dropdown();
-                    $('#setting_world').dropdown().removeClass('disabled');
-                    $('#setting_life').dropdown().removeClass('disabled');
+                    $('#setting_scale').dropdown({
+                      onChange: function (value) {
+                        localStorage.scale = value;
+                      }
+                    });
+                    $('#setting_world').dropdown({
+                      onChange: function (value) {
+                        socket.emit('change settings', { world: value });
+                      }
+                    }).removeClass('disabled');
+                    $('#setting_life').dropdown({
+                      onChange: function (value) {
+                        socket.emit('change settings', { life: value });
+                      }
+                    }).removeClass('disabled');
 
                   } else {
                     //console.log('is not owner');
                     $('#start_game').addClass('disabled');
                     //$('#setting_world').nothing();
                     //$('#setting_life').nothing();
-                    $('#setting_scale').dropdown();
+                    $('#setting_scale').dropdown({
+                      onChange: function (value) {
+                        localStorage.scale = value;
+                      }
+                    });
                     $('#setting_world').dropdown('destroy').addClass('disabled');
                     $('#setting_life').dropdown('destroy').addClass('disabled');
 
