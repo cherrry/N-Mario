@@ -1,0 +1,109 @@
+/* Global Style */
+body {
+  font-family: 'SMB Outline' !important;
+  margin: 0;
+  padding: 0;
+}
+
+div.container {
+  margin: 0 auto;
+  padding: 0 60px;
+  max-width: 960px;
+
+  &#content_index, &#content_room, &#content_game {
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+}
+
+.button, textarea, input {
+  font-family: 'SMB Filled' !important;
+}
+
+.player_color {
+  background-image: url('./../sprites/mario-color.png');
+  background-repeat: no-repeat;
+  height: 16px;
+  width: 16px;
+  display: inline-block;
+  background-clip: content-box;
+}
+
+
+/* Index Style */
+#content_index {
+  .ui.piled.segment.room.available:hover {
+    cursor: pointer;
+    -webkit-box-shadow: 0 0 1px 1px rgba(255, 0, 0, 0.35);
+    -ms-box-shadow: 0 0 1px 1px rgba(255, 0, 0, 0.35);
+    -o-box-shadow: 0 0 1px 1px rgba(255, 0, 0, 0.35);
+    box-shadow: 0 0 1px 1px rgba(255, 0, 0, 0.35);
+
+    &:before, &:after {
+      -webkit-box-shadow: 0 0 1px 1px rgba(255, 0, 0, 0.2);
+      -ms-box-shadow: 0 0 1px 1px rgba(255, 0, 0, 0.2);
+      -o-box-shadow: 0 0 1px 1px rgba(255, 0, 0, 0.2);
+      box-shadow: 0 0 1px 1px rgba(255, 0, 0, 0.2);
+    }
+  }
+
+  .ui.label.state {
+    font-family: 'SMB Filled' !important;
+  }
+}
+
+
+/* Room Style */
+#content_room {
+  #message_board {
+    font-family: 'SMB Filled' !important;
+    height: 140px;
+    overflow-y: auto;
+  }
+  #player_list {
+    td:nth-child(2), td:nth-child(3), td:nth-child(4) {
+      text-align: center;
+    }
+
+    .empty_0, .empty_1, .empty_2, .empty_3 {
+      .player_color {
+        background-position: 4px 4px;
+      }
+    }
+    .player_color {
+      border: 2px solid rgba(0, 0, 0, 0.1);
+      border-radius: 3px;
+      padding: 4px;
+      margin: -4px;
+    }
+
+    .self {
+
+      .player_name {
+        &:before {
+          content: '* ';
+        }
+      }
+      .player_color {
+        border-color: rgba(0, 0, 0, 0.3);
+        &:hover {
+          cursor: pointer;
+          border-color: rgba(255, 0, 0, 0.4);
+        }
+      }
+    }
+
+    .owner {
+      .player_name {
+        &:after {
+          content: ' [Owner]';
+        }
+      }
+    }
+  }
+}
+
+/* Game Style */
+#content_game {
+
+}

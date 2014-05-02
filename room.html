@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <title>N-Mario</title>
+    <link href='./assets/libs/semantic-ui/css/semantic.min.css' rel='stylesheet'>
+    <link href='./assets/libs/mario-fonts/css/mario-fonts.css' rel='stylesheet'>
+    <link href='./assets/css/N-Mario.css' rel='stylesheet'>
+    <link href='./favicon.ico' rel='shortcut icon'>
+  </head>
+  <body>
+    <div class='ui fixed inverted red main menu'>
+      <div class='container'>
+        <a class='ui title item' href='./'>N-Mario</a>
+        <span class='item'>Room X</span>
+        <a class='ui item floated right' href='#' id='player_name'></a>
+      </div>
+    </div>
+    <div class='container' id='content'>
+      <h1 class='ui header center aligned'>N-Mario Room X</h1>
+      <div class='ui grid'>
+        <div class='eleven wide column'>
+          <table class='ui red basic table segment'>
+            <thead>
+              <tr>
+                <th class='ten wide'>Name</th>
+                <th class='two wide'>Color</th>
+                <th class='two wide'>State</th>
+                <th class='two wide'>Kick</th>
+              </tr>
+            </thead>
+            <tbody id="playlist">
+              <tr id='tr_player_0'>
+              </tr>
+              <tr id='tr_player_1'>
+              </tr>
+              <tr id='tr_player_2'>
+              </tr>
+              <tr id='tr_player_3'>
+              </tr>
+            </tbody>
+          </table>
+          <div class='ui red segment'>
+            <div class='ui form'>
+              <div class='field'>
+                <div id='message_board'></div>
+              </div>
+              <div class='field'>
+                <input id='textbox' type='text' placeholder='Send a message...'>
+              </div>
+            </div>
+          </div>
+          <div class='ui form'>
+            <div class='inline field'>
+              <div class='ui checkbox'>
+                <input type='checkbox'>
+                <label>I'm Ready</label>
+              </div>
+            </div>
+            <button class='ui red large button'>
+              Start Game
+            </button>
+            <button class='ui large button floated right'>
+              Cancel
+            </button>
+          </div>
+        </div>
+        <div class='five wide column'>
+          <div class='ui red segment'>
+            Settings
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class='ui modal small' id='edit_player_name'>
+      <i class='close icon'></i>
+      <div class='header'>
+        Edit Player Name
+      </div>
+      <div class='content'>
+        <div class='ui form'>
+          <div class='field'>
+            <label>New Name</label>
+            <div class='ui input huge'>
+              <input type='text' placeholder='Mario' id='input_player_name'>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class='actions'>
+        <div class='ui button black'>Cancel</div>
+        <div class='ui button positive right labeled icon button'>
+          OK
+          <i class='checkmark icon'></i>
+        </div>
+      </div>
+    </div>
+    <script src='./assets/libs/jquery/jquery.min.js' type='text/javascript'></script>
+    <script src='./assets/libs/semantic-ui/javascript/semantic.min.js' type='text/javascript'></script>
+    <script src='//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js' type='text/javascript'></script>
+    <script src='./assets/js/common.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      var colors = ['Red', 'Green', 'Blue', 'Yellow'];
+      var socket = io.connect('http://n-mario.herokuapp.com:80');
+      //var socket = io.connect('http://localhost:8080');
+
+      var id = sessionStorage['id'],
+          name,
+          room = sessionStorage['room'];
+
+      if (!localStorage['name']) {
+        localStorage['name'] = 'Player';
+      }
+      name = localStorage['name'];
+
+      if (!id) id = null;
+      if (!room) {
+        room = 0;
+        sessionStorage['room'] = room;
+      }
+
+      socket.on('connect', function() {
+        // request to join a room
+        socket.emit('fetch players', {room:room});
+      });
+
+      socket.on('return players', function(data){
+        sessionStorage['players'] = JSON.stringify(data);
+        for (var i=0; i < 4; i++) {
+          if (data[i]){
+            setTrPlayer(i, data[i].name, colors[data[i].color]);
+          }
+        }
+        socket.emit('join', { name: name, id: id, room: room });
+      });
+
+      socket.on('join accept', function(data) {
+        sessionStorage['id'] = data.id;
+        id = data.id;
+        var players = JSON.parse(sessionStorage['players']);
+        players[data.pos] = { id: id, name: name, pos: data.pos };
+        sessionStorage['players'] = JSON.stringify(players);
+        setTrPlayer(data.pos, name, colors[data.pos]);
+      });
+
+      socket.on('new player', function(data) {
+        var players = JSON.parse(sessionStorage['players']);
+        players[data.pos] = { id: data.id, name: data.name, pos: data.pos, color: data.color};
+        sessionStorage['players'] = JSON.stringify(players);
+        setTrPlayer(data.pos, data.name, colors[data.pos]);
+      });
+
+      socket.on('new message', function(data){
+        //console.log(data);
+        $('#message_board').append('<p>'+data['name']+': '+data['message']+'</p>');
+      });
+
+      socket.on('player left', function(data){
+        var players = JSON.parse(sessionStorage['players']);
+        for (var i = 0;i<4;i++){
+          //console.log(data);
+          if(players[i]['id'] == data.id){
+            $('#message_board').append('<p>'+players[i]['name']+' has left.</p>');
+            $('#tr_player_'+players[i]['pos']).html('');
+            players[i] = null;
+          }
+        }
+        sessionStorage['players'] = JSON.stringify(players);        
+      });
+
+      $(document).ready(function(){ 
+        $("#textbox").keyup(function(event){
+          if(event.keyCode == 13){
+            var text = $('#textbox').val();
+            socket.emit('send message', {message:text});
+            $('#textbox').val('');
+          }
+        });
+      });
+
+      function setTrPlayer(pos, name, color){
+        $('#tr_player_'+pos).html('<td>'+name+'</td><td>'+color+'</td><td><i class="icon checkmark"></i></td>');
+          if(pos != 0)
+            $('#tr_player_'+pos).append('<td><i class="icon close"></i></td>');
+      }
+    </script>
+  </body>
+</html>
