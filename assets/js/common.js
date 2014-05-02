@@ -257,4 +257,9 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
         }
       }
     }).modal('show');
+
+    // setting
+    $('.ui.selection.dropdown').dropdown();
+
 });
+
