@@ -253,7 +253,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
                   $('#player_list .player_'+i).addClass('self');
 
                   if (player.isOwner) {
-                    console.log('is owner');
+                    //console.log('is owner');
                     $('#start_game').removeClass('disabled');
                     //$('#setting_world').activate();
                     //$('#setting_life').activate();
@@ -262,7 +262,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
                     $('#setting_life').dropdown().removeClass('disabled');
 
                   } else {
-                    console.log('is not owner');
+                    //console.log('is not owner');
                     $('#start_game').addClass('disabled');
                     //$('#setting_world').nothing();
                     //$('#setting_life').nothing();
