@@ -233,10 +233,25 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
 
                 if (player.id == sessionStorage.id) {
                   $('#player_list .player_'+i).addClass('self');
+
                   if (player.isOwner) {
+                    console.log('is owner');
                     $('#start_game').removeClass('disabled');
+                    //$('#setting_world').activate();
+                    //$('#setting_life').activate();
+                    $('#setting_scale').dropdown();
+                    $('#setting_world').dropdown().removeClass('disabled');
+                    $('#setting_life').dropdown().removeClass('disabled');
+
                   } else {
+                    console.log('is not owner');
                     $('#start_game').addClass('disabled');
+                    //$('#setting_world').nothing();
+                    //$('#setting_life').nothing();
+                    $('#setting_scale').dropdown();
+                    $('#setting_world').dropdown('destroy').addClass('disabled');
+                    $('#setting_life').dropdown('destroy').addClass('disabled');
+
                   }
                 } else {
                   $('#player_list .player_'+i).removeClass('self');
@@ -259,7 +274,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
     }).modal('show');
 
     // setting
-    $('.ui.selection.dropdown').dropdown();
+    //$('.ui.selection.dropdown').dropdown();
 
 });
 

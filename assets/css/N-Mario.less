@@ -55,6 +55,20 @@ div.container {
 
 /* Room Style */
 #content_room {
+  #setting {
+    .ui.selection.dropdown {
+      .dropdown.icon {
+        color: rgba(255, 0, 0, 0.7);
+      }
+
+      &.disabled {
+        .dropdown.icon {
+          color: rgba(0, 0, 0, 0.2);
+        }
+      }
+    }
+  }
+
   #message_board {
     font-family: 'SMB Filled' !important;
     height: 140px;
