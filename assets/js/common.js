@@ -214,8 +214,19 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
 
                 if (player.id == sessionStorage.id) {
                   $('#player_list .player_'+i).addClass('self');
+                  if (player.isOwner) {
+                    $('#start_game').show();
+                  } else {
+                    $('#start_game').hide();
+                  }
                 } else {
                   $('#player_list .player_'+i).removeClass('self');
+                }
+
+                if (player.isOwner) {
+                  $('#player_list .player_'+i).addClass('owner');
+                } else {
+                  $('#player_list .player_'+i).removeClass('owner');
                 }
 
               } else {
