@@ -118,7 +118,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
             //console.log(data.room.players);
 
             $('#content_index').hide();
-            $('#content_room .room.number').html(room2alp.charAt(data.room.number));
+            $('.room.number').html(room2alp.charAt(data.room.number));
             $('#content_room').show();
 
             sessionStorage.room = data.room.number;
@@ -126,24 +126,6 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
             update_room(data.room);
           } else if (data.status == 'reject') {
             //console.log('join room request was rejected by server');
-          }
-        });
-
-        // player starts the game
-        $('#content_room #start_game').click(function (evt) {
-          if (sessionStorage.room != -1) {
-            socket.emit('start game request', { id: sessionStorage.id });
-          }
-        });
-        socket.on('start game response', function(data) {
-          if(data.status == 'accept') {
-            $('#content_room #message_board')
-              .append('<p>The game is about to begin.</p>')
-              .scrollTop($('#content_room #message_board').height());
-          }else{
-            $('#content_room #message_board')
-              .append('<p>All players should be ready before starting game.</p>')
-              .scrollTop($('#content_room #message_board').height());
           }
         });
 
@@ -324,6 +306,28 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
             }
           }
         }
+
+
+
+
+        // player starts the game
+        $('#content_room #start_game').click(function (evt) {
+          if (sessionStorage.room != -1) {
+            socket.emit('start game request', { id: sessionStorage.id });
+          }
+        });
+        socket.on('start game response', function(data) {
+          if (data.status == 'accept') {
+            $('#content_room #message_board').html('');
+            $('#content_index').hide();
+            $('#content_room').hide();
+            $('#content_game').show();
+          } else {
+            $('#content_room #message_board')
+              .append('<p>All players should be ready before starting game.</p>')
+              .scrollTop($('#content_room #message_board').height());
+          }
+        });
       }
     }).modal('show');
 
