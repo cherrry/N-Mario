@@ -149,6 +149,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
           }
         });
         socket.on('chat message recieved', function (data) {
+          // TODO: add the colored icon before the player name
           if (sessionStorage.room != -1) {
             $('#content_room #message_board')
               .append('<p>'+data.name+': '+data.message+'</p>')
@@ -215,9 +216,9 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
                 if (player.id == sessionStorage.id) {
                   $('#player_list .player_'+i).addClass('self');
                   if (player.isOwner) {
-                    $('#start_game').show();
+                    $('#start_game').removeClass('disabled');
                   } else {
-                    $('#start_game').hide();
+                    $('#start_game').addClass('disabled');
                   }
                 } else {
                   $('#player_list .player_'+i).removeClass('self');
