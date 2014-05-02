@@ -118,7 +118,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
 
             update_room(data.room);
           } else if (data.status == 'reject') {
-            console.log('join room request was rejected by server');
+            //console.log('join room request was rejected by server');
           }
         });
 
@@ -139,6 +139,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
           $('#message_board').html('');
           $('#chatbox').val('');
           $('#content_room #im_ready').prop('checked', false);
+          $('#start_game').addClass('disabled');
 
           update_room(data.rooms);
         });
@@ -175,7 +176,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
         function update_room(rooms) {
           //console.log(rooms);
           if (sessionStorage.room == -1) {
-            console.log(rooms);
+            //console.log(rooms);
 
             // player is not in any room
             for (var i = 0; i < 6; i++) {
