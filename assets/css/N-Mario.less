@@ -26,6 +26,7 @@ div.container {
   height: 16px;
   width: 16px;
   display: inline-block;
+  background-clip: content-box;
 }
 
 
@@ -56,15 +57,29 @@ div.container {
     overflow-y: auto;
   }
   #player_list {
+    .empty_0, .empty_1, .empty_2, .empty_3 {
+      .player_color {
+        background-position: 2px 2px;
+      }
+    }
+    .player_color {
+      border: 2px solid white;
+      border-radius: 3px;
+      padding: 2px;
+    }
+
     .self {
+
       .player_name {
         &:before {
           content: '* ';
         }
       }
       .player_color {
+        border-color: rgba(255, 0, 0, 0.3);
         &:hover {
           cursor: pointer;
+          border-color: rgba(255, 0, 0, 0.6);
         }
       }
     }

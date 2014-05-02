@@ -186,7 +186,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
                 $('#player_list .empty_'+i).hide();
                 $('#player_list .player_'+i).show();
 
-                $('#player_list .player_'+i+' .player_color').css('background-position', '-' + (player.color + 1) * 16 + 'px 0px');
+                $('#player_list .player_'+i+' .player_color').css('background-position', '-' + ((player.color + 1) * 16 - 2) + 'px 2px');
                 $('#player_list .player_'+i+' .player_color').data('player', player.id);
 
                 $('#player_list .player_'+i+' .player_name').html(player.name);
