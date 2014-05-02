@@ -29,6 +29,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
         // connect to server
         localStorage.server = $('#input_server_address').val();
         socket = io.connect('http://' + localStorage.server);
+        $('#server_name').html(localStorage.server);
 
         // player name
         localStorage.name = localStorage.name || 'Player';
