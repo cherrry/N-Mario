@@ -175,6 +175,8 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
         function update_room(rooms) {
           //console.log(rooms);
           if (sessionStorage.room == -1) {
+            console.log(rooms);
+
             // player is not in any room
             for (var i = 0; i < 6; i++) {
               var room = rooms[i];
@@ -192,6 +194,19 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
                   $('#room_'+i+' .player_'+j).hide();
                 }
               }
+
+              if (room.state == 'wait') {
+                $('#room_'+i).addClass('available');
+                $('#room_'+i+' .state').html('Available').removeClass('green').removeClass('red').addClass('blue');
+              } else {
+                $('#room_'+i).removeClass('available');
+                if (room.state == 'full') {
+                  $('#room_'+i+' .state').html('Full').addClass('red').removeClass('green').removeClass('blue');
+                } else {
+                  $('#room_'+i+' .state').html('Play').removeClass('green').addClass('red').removeClass('blue');
+                }
+              }
+
             }
           } else {
             // player is in a room
