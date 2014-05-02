@@ -49,6 +49,18 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
   sessionStorage.id = '';
   sessionStorage.room = -1;
 
+  // measure network latency
+  (function () {
+    var ping, pong;
+    window.setInterval(function () {
+      ping = Date.now();
+      socket.emit('ping');
+    }, 1000);
+    socket.on('pong', function (data) {
+      pong = Date.now();
+      console.log(pong - ping);
+    });
+  })();
 
   // notify the server your connection
   socket.emit('connect request', { name: localStorage.name });
