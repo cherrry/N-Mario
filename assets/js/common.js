@@ -26,7 +26,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
     .modal('setting', {
       closable: false,
       onVisible: function () {
-        // It works, but I dont' know why
+        // Cherry: Must set a timeout. It works, but I dont' know why
         setTimeout(function() { $('#button_server_address').focus(); }, 10);
       },
       onApprove: function() {
@@ -61,6 +61,8 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
         // initialize session
         sessionStorage.id = '';
         sessionStorage.room = -1;
+        sessionStorage.isOwner = false;
+
 
         // measure network latency
         latency = new (function () {
@@ -196,6 +198,14 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
           socket.emit('ready state change', { id: sessionStorage.id, ready: state });
         });
 
+        // room setting changed
+        socket.on('room settings changed', function (data) {
+          if (sessionStorage.isOwner == 'false') {
+            $('#setting_world').dropdown().dropdown('set selected', data.world).dropdown('destroy');
+            $('#setting_life').dropdown().dropdown('set selected', data.life).dropdown('destroy');
+          }
+        });
+
         function update_room(rooms) {
           //console.log(rooms);
           if (sessionStorage.room == -1) {
@@ -258,10 +268,10 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
                   $('#player_list .player_'+i).addClass('self');
 
                   if (player.isOwner) {
-                    //console.log('is owner');
+                    sessionStorage.isOwner = true;
+                    $('#setting_scale').dropdown('set selected', localStorage.scale);
+
                     $('#start_game').removeClass('disabled');
-                    //$('#setting_world').activate();
-                    //$('#setting_life').activate();
                     $('#setting_scale').dropdown({
                       onChange: function (value) {
                         localStorage.scale = value;
@@ -277,8 +287,11 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
                         socket.emit('change settings', { life: value });
                       }
                     }).removeClass('disabled');
+                    $('#setting_world').dropdown('set selected', room.settings.world);
+                    $('#setting_life').dropdown('set selected', room.settings.life);
 
                   } else {
+                    sessionStorage.isOwner = false;
                     //console.log('is not owner');
                     $('#start_game').addClass('disabled');
                     //$('#setting_world').nothing();
@@ -288,8 +301,8 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
                         localStorage.scale = value;
                       }
                     });
-                    $('#setting_world').dropdown('destroy').addClass('disabled');
-                    $('#setting_life').dropdown('destroy').addClass('disabled');
+                    $('#setting_world').dropdown('set selected', room.settings.world).dropdown('destroy').addClass('disabled');
+                    $('#setting_life').dropdown('set selected', room.settings.life).dropdown('destroy').addClass('disabled');
 
                   }
                 } else {
@@ -298,8 +311,10 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
 
                 if (player.isOwner) {
                   $('#player_list .player_'+i).addClass('owner');
+                  
                 } else {
                   $('#player_list .player_'+i).removeClass('owner');
+
                 }
 
               } else {
