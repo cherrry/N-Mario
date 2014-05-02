@@ -138,6 +138,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
 
           $('#message_board').html('');
           $('#chatbox').val('');
+          $('#content_room #im_ready').prop('checked', false);
 
           update_room(data.rooms);
         });
