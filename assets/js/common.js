@@ -17,13 +17,14 @@ require.config({
 
 define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
   // variables
-  var socket = null; // socket for connecting the server
+  var socket = null, latency; // socket for connecting the server
 
   // choose server
   localStorage.server = localStorage.server || 'localhost:8080';
   $('#input_server_address').val(localStorage.server)
   $('#choose_server')
     .modal('setting', {
+      closable: false,
       onApprove: function() {
         // connect to server
         localStorage.server = $('#input_server_address').val();
@@ -56,15 +57,30 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
         sessionStorage.room = -1;
 
         // measure network latency
-        (function () {
-          var ping, pong;
+        latency = new (function () {
+          var self = this, ping;
+          var delays = Array(60), latency_sum = 0, head = 0, count = 0;
+          for (var i = 0; i < 60; i++) {
+            delays[i] = 0;
+          }
+
+          // provide a way to query average delay of this player
+          this.__defineGetter__('average_delay', function() {
+            return latency_sum / count;
+          });
+
           window.setInterval(function () {
             ping = Date.now();
             socket.emit('ping');
-          }, 1000);
+          }, 2000); // network latency is measured every 2 seconds
           socket.on('pong', function (data) {
-            pong = Date.now();
-            console.log(pong - ping);
+            var delay = Date.now() - ping;
+            latency_sum = latency_sum - delays[head];
+            delays[head] = delay;
+            latency_sum = latency_sum + delays[head];
+
+            head = (head + 1) % 60;
+            count = Math.min(count + 1, 60);
           });
         })();
 
@@ -186,7 +202,7 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
                 $('#player_list .empty_'+i).hide();
                 $('#player_list .player_'+i).show();
 
-                $('#player_list .player_'+i+' .player_color').css('background-position', '-' + ((player.color + 1) * 16 - 2) + 'px 2px');
+                $('#player_list .player_'+i+' .player_color').css('background-position', '-' + ((player.color + 1) * 16 - 4) + 'px 4px');
                 $('#player_list .player_'+i+' .player_color').data('player', player.id);
 
                 $('#player_list .player_'+i+' .player_name').html(player.name);
