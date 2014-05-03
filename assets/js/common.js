@@ -161,8 +161,9 @@ define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
         socket.on('chat message recieved', function (data) {
           // TODO: add the colored icon before the player name
           if (sessionStorage.room != -1) {
+            console.log(data);
             $('#content_room #message_board')
-              .append('<p>'+data.name+': '+data.message+'</p>')
+              .append('<p><span class="player_color" style="background-position: -'+((data.color + 1) * 16)+'px 0px;"></span>'+data.name+': '+data.message+'</p>')
               .scrollTop($('#content_room #message_board').height());
           }
         });
