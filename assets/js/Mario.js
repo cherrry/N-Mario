@@ -8,7 +8,7 @@ function Mario(identity, game, solids) {
   var player;
   var spriteOffset = 26 * identity.color;
   var anim = {
-    stand: 'samll-stand',
+    stand: 'small-stand',
     walk: 'small-walk',
     jump: 'small-jump',
     turn: 'small-turn',
