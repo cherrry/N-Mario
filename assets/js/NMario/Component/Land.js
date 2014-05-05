@@ -12,7 +12,8 @@ require.config({
 define('Land', ['Phaser'], function (Phaser) {
   var Land = function(game, x, y) {
     Phaser.Sprite.call(this, game, x, y, 'land', 1);
-    this.immovable = true;
+    this.scale.setTo(localStorage.scale, localStorage.scale);
+    this.body.immovable = true;
   };
   Land.prototype = Object.create(Phaser.Sprite.prototype);
   Land.prototype.constructor = Land;
