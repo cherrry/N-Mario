@@ -16,7 +16,7 @@ define('Game', ['Phaser', 'Component'], function (Phaser, Component) {
   var phaser = new Phaser.Game(10, 10, Phaser.CANVAS, 'world', { preload: preload, create: create, update: update, render: render }, false, false);
 
 
-  var player, remote_players;
+  var solids, player, remote_players;
   var keyboard = null;
 
   Game.resize = function (world) {
@@ -24,6 +24,8 @@ define('Game', ['Phaser', 'Component'], function (Phaser, Component) {
     
     phaser.renderer.resize(container_width, 16 * localStorage.scale * world.height);
     phaser.world.setBounds(0, 0, 16 * localStorage.scale * world.width, 16 * localStorage.scale * world.height);
+
+    phaser.add.tileSprite(0, 0, phaser.world.width, phaser.world.height, 'sky');
 
   };
 
@@ -35,6 +37,7 @@ define('Game', ['Phaser', 'Component'], function (Phaser, Component) {
   }
 
   function create() {
+    phaser.physics.startSystem(Phaser.Physics.ARCADE);
     keyboard = phaser.input.keyboard;
   }
 
@@ -51,10 +54,12 @@ define('Game', ['Phaser', 'Component'], function (Phaser, Component) {
   Game.__defineSetter__('world', function (world) {
     Game.resize(world);
 
+    solids = phaser.add.group();
+    solids.enableBody = true;
+
     for (var i = 0; i < world.solids.length; i++) {
       var solid = world.solids[i];
-      console.log(Component);
-      new Component.Land(phaser, solid.x, solid.y);
+      new Component[solid.type](phaser, solids, solid.x, solid.y);
     }
   });
 
