@@ -7,5 +7,5 @@ define('Coin', function() {
     tile.animations.add('coin', [0, 1, 2, 3], 4, true);
     tile.animations.play('coin');
   };
-
+  return Coin;
 });

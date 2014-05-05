@@ -7,4 +7,5 @@ define('Brick', function() {
     tile.animations.add('brick', [0, 0, 1, 2, 3], 6, true);
     tile.animations.play('brick');
   };
+  return Brick;
 });
