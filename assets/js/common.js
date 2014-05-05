@@ -2,22 +2,30 @@ require.config({
   paths: {
     'jquery': '../libs/jquery/jquery.min',
     'semantic-ui': '../libs/semantic-ui/javascript/semantic.min',
-    'socket.io': '../libs/socket.io/socket.io.min'
+    'socket.io': '../libs/socket.io/socket.io.min',
+    'N-Mario': 'NMario'
   },
   shim: {
     'jquery': {
       exports: '$'
     },
-    'semantic-ui': ['jquery'],
+    'semantic-ui': {
+      deps: ['jquery']
+    },
     'socket.io': {
       exports: 'io'
+    },
+    'N-Mario': {
+      exports: 'NMario'
     }
   }
 });
 
-define(['jquery', 'semantic-ui', 'socket.io'], function ($, _, io) {
+define(['jquery', 'semantic-ui', 'socket.io', 'N-Mario'], function ($, _, io, NMario) {
   // variables
   var socket = null, latency; // socket for connecting the server
+
+  console.log(NMario);
 
   // choose server
   localStorage.server = localStorage.server || 'localhost:8080';
