@@ -71,7 +71,6 @@ define(['jquery', 'semantic-ui', 'socket.io', 'N-Mario'], function ($, _, io, NM
         sessionStorage.room = -1;
         sessionStorage.isOwner = false;
 
-
         // measure network latency
         latency = new (function () {
           var self = this, ping;
@@ -316,9 +315,6 @@ define(['jquery', 'semantic-ui', 'socket.io', 'N-Mario'], function ($, _, io, NM
           }
         }
 
-
-
-
         // player starts the game
         $('#content_room #start_game').click(function (evt) {
           if (sessionStorage.room != -1) {
@@ -337,6 +333,10 @@ define(['jquery', 'semantic-ui', 'socket.io', 'N-Mario'], function ($, _, io, NM
               .scrollTop($('#content_room #message_board').height());
           }
         });
+
+
+        // initialize game events
+        NMario.Game.socket = socket;
       }
     }).modal('show');
 

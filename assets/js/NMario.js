@@ -1,25 +1,23 @@
 require.config({
   paths: {
-    'Game': 'NMario/Game'
+    'Game': 'NMario/Game',
+    'Component': 'NMario/Component'
   },
   shim: {
-    'Phaser': {
-      exports: 'Phaser'
+    'Game': {
+      exports: 'Game'
     }
   }
 });
 
-define(['Game'], function (Game) {
+define(['Game', 'Component'], function (Game, Component) {
   var NMario = {};
 
   NMario.Game = Game;
 
   NMario.Player = {};
-  // NMario.Player.Mario = ...;
-  // NMario.Player.RemoteMario = ...;
 
-  NMario.Component = {};
-  // NMario.Component.Land = ...;
+  NMario.Component = Component;
 
   return NMario;
 });
