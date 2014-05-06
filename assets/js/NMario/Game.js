@@ -22,9 +22,10 @@ define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Comp
   var Game = {};
   var phaser = new Phaser.Game(10, 10, Phaser.CANVAS, 'world', { preload: preload, create: create, update: update, render: render }, false, false);
 
+  var socket = null;
 
   var solids = null, players = null;
-  var player = null, remote_players = Array();
+  var player = null, remote_players = {};
   var keyboard = null;
 
   Game.resize = function (world) {
@@ -49,11 +50,35 @@ define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Comp
 
   function update() {
     if (player != null) {
+      var just_change = false;
+
+      if (player.getKeyState('left') != keyboard.isDown(Phaser.Keyboard.LEFT)) {
+        player.setKeyState('left', keyboard.isDown(Phaser.Keyboard.LEFT));
+        just_change = true;
+      }
+      if (player.getKeyState('right') != keyboard.isDown(Phaser.Keyboard.RIGHT)) {
+        player.setKeyState('right', keyboard.isDown(Phaser.Keyboard.RIGHT));
+        just_change = true;
+      }
+      if (player.getKeyState('up') != keyboard.isDown(Phaser.Keyboard.UP)) {
+        player.setKeyState('up', keyboard.isDown(Phaser.Keyboard.UP));
+        just_change = true;
+      }
+      if (player.getKeyState('down') != keyboard.isDown(Phaser.Keyboard.DOWN)) {
+        player.setKeyState('down', keyboard.isDown(Phaser.Keyboard.DOWN));
+        just_change = true;
+      }
+
       player.update();
+
+      if (just_change) {
+        player.broadcast(socket);
+      }
     }
 
-    for (var i = 0; i < remote_players.length; i++) {
-      remote_players[i].update();
+    for (var remote_id in remote_players) {
+      var remote_player = remote_players[remote_id];
+      remote_player.update();
     }
   }
 
@@ -82,20 +107,16 @@ define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Comp
     players = phaser.add.group();
     players.enableBody = true;
 
-    remote_players = Array();
+    remote_players = {};
 
     for (var i = 0; i < 4; i++) {
       var identity = players_identity[i];
 
       if (identity != null) {
         if (identity.id == sessionStorage.id) {
-          // create own player
-          console.log('me: ' + JSON.stringify(identity));
           player = new Player.Mario(identity, phaser, players, solids);
         } else {
-          // create other players
-          //console.log('other: ' + JSON.stringify(identity));
-          remote_players.push(new Player.RemoteMario(identity, phaser, players, solids));
+          remote_players[identity.id] = new Player.RemoteMario(identity, phaser, players, solids);
           
         }
       }
@@ -103,7 +124,9 @@ define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Comp
   });
 
   // define all websocket listener listener here
-  Game.__defineSetter__('socket', function (socket) {
+  Game.__defineSetter__('socket', function (_socket) {
+
+    socket = _socket;
 
     socket.on('game init', function (data) {
       console.log(data);

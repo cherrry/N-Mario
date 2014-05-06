@@ -23,7 +23,8 @@ define('Mario', ['Phaser'], function (Phaser) {
       walk: 'super-walk',
       jump: 'super-jump',
       turn: 'super-turn',
-      slide: 'super-slide'
+      slide: 'super-slide',
+      head: 'super-head'
     }
   };
 
@@ -33,6 +34,7 @@ define('Mario', ['Phaser'], function (Phaser) {
 
     var spriteOffset = 26 * identity.color;
     var anim = anim_key.small, state = 'small';
+    var keypress = { 'up': false, 'down': false, 'left': false, 'right': false };
 
     Phaser.Sprite.call(this, game, 16 * localStorage.scale, 16 * localStorage.scale, 'mario', 0 + spriteOffset);
     group.add(this);
@@ -74,12 +76,112 @@ define('Mario', ['Phaser'], function (Phaser) {
     }
 
     this.update = function () {
-      game.physics.arcade.collide(self, solids);
+      game.physics.arcade.collide(this, solids);
+
+      if (state == 'small') {
+        smallMario();
+      } else if (state == 'super') {
+        superMario();
+      }
+
+      if (self.getKeyState('left')) {
+        // move to left
+
+        if (this.body.velocity.x > 0) {
+
+          if (this.body.velocity.x > 10 * localStorage.scale) {
+            this.body.acceleration.x = -200 * localStorage.scale;
+            this.scale.x = localStorage.scale;
+            this.animations.play(anim.turn);
+          } else {
+            this.body.acceleration.x = -100 * localStorage.scale;
+            this.scale.x = - localStorage.scale;
+            this.animations.play(anim.walk);
+          }
+        } else {
+          this.body.acceleration.x = -50 * localStorage.scale;
+          this.scale.x = - localStorage.scale;
+          this.animations.play(anim.walk);
+        }
+
+      } else if (this.getKeyState('right')) {
+        // move to right
+
+        if (this.body.velocity.x < 0) {
+
+          if (this.body.velocity.x < -10 * localStorage.scale) {
+            this.body.acceleration.x = 200 * localStorage.scale;
+            this.scale.x = - localStorage.scale;
+            this.animations.play(anim.turn);
+          } else {
+            this.body.acceleration.x = 100 * localStorage.scale;
+            this.scale.x = localStorage.scale;
+            this.animations.play(anim.walk);
+          }
+        } else {
+          this.body.acceleration.x = 50 * localStorage.scale;
+          this.scale.x = localStorage.scale;
+          this.animations.play(anim.walk);
+        }
+      } else {
+        // stand still
+
+        if (Math.abs(this.body.velocity.x) < localStorage.scale) {
+          this.body.velocity.x = 0;
+          this.body.acceleration.x = 0;
+          this.animations.play(anim.stand);
+        } else {
+          // sliding
+
+          if (this.body.velocity.x > 0) {
+            this.body.acceleration.x = -100 * localStorage.scale;
+          } else {
+            this.body.acceleration.x = 100 * localStorage.scale;
+          }
+
+          if (this.getKeyState('down') && state == 'super') {
+            this.animations.play(anim.head);
+            this.body.setSize(14, 16, 0, 8 * localStorage.scale);
+
+          } else {
+            this.animations.play(anim.slide);
+          }
+        }
+      }
+
+      // jumping control
+      if (!this.body.touching.down) {
+        this.animations.play(anim.jump);
+      }
+
+      if (this.getKeyState('up') && this.body.touching.down) {
+
+        if (this.getKeyState('left') || this.getKeyState('right')) {
+          this.body.velocity.y = -200 * localStorage.scale;
+        } else {
+          this.body.velocity.y = -220 * localStorage.scale;
+        }
+      }
     };
 
     this.debug = function () {
       game.debug.body(this);
-    }
+    };
+
+    this.setKeyState = function (key, state) {
+      keypress[key] = state;
+    };
+
+    this.getKeyState = function (key) {
+      return keypress[key];
+    };
+
+    this.broadcast = function (socket) {
+      if (socket != null) {
+        // send state to other player
+        console.log('send data to other player');
+      }
+    };
 
   };
 
