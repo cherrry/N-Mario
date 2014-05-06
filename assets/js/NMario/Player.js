@@ -16,8 +16,6 @@ define('Player', ['ControllableMario', 'RemoteMario'], function (ControllableMar
 
   Player.ControllableMario = ControllableMario;
   Player.RemoteMario = RemoteMario;
-  
-  console.log(Player);
 
   return Player;
 });

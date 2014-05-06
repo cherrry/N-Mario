@@ -18,8 +18,6 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
     var self = this;
 
     Mario.call(this, identity, game, group, solids);
-
-    console.log(this);
     game.camera.follow(this,  Phaser.Camera.FOLLOW_LOCKON);
     
   };

@@ -1,18 +1,23 @@
 require.config({
   paths: {
-    'Land': 'NMario/Component/Land'
+    'Land': 'NMario/Component/Land',
+    'Tube': 'NMario/Component/Tube'
   },
   shim: {
-    'Phaser': {
-      exports: 'Phaser'
+    'Land': {
+      exports: 'Land'
+    },
+    'Tube': {
+      exports: 'Tube'
     }
   }
 });
 
-define('Component', ['Land'], function (Land) {
+define('Component', ['Land', 'Tube'], function (Land, Tube) {
   var Component = {};
 
   Component.Land = Land;
+  Component.Tube = Tube;
 
   return Component;
 });

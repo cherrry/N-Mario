@@ -2,6 +2,7 @@ require.config({
   paths: {
     'Phaser': '../libs/phaser/phaser.min',
     'Component': 'NMario/Component',
+    'Collectible': 'NMario/Collectible',
     'Player': 'NMario/Player'
   },
   shim: {
@@ -11,20 +12,23 @@ require.config({
     'Component': {
       exports: 'Component'
     },
+    'Collectible': {
+      exports: 'Collectible'
+    },
     'Player': {
       exports: 'Player'
     }
   }
 });
 
-define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Component) {
+define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phaser, Player, Component, Collectible) {
 
   var Game = {};
   var phaser = new Phaser.Game(10, 10, Phaser.CANVAS, 'world', { preload: preload, create: create, update: update, render: render }, false, false);
 
   var socket = null;
 
-  var solids = null, players = null;
+  var solids = null, collectibles = null, players = null;
   var player = null, remote_players = {};
   var keyboard = null;
 
@@ -43,7 +47,11 @@ define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Comp
     phaser.load.image('sky', 'assets/sprites/sky.png', 1, 1);
 
     phaser.load.spritesheet('mario', 'assets/sprites/mario.png', 32, 32);
+
     phaser.load.spritesheet('land', 'assets/sprites/land.png', 16, 16);
+    phaser.load.spritesheet('tube', 'assets/sprites/tube.png', 32, 16);
+
+    phaser.load.spritesheet('mushroom', 'assets/sprites/mushroom.png', 16, 16);
   }
 
   function create() {
@@ -72,22 +80,19 @@ define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Comp
         just_change = true;
       }
 
-      player.update();
-
       if (just_change) {
         player.broadcast(socket);
       }
     }
 
-    for (var remote_id in remote_players) {
-      var remote_player = remote_players[remote_id];
-      remote_player.update();
-    }
   }
 
   function render() {
     if (player != null) {
-      player.debug();
+      player.render();
+    }
+    if (solids != null) {
+      // solids.forEach(phaser.debug.body, this);
     }
   }
 
@@ -101,7 +106,15 @@ define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Comp
 
     for (var i = 0; i < world.solids.length; i++) {
       var solid = world.solids[i];
-      new Component[solid.type](phaser, solids, solid.x, solid.y);
+      new Component[solid.type](phaser, solids, solid.x, solid.y, solid.attr);
+    }
+
+    collectibles = phaser.add.group();
+    collectibles.enableBody = true;
+
+    for (var i = 0; i < world.collectibles.length; i++) {
+      var collectible = world.collectibles[i];
+      new Collectible[collectible.type](phaser, collectibles, solids, collectible.x, collectible.y, collectible.attr);
     }
   });
 
@@ -132,7 +145,7 @@ define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Comp
     socket = _socket;
 
     socket.on('game init', function (data) {
-      console.log(data);
+      // console.log(data);
       Game.world = data.world;
       Game.players = data.players;
     });
@@ -141,7 +154,7 @@ define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Comp
       if (player != null) {
         player.broadcast(socket);
       }
-    }, 250);
+    }, 200);
 
     socket.on('player data update', function (data) {
       if (player != null && data.id in remote_players) {
@@ -151,12 +164,13 @@ define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Comp
         remote_player.setKeyState('right', data.keypress.right);
         remote_player.setKeyState('up', data.keypress.up);
         remote_player.setKeyState('down', data.keypress.down);
-        remote_player.body.x = data.physics.position.x;
-        remote_player.body.y = data.physics.position.y;
-        remote_player.body.velocity.x = data.physics.velocity.x;
-        remote_player.body.velocity.y = data.physics.velocity.y;
-        remote_player.body.acceleration.y = data.physics.acceleration.y;
-        remote_player.body.acceleration.y = data.physics.acceleration.y;
+
+        remote_player.body.x = data.physics.position.x * localStorage.scale;
+        remote_player.body.y = data.physics.position.y * localStorage.scale;
+        remote_player.body.velocity.x = data.physics.velocity.x * localStorage.scale;
+        remote_player.body.velocity.y = data.physics.velocity.y * localStorage.scale;
+        remote_player.body.acceleration.y = data.physics.acceleration.y * localStorage.scale;
+        remote_player.body.acceleration.y = data.physics.acceleration.y * localStorage.scale;
       }
     });
 

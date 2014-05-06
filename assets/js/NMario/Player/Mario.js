@@ -164,7 +164,7 @@ define('Mario', ['Phaser'], function (Phaser) {
       }
     };
 
-    this.debug = function () {
+    this.render = function () {
       game.debug.body(this);
     };
 
@@ -183,9 +183,9 @@ define('Mario', ['Phaser'], function (Phaser) {
           id: sessionStorage.id,
           keypress: keypress,
           physics: {
-            position: { x: self.body.x, y: self.body.y },
-            velocity: { x: self.body.velocity.x, y: self.body.velocity.y },
-            acceleration: { x: self.body.acceleration.x, y: self.body.acceleration.y }
+            position: { x: self.body.x / localStorage.scale, y: self.body.y / localStorage.scale },
+            velocity: { x: self.body.velocity.x / localStorage.scale, y: self.body.velocity.y / localStorage.scale },
+            acceleration: { x: self.body.acceleration.x / localStorage.scale, y: self.body.acceleration.y / localStorage.scale }
           }
         });
       }
