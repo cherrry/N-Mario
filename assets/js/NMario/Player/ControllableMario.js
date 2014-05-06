@@ -14,7 +14,7 @@ require.config({
 });
 
 define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
-  var ControllableMario = function (identity, game, group, solids) {
+  var ControllableMario = function (identity, game, group, solids, collectibles) {
     var self = this;
 
     Mario.call(this, identity, game, group, solids);

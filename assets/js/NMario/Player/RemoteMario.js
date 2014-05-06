@@ -14,7 +14,7 @@ require.config({
 });
 
 define('RemoteMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
-  var RemoteMario = function (identity, game, group, solids) {
+  var RemoteMario = function (identity, game, group, solids, collectibles) {
     var self = this;
 
     Mario.call(this, identity, game, group, solids);

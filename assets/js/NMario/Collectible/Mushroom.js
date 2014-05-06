@@ -10,7 +10,7 @@ require.config({
 });
 
 define('Mushroom', ['Phaser'], function (Phaser) {
-  var Mushroom = function(game, group, solids, x, y, attr) {
+  var Mushroom = function(game, group, x, y, attr, solids, players) {
     
     Phaser.Sprite.call(this, game, x * 16 * localStorage.scale, y * 16 * localStorage.scale, 'mushroom', 0);
     group.add(this);
@@ -23,8 +23,19 @@ define('Mushroom', ['Phaser'], function (Phaser) {
     this.body.velocity.x = 40 * localStorage.scale;
     this.body.bounce.x = 1;
 
+    this.body.mass = 1;
+
     this.update = function () {
-      game.physics.arcade.collide(this, solids);
+      game.physics.arcade.collide(this, solids, function (mushroom, solid) {
+        console.log('hit by object');
+        console.log(mushroom);
+        console.log(solid);
+      });
+      game.physics.arcade.collide(this, players, function (mushroom, player) {
+        console.log('hit by player');
+        console.log(mushroom);
+        console.log(player);
+      });
     };
   };
 

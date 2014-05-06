@@ -28,7 +28,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     }
   };
 
-  var Mario = function (identity, game, group, solids) {
+  var Mario = function (identity, game, group, solids, collectibles) {
     // stupid javascript scoping
     var self = this;
 
@@ -64,6 +64,8 @@ define('Mario', ['Phaser'], function (Phaser) {
     this.animations.play(anim.stand);
     smallMario();
 
+    this.body.mass = 1;
+
     function smallMario() {
       self.body.setSize(14, 16, 0 * localStorage.scale, 8 * localStorage.scale);
       anim = anim_key.small;
@@ -77,6 +79,7 @@ define('Mario', ['Phaser'], function (Phaser) {
 
     this.update = function () {
       game.physics.arcade.collide(this, solids);
+      game.physics.arcade.collide(this, collectibles);
 
       if (state == 'small') {
         smallMario();

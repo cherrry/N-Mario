@@ -96,7 +96,9 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     }
   }
 
-  Game.__defineSetter__('world', function (world) {
+  Game.__defineSetter__('game', function (game) {
+    var world = game.world, players_identity = game.players;
+
     Game.resize(world);
     phaser.world.removeAll();
     phaser.add.tileSprite(0, 0, phaser.world.width, phaser.world.height, 'sky');
@@ -104,24 +106,21 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     solids = phaser.add.group();
     solids.enableBody = true;
 
+    collectibles = phaser.add.group();
+    collectibles.enableBody = true;
+
+    players = phaser.add.group();
+    players.enableBody = true;
+
     for (var i = 0; i < world.solids.length; i++) {
       var solid = world.solids[i];
       new Component[solid.type](phaser, solids, solid.x, solid.y, solid.attr);
     }
 
-    collectibles = phaser.add.group();
-    collectibles.enableBody = true;
-
     for (var i = 0; i < world.collectibles.length; i++) {
       var collectible = world.collectibles[i];
-      new Collectible[collectible.type](phaser, collectibles, solids, collectible.x, collectible.y, collectible.attr);
+      new Collectible[collectible.type](phaser, collectibles, collectible.x, collectible.y, collectible.attr, solids, players);
     }
-  });
-
-  Game.__defineSetter__('players', function (players_identity) {
-
-    players = phaser.add.group();
-    players.enableBody = true;
 
     remote_players = {};
 
@@ -130,9 +129,9 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
       if (identity != null) {
         if (identity.id == sessionStorage.id) {
-          player = new Player.ControllableMario(identity, phaser, players, solids);
+          player = new Player.ControllableMario(identity, phaser, players, solids, collectibles);
         } else {
-          remote_players[identity.id] = new Player.RemoteMario(identity, phaser, players, solids);
+          remote_players[identity.id] = new Player.RemoteMario(identity, phaser, players, solids, collectibles);
           
         }
       }
@@ -146,8 +145,9 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
     socket.on('game init', function (data) {
       // console.log(data);
-      Game.world = data.world;
-      Game.players = data.players;
+      Game.game = data;
+      // Game.world = data.world;
+      // Game.players = data.players;
     });
 
     window.setInterval(function () {
