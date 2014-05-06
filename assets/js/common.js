@@ -25,8 +25,6 @@ define(['jquery', 'semantic-ui', 'socket.io', 'N-Mario'], function ($, _, io, NM
   // variables
   var socket = null, latency; // socket for connecting the server
 
-  console.log(NMario);
-
   // choose server
   localStorage.server = localStorage.server || 'localhost:8080';
   $('#input_server_address').val(localStorage.server)
