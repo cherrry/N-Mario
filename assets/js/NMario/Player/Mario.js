@@ -39,7 +39,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     Phaser.Sprite.call(this, game, 16 * localStorage.scale, 16 * localStorage.scale, 'mario', 0 + spriteOffset);
     group.add(this);
 
-    this.body.maxVelocity.x = 400 * localStorage.scale;
+    this.body.maxVelocity.x = 133 * localStorage.scale;
     this.body.gravity.y = 333 * localStorage.scale;
     this.body.collideWorldBounds = true;
 
@@ -179,7 +179,15 @@ define('Mario', ['Phaser'], function (Phaser) {
     this.broadcast = function (socket) {
       if (socket != null) {
         // send state to other player
-        console.log('send data to other player');
+        socket.emit('player data update', {
+          id: sessionStorage.id,
+          keypress: keypress,
+          physics: {
+            position: { x: self.body.x, y: self.body.y },
+            velocity: { x: self.body.velocity.x, y: self.body.velocity.y },
+            acceleration: { x: self.body.acceleration.x, y: self.body.acceleration.y }
+          }
+        });
       }
     };
 

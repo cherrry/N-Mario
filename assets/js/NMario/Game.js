@@ -135,10 +135,18 @@ define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Comp
       console.log(data);
       Game.world = data.world;
       Game.players = data.players;
-
     });
 
+    window.setInterval(function () {
+      if (player != null) {
+        player.broadcast(socket);
+      }
+    }, 250);
+
     socket.on('player data update', function (data) {
+      if (player != null && data.id in remote_players) {
+        console.log(data);
+      }
     });
 
     socket.on('object data update', function (data) {
