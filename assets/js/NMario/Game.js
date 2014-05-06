@@ -29,7 +29,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
   var socket = null;
 
   var solids = null, collectibles = null, players = null;
-  var player = null, remote_players = {};
+  var player = null, remote_players = {}, ref_collectibles = {};
   var keyboard = null;
 
   Game.resize = function (world) {
@@ -108,9 +108,11 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
     collectibles = phaser.add.group();
     collectibles.enableBody = true;
+    ref_collectibles = {};
 
     players = phaser.add.group();
     players.enableBody = true;
+    remote_players = {};
 
     for (var i = 0; i < world.solids.length; i++) {
       var solid = world.solids[i];
@@ -121,8 +123,6 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
       var collectible = world.collectibles[i];
       new Collectible[collectible.type](phaser, collectibles, collectible.x, collectible.y, collectible.attr, solids, players);
     }
-
-    remote_players = {};
 
     for (var i = 0; i < 4; i++) {
       var identity = players_identity[i];
@@ -159,22 +159,11 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     socket.on('player data update', function (data) {
       if (player != null && data.id in remote_players) {
         var remote_player = remote_players[data.id];
-
-        remote_player.setKeyState('left', data.keypress.left);
-        remote_player.setKeyState('right', data.keypress.right);
-        remote_player.setKeyState('up', data.keypress.up);
-        remote_player.setKeyState('down', data.keypress.down);
-
-        remote_player.body.x = data.physics.position.x * localStorage.scale;
-        remote_player.body.y = data.physics.position.y * localStorage.scale;
-        remote_player.body.velocity.x = data.physics.velocity.x * localStorage.scale;
-        remote_player.body.velocity.y = data.physics.velocity.y * localStorage.scale;
-        remote_player.body.acceleration.y = data.physics.acceleration.y * localStorage.scale;
-        remote_player.body.acceleration.y = data.physics.acceleration.y * localStorage.scale;
+        remote_player.lastestData = data;
       }
     });
 
-    socket.on('object data update', function (data) {
+    socket.on('collectible data update', function (data) {
     });
   });
 

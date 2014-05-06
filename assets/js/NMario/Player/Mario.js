@@ -64,8 +64,6 @@ define('Mario', ['Phaser'], function (Phaser) {
     this.animations.play(anim.stand);
     smallMario();
 
-    this.body.mass = 1;
-
     function smallMario() {
       self.body.setSize(14, 16, 0 * localStorage.scale, 8 * localStorage.scale);
       anim = anim_key.small;

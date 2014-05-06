@@ -23,8 +23,6 @@ define('Mushroom', ['Phaser'], function (Phaser) {
     this.body.velocity.x = 40 * localStorage.scale;
     this.body.bounce.x = 1;
 
-    this.body.mass = 1;
-
     this.update = function () {
       game.physics.arcade.collide(this, solids, function (mushroom, solid) {
         console.log('hit by object');
