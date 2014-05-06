@@ -18,6 +18,15 @@ define('Tube', ['Phaser'], function (Phaser) {
     this.scale.setTo(localStorage.scale, localStorage.scale);
     this.body.immovable = true;
 
+    // set bounding box
+    if (attr.frame == 0) {
+      this.body.setSize(32, 13, 0, 0);
+    } else if (attr.frame == 1) {
+      this.body.setSize(28, 16, 2 * localStorage.scale, 0);
+    } else if (attr.frame == 2) {
+      this.body.setSize(32, 13, 0, 3 * localStorage.scale);
+    }
+
     this.render = function () {
       game.debug.body(this);
     };
