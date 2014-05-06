@@ -145,7 +145,18 @@ define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Comp
 
     socket.on('player data update', function (data) {
       if (player != null && data.id in remote_players) {
-        console.log(data);
+        var remote_player = remote_players[data.id];
+
+        remote_player.setKeyState('left', data.keypress.left);
+        remote_player.setKeyState('right', data.keypress.right);
+        remote_player.setKeyState('up', data.keypress.up);
+        remote_player.setKeyState('down', data.keypress.down);
+        remote_player.body.x = data.physics.position.x;
+        remote_player.body.y = data.physics.position.y;
+        remote_player.body.velocity.x = data.physics.velocity.x;
+        remote_player.body.velocity.y = data.physics.velocity.y;
+        remote_player.body.acceleration.y = data.physics.acceleration.y;
+        remote_player.body.acceleration.y = data.physics.acceleration.y;
       }
     });
 
