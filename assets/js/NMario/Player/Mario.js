@@ -50,14 +50,14 @@ define('Mario', ['Phaser'], function (Phaser) {
     this.animations.add('small-walk', [1 + spriteOffset, 2 + spriteOffset], 15, true);
     this.animations.add('small-jump', [3 + spriteOffset], 1, true);
     this.animations.add('small-turn', [4 + spriteOffset], 1, true);
-    this.animations.add('small-slide', [5, spriteOffset], 1, true);
+    this.animations.add('small-slide', [5 + spriteOffset], 1, true);
 
     this.animations.add('super-stand', [14 + spriteOffset], 1, true);
     this.animations.add('super-walk', [15 + spriteOffset, 16 + spriteOffset, 15 + spriteOffset, 14 + spriteOffset], 30, true);
     this.animations.add('super-jump', [17 + spriteOffset], 1, true);
     this.animations.add('super-turn', [18 + spriteOffset], 1, true);
     this.animations.add('super-slide', [19 + spriteOffset], 1, true);
-    this.animations.add('super-head', [25, spriteOffset], 1, true);
+    this.animations.add('super-head', [25 + spriteOffset], 1, true);
 
     // set anchor and start animation
     this.anchor.setTo(0.5, 0.5);
