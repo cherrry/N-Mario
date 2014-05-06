@@ -18,12 +18,6 @@ define('RemoteMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
     var self = this;
 
     Mario.call(this, identity, game, group, solids);
-
-    console.log(this.update);
-    var super_update = this.update;
-    this.update = function () {
-      super_update.call(this);
-    };
     
   };
 

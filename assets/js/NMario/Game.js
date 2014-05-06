@@ -34,6 +34,9 @@ define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Comp
     phaser.renderer.resize(container_width, 16 * localStorage.scale * world.height);
     phaser.world.setBounds(0, 0, 16 * localStorage.scale * world.width, 16 * localStorage.scale * world.height);
 
+    phaser.camera.width = container_width;
+    phaser.camera.height = 16 * localStorage.scale * world.height;
+
   };
 
   function preload() {
@@ -114,7 +117,7 @@ define('Game', ['Phaser', 'Player', 'Component'], function (Phaser, Player, Comp
 
       if (identity != null) {
         if (identity.id == sessionStorage.id) {
-          player = new Player.Mario(identity, phaser, players, solids);
+          player = new Player.ControllableMario(identity, phaser, players, solids);
         } else {
           remote_players[identity.id] = new Player.RemoteMario(identity, phaser, players, solids);
           

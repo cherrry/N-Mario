@@ -1,21 +1,23 @@
 require.config({
   paths: {
     'Phaser': '../libs/phaser/phaser.min',
-    'Mario': 'NMario/Player/Mario',
+    'ControllableMario': 'NMario/Player/ControllableMario',
     'RemoteMario': 'NMario/Player/RemoteMario'
   },
   shim: {
-    'Phaser': {
-      exports: 'Phaser'
+    'ControllableMario': {
+      exports: 'ControllableMario'
     }
   }
 });
 
-define('Player', ['Mario', 'RemoteMario'], function (Mario, RemoteMario) {
+define('Player', ['ControllableMario', 'RemoteMario'], function (ControllableMario, RemoteMario) {
   var Player = {};
 
-  Player.Mario = Mario;
+  Player.ControllableMario = ControllableMario;
   Player.RemoteMario = RemoteMario;
+  
+  console.log(Player);
 
   return Player;
 });
