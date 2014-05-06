@@ -1,6 +1,7 @@
 require.config({
   paths: {
-    'Phaser': '../libs/phaser/phaser.min'
+    'Phaser': '../libs/phaser/phaser.min',
+    'BaseCollectible': 'NMario/Collectible/BaseCollectible'
   },
   shim: {
     'Phaser': {
@@ -9,10 +10,10 @@ require.config({
   }
 });
 
-define('Mushroom', ['Phaser'], function (Phaser) {
+define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
   var Mushroom = function(game, group, x, y, attr, solids, players) {
     
-    Phaser.Sprite.call(this, game, x * 16 * localStorage.scale, y * 16 * localStorage.scale, 'mushroom', 0);
+    BaseCollectible.call(this, game, group, x, y, attr, solids, players, 'mushroom');
     group.add(this);
 
     this.animations.add('moving', [0, 1], 10, true);
@@ -35,9 +36,19 @@ define('Mushroom', ['Phaser'], function (Phaser) {
         console.log(player);
       });
     };
+
+    this.__defineGetter__('lastestData', function () {
+      return {
+        id: attr.id,
+        physics: {
+          position: { x: this.body.x / localStorage.scale, y: this.body.y / localStorage.scale }
+        }
+      };
+    });
+
   };
 
-  Mushroom.prototype = Object.create(Phaser.Sprite.prototype);
+  Mushroom.prototype = Object.create(BaseCollectible.prototype);
   Mushroom.prototype.constructor = Mushroom;
 
   return Mushroom;

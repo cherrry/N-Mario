@@ -26,7 +26,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
   var Game = {};
   var phaser = new Phaser.Game(10, 10, Phaser.CANVAS, 'world', { preload: preload, create: create, update: update, render: render }, false, false);
 
-  var socket = null;
+  var socket = null, isOwner = false;
 
   var solids = null, collectibles = null, players = null;
   var player = null, remote_players = {}, ref_collectibles = {};
@@ -121,14 +121,18 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
     for (var i = 0; i < world.collectibles.length; i++) {
       var collectible = world.collectibles[i];
-      new Collectible[collectible.type](phaser, collectibles, collectible.x, collectible.y, collectible.attr, solids, players);
+      ref_collectibles[collectible.attr.id] = new Collectible[collectible.type](phaser, collectibles, collectible.x, collectible.y, collectible.attr, solids, players);
     }
+    console.log(ref_collectibles);
 
     for (var i = 0; i < 4; i++) {
       var identity = players_identity[i];
 
       if (identity != null) {
         if (identity.id == sessionStorage.id) {
+          if (identity.isOwner) {
+            isOwner = true;
+          }
           player = new Player.ControllableMario(identity, phaser, players, solids, collectibles);
         } else {
           remote_players[identity.id] = new Player.RemoteMario(identity, phaser, players, solids, collectibles);
@@ -153,6 +157,13 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     window.setInterval(function () {
       if (player != null) {
         player.broadcast(socket);
+
+        if (isOwner) {
+          for (ref in ref_collectibles) {
+            var collectible = ref_collectibles[ref];
+            collectible.broadcast(socket);
+          }
+        }
       }
     }, 200);
 
