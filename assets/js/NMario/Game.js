@@ -173,8 +173,10 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
             isOwner = true;
           }
           player = new Player.ControllableMario(identity, phaser, collide_objects);
+          player.socket = socket;
         } else {
           remote_players[identity.id] = new Player.RemoteMario(identity, phaser, collide_objects);
+          remote_players[identity.id].socket = socket;
           
         }
       }
@@ -217,6 +219,13 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
       if (player != null && data.id in ref_collectibles) {
         var collectible = ref_collectibles[data.id];
         collectible.lastestData = data;
+      }
+    });
+
+    socket.on('player collect object', function (data) {
+      console.log(data);
+      if (data.player != sessionStorage.id) {
+        ref_collectibles[data.collectible].collected();
       }
     });
   });

@@ -26,6 +26,10 @@ define('BaseCollectible', ['Phaser'], function (Phaser) {
       return { id: attr.id };
     });
 
+    this.__defineGetter__('id', function () {
+      return attr.id;
+    });
+
   };
 
   BaseCollectible.prototype = Object.create(Phaser.Sprite.prototype);

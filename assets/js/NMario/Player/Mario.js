@@ -32,6 +32,8 @@ define('Mario', ['Phaser'], function (Phaser) {
     // stupid javascript scoping
     var self = this;
 
+    var socket = null;
+
     var spriteOffset = 26 * identity.color;
     var anim = anim_key.small, state = 'small';
     var keypress = { 'up': false, 'down': false, 'left': false, 'right': false };
@@ -195,6 +197,11 @@ define('Mario', ['Phaser'], function (Phaser) {
       }
     };
 
+    this.__defineSetter__('socket', function (value) { socket = value; });
+
+    this.send = function (key, data) {
+      socket.emit(key, data);
+    };
   };
 
   Mario.prototype = Object.create(Phaser.Sprite.prototype);
