@@ -36,7 +36,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     var anim = anim_key.small, state = 'small';
     var keypress = { 'up': false, 'down': false, 'left': false, 'right': false };
 
-    Phaser.Sprite.call(this, game, 16 * localStorage.scale, 16 * localStorage.scale, 'mario', 0 + spriteOffset);
+    Phaser.Sprite.call(this, game, 32 * (identity.color + 1) * localStorage.scale, 16 * localStorage.scale, 'mario', 0 + spriteOffset);
     objects.add(this);
 
     this.body.maxVelocity.x = 133 * localStorage.scale;
