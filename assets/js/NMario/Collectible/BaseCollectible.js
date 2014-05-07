@@ -30,6 +30,10 @@ define('BaseCollectible', ['Phaser'], function (Phaser) {
       return attr.id;
     });
 
+    this.collected = function () {
+      console.log('collect: ' + this.Type);
+    };
+
   };
 
   BaseCollectible.prototype = Object.create(Phaser.Sprite.prototype);

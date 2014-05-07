@@ -59,6 +59,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     phaser.load.spritesheet('coin', 'assets/sprites/coin.png', 16, 16);
     phaser.load.spritesheet('flagpole', 'assets/sprites/flagpole.png', 32, 128);
     phaser.load.spritesheet('powerup', 'assets/sprites/power-up.png', 16, 16);
+
   }
 
   function create() {
@@ -76,17 +77,18 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 				player.collide(source);
 			}
 
-//      if (source == player && target == ref_collectibles['mushroom_0']) {
-//        console.log("player -> mushroom");
-//      }
-//      if (target == player && source == ref_collectibles['mushroom_0']) {
-//        console.log("mushroom -> player");
-//      }
     });
 
     // handle overlap between collide group and overlap group objects
-    phaser.physics.arcade.overlap(collide_objects, overlap_objects, function (source, target){
-      // target.kill();
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, function (source, target) {
+      
+			// If collision involves player, ask player to collide with the other object
+      console.log(source, target);
+			if (source == player){
+				player.collide(target);
+			} else if (target == player){
+				player.collide(source);
+			}
     }, null, this);
 
 		// Self player control
@@ -159,9 +161,9 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
         ref_collectibles[collectible.attr.id] = new Collectible[collectible.type](phaser, overlap_objects, collectible.x, collectible.y, collectible.attr);
       }
 			console.log(collectible);
-//			if (collectible.type == 'Mushroom') {
-//				debug_object = ref_collectibles[collectible.attr.id];
-//			}
+			if (collectible.type == 'Coin') {
+				debug_object = ref_collectibles[collectible.attr.id];
+			}
     }
 
     for (var i = 0; i < 4; i++) {
