@@ -66,6 +66,10 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
   function update() {
     phaser.physics.arcade.collide(objects, objects, function (source, target) {
+      if (source == player) {
+        player.collide(target);
+      } else {
+      }
       if (source == player && target == ref_collectibles['mushroom_0']) {
         console.log(source, target);
       }

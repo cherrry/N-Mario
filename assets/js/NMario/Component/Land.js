@@ -22,6 +22,7 @@ define('Land', ['Phaser'], function (Phaser) {
   };
   Land.prototype = Object.create(Phaser.Sprite.prototype);
   Land.prototype.constructor = Land;
+  Land.prototype.Type = 'Land';
 
   return Land;
 });
