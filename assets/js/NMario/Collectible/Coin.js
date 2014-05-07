@@ -24,6 +24,8 @@ define('Coin', ['BaseCollectible'], function (BaseCollectible) {
 
     this.anchor.setTo(0.5, 0.5);
     this.body.setSize(16, 16, 0, 0);
+    
+    this.broadcast = function (socket) {};
   };
 
   Coin.prototype = Object.create(BaseCollectible.prototype);

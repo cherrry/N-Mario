@@ -55,7 +55,8 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     phaser.load.spritesheet('tube', 'assets/sprites/tube.png', 32, 16);
 
     phaser.load.spritesheet('mushroom', 'assets/sprites/mushroom.png', 16, 16);
-    phaser.load.spritesheet('coin', 'assets/sprites/coin.png', 16, 16)
+    phaser.load.spritesheet('coin', 'assets/sprites/coin.png', 16, 16);
+    phaser.load.spritesheet('flagpole', 'assets/sprites/flagpole.png', 32, 128);
   }
 
   function create() {
@@ -132,6 +133,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
     for (var i = 0; i < world.collectibles.length; i++) {
       var collectible = world.collectibles[i];
+      console.log(collectible, Collectible);
       ref_collectibles[collectible.attr.id] = new Collectible[collectible.type](phaser, objects, collectible.x, collectible.y, collectible.attr);
       debug_object = ref_collectibles[collectible.attr.id];
     }
