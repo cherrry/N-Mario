@@ -28,7 +28,6 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
 
     this.anchor.setTo(0.5, 0.5);
     this.body.setSize(16, 16, 0, 0);
-    this.body.mass = 0;
 
     var lastestPhysics = null;
 
