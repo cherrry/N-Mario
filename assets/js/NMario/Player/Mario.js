@@ -172,6 +172,10 @@ define('Mario', ['Phaser'], function (Phaser) {
       }
     };
 
+		this.collide = function(target) {
+			console.log("superclass");
+		};
+
     this.render = function () {
       game.debug.body(self);
     };

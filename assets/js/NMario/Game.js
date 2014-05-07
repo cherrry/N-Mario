@@ -65,15 +65,24 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
   }
 
   function update() {
+		// Collision detection
     phaser.physics.arcade.collide(objects, objects, function (source, target) {
-      if (source == player && target == ref_collectibles['mushroom_0']) {
-        console.log(source, target);
-      }
-      if (target == player && source == ref_collectibles['mushroom_0']) {
-        console.log(source, target);
-      }
+			// If collision involves player, ask player to collide with the other object
+			if (source == player){
+				player.collide(target);
+			} else if (target == player){
+				player.collide(source);
+			}
+
+//      if (source == player && target == ref_collectibles['mushroom_0']) {
+//        console.log("player -> mushroom");
+//      }
+//      if (target == player && source == ref_collectibles['mushroom_0']) {
+//        console.log("mushroom -> player");
+//      }
     });
 
+		// Self player control
     if (player != null) {
       var just_change = false;
 
