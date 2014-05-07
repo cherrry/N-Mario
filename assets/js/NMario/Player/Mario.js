@@ -39,8 +39,12 @@ define('Mario', ['Phaser'], function (Phaser) {
     var keypress = { 'up': false, 'down': false, 'left': false, 'right': false };
 
     Phaser.Sprite.call(this, game, 32 * (identity.color + 1) * localStorage.scale, 16 * localStorage.scale, 'mario', 0 + spriteOffset);
-    objects.add(this);
+    objects.add(this);    
 
+    var textStyle = {font:"16px SMB Filled", fill: "#FFFFFF", align:"center"};
+    this.playerName = game.add.text(32 * (identity.color + 1) * localStorage.scale, 16 * localStorage.scale-16, identity.name, textStyle);
+    this.playerName.anchor.setTo(0.5, 0.5);
+    
     this.body.maxVelocity.x = 133 * localStorage.scale;
     this.body.gravity.y = 333 * localStorage.scale;
     this.body.collideWorldBounds = true;
@@ -172,6 +176,9 @@ define('Mario', ['Phaser'], function (Phaser) {
           self.body.velocity.y = -220 * localStorage.scale;
         }
       }
+
+      self.playerName.x = self.body.x ;
+      self.playerName.y = self.body.y - 16;
     };
 
 		this.collide = function(target) {
