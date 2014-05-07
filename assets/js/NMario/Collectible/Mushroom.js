@@ -12,6 +12,8 @@ require.config({
 
 define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
   var Mushroom = function(game, objects, x, y, attr) {
+
+    var self = this;
     
     BaseCollectible.call(this, game, objects, x, y, attr, 'mushroom');
 
@@ -35,18 +37,18 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
         console.log(object);
       });
       */
-      if (this.body.velocity.x > 0) {
-        this.body.velocity.x = 40 * localStorage.scale;
+      if (self.body.velocity.x > 0) {
+        self.body.velocity.x = 40 * localStorage.scale;
       } else {
-        this.body.velocity.x = -40 * localStorage.scale;
+        self.body.velocity.x = -40 * localStorage.scale;
       }
 
       if (lastestPhysics != null) {
-        this.body.x = lastestPhysics.position.x * localStorage.scale;
-        this.body.y = lastestPhysics.position.y * localStorage.scale;
+        self.body.x = lastestPhysics.position.x * localStorage.scale;
+        self.body.y = lastestPhysics.position.y * localStorage.scale;
 
-        this.velocity.x = lastestPhysics.position.x * localStorage.scale;
-        this.velocity.y = lastestPhysics.position.y * localStorage.scale;
+        self.velocity.x = lastestPhysics.position.x * localStorage.scale;
+        self.velocity.y = lastestPhysics.position.y * localStorage.scale;
 
         lastestPhysics = null;
       }
@@ -60,8 +62,8 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
       return {
         id: attr.id,
         physics: {
-          position: { x: this.body.x / localStorage.scale, y: this.body.y / localStorage.scale },
-          velocity: { x: this.body.velocity.x / localStorage.scale, y: this.body.velocity.x / localStorage.scale }
+          position: { x: self.body.x / localStorage.scale, y: self.body.y / localStorage.scale },
+          velocity: { x: self.body.velocity.x / localStorage.scale, y: self.body.velocity.x / localStorage.scale }
         }
       };
     });
