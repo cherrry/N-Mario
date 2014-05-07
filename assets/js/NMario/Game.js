@@ -67,7 +67,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
   function update() {
 		// Collision detection
-    phaser.physics.arcade.collide(objects, objects, function (source, target) {
+    phaser.physics.arcade.collide(collide_objects, collide_objects, function (source, target) {
 			// If collision involves player, ask player to collide with the other object
 			if (source == player){
 				player.collide(target);
