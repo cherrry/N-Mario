@@ -79,5 +79,5 @@ define('PowerUp', ['BaseCollectible'], function (BaseCollectible) {
   PowerUp.prototype = Object.create(BaseCollectible.prototype);
   PowerUp.prototype.constructor = PowerUp;
 
-  return Mushroom;
+  return PowerUp;
 });

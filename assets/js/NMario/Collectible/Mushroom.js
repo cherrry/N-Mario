@@ -18,6 +18,7 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
     BaseCollectible.call(this, game, objects, x, y, attr, 'mushroom');
 
     this.animations.add('moving', [0, 1], 15, true);
+		this.animations.add('dying', [2], 1, true);
     this.animations.play('moving');
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
@@ -59,6 +60,20 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
       }
     };
 
+	this.die = function () {
+		//Set body to static
+		self.body.velocity.x = 0;
+		self.body.velocity.y = 0;
+		self.body.acceleration.x = 0;
+		self.body.acceleration.y = 0;
+
+		//Disable physics
+		self.body.setSize(0, 0, 0, 0);
+
+		//Change to dying animation
+		self.animations.play('dying');
+	};
+
     this.__defineSetter__('lastestData', function (data) {
       lastestPhysics = data.physics;
     });
@@ -78,6 +93,7 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
 
   Mushroom.prototype = Object.create(BaseCollectible.prototype);
   Mushroom.prototype.constructor = Mushroom;
+  Mushroom.prototype.Type = 'Mushroom';
 
   return Mushroom;
 });

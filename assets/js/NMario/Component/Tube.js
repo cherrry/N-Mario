@@ -33,6 +33,7 @@ define('Tube', ['Phaser'], function (Phaser) {
   };
   Tube.prototype = Object.create(Phaser.Sprite.prototype);
   Tube.prototype.constructor = Tube;
+  Tube.prototype.Type = 'Tube';
 
   return Tube;
 });

@@ -53,11 +53,12 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
     phaser.load.spritesheet('land', 'assets/sprites/land.png', 16, 16);
     phaser.load.spritesheet('tube', 'assets/sprites/tube.png', 32, 16);
+    phaser.load.spritesheet('brick', 'assets/sprites/brick.png', 16, 16);
 
     phaser.load.spritesheet('mushroom', 'assets/sprites/mushroom.png', 16, 16);
     phaser.load.spritesheet('coin', 'assets/sprites/coin.png', 16, 16);
     phaser.load.spritesheet('flagpole', 'assets/sprites/flagpole.png', 32, 128);
-    phaser.load.spritesheet('powerup', 'assets/sprites/powerup.png', 16, 16);
+    phaser.load.spritesheet('powerup', 'assets/sprites/power-up.png', 16, 16);
   }
 
   function create() {
@@ -66,13 +67,21 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
   }
 
   function update() {
+		// Collision detection
     phaser.physics.arcade.collide(collide_objects, collide_objects, function (source, target) {
-      if (source == player && target == ref_collectibles['mushroom_0']) {
-        console.log(source, target);
-      }
-      if (target == player && source == ref_collectibles['mushroom_0']) {
-        console.log(source, target);
-      }
+			// If collision involves player, ask player to collide with the other object
+			if (source == player){
+				player.collide(target);
+			} else if (target == player){
+				player.collide(source);
+			}
+
+//      if (source == player && target == ref_collectibles['mushroom_0']) {
+//        console.log("player -> mushroom");
+//      }
+//      if (target == player && source == ref_collectibles['mushroom_0']) {
+//        console.log("mushroom -> player");
+//      }
     });
 
     // handle overlap between collide group and overlap group objects
@@ -80,6 +89,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
       // target.kill();
     }, null, this);
 
+		// Self player control
     if (player != null) {
       var just_change = false;
 

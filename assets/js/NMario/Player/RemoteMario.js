@@ -52,6 +52,7 @@ define('RemoteMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
 
   RemoteMario.prototype = Object.create(Mario.prototype);
   RemoteMario.prototype.constructor = RemoteMario;
+  RemoteMario.prototype.Type = 'RemoteMario';
 
   return RemoteMario;
 });
