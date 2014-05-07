@@ -55,6 +55,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     phaser.load.spritesheet('tube', 'assets/sprites/tube.png', 32, 16);
 
     phaser.load.spritesheet('mushroom', 'assets/sprites/mushroom.png', 16, 16);
+    phaser.load.spritesheet('coin', 'assets/sprites/coin.png', 16, 16)
   }
 
   function create() {
