@@ -57,6 +57,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     phaser.load.spritesheet('mushroom', 'assets/sprites/mushroom.png', 16, 16);
     phaser.load.spritesheet('coin', 'assets/sprites/coin.png', 16, 16);
     phaser.load.spritesheet('flagpole', 'assets/sprites/flagpole.png', 32, 128);
+    phaser.load.spritesheet('powerup', 'assets/sprites/powerup.png', 16, 16);
   }
 
   function create() {
@@ -73,6 +74,11 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
         console.log(source, target);
       }
     });
+
+    // handle overlap between collide group and overlap group objects
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, function (source, target){
+      // target.kill();
+    }, null, this);
 
     if (player != null) {
       var just_change = false;
