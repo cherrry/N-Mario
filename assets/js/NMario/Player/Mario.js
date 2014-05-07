@@ -95,12 +95,12 @@ define('Mario', ['Phaser'], function (Phaser) {
       if (self.getKeyState('left')) {
         // move to left
 
-        if (this.body.velocity.x > 0) {
+        if (self.body.velocity.x > 0) {
 
-          if (this.body.velocity.x > 10 * localStorage.scale) {
-            this.body.acceleration.x = -200 * localStorage.scale;
-            this.scale.x = localStorage.scale;
-            this.animations.play(anim.turn);
+          if (self.body.velocity.x > 10 * localStorage.scale) {
+            self.body.acceleration.x = -200 * localStorage.scale;
+            self.scale.x = localStorage.scale;
+            self.animations.play(anim.turn);
           } else {
             this.body.acceleration.x = -100 * localStorage.scale;
             this.scale.x = - localStorage.scale;
@@ -115,7 +115,7 @@ define('Mario', ['Phaser'], function (Phaser) {
       } else if (self.getKeyState('right')) {
         // move to right
 
-        if (this.body.velocity.x < 0) {
+        if (self.body.velocity.x < 0) {
 
           if (this.body.velocity.x < -10 * localStorage.scale) {
             this.body.acceleration.x = 200 * localStorage.scale;
@@ -133,7 +133,6 @@ define('Mario', ['Phaser'], function (Phaser) {
         }
       } else {
         // stand still
-        console.log(this);
 
         if (Math.abs(this.body.velocity.x) < localStorage.scale) {
           this.body.velocity.x = 0;
