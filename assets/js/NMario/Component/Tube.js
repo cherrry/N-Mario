@@ -10,21 +10,21 @@ require.config({
 });
 
 define('Tube', ['Phaser'], function (Phaser) {
-  var Tube = function(game, group, x, y, attr) {
+  var Tube = function(game, objects, x, y, attr) {
 
     Phaser.Sprite.call(this, game, x * 16 * localStorage.scale, y * 16 * localStorage.scale, 'tube', attr.frame);
-    group.add(this);
+    objects.add(this);
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
     this.body.immovable = true;
 
     // set bounding box
     if (attr.frame == 0) {
-      this.body.setSize(32, 13, 0, 0);
+      this.body.setSize(30, 13, 0, 0);
     } else if (attr.frame == 1) {
-      this.body.setSize(28, 16, 2 * localStorage.scale, 0);
+      this.body.setSize(30, 16, 0, 0);
     } else if (attr.frame == 2) {
-      this.body.setSize(32, 13, 0, 3 * localStorage.scale);
+      this.body.setSize(30, 13, 0, 3 * localStorage.scale);
     }
 
     this.render = function () {

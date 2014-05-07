@@ -14,10 +14,10 @@ require.config({
 });
 
 define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
-  var ControllableMario = function (identity, game, group, solids, collectibles) {
+  var ControllableMario = function (identity, game, objects) {
     var self = this;
 
-    Mario.call(this, identity, game, group, solids);
+    Mario.call(this, identity, game, objects);
     game.camera.follow(this,  Phaser.Camera.FOLLOW_LOCKON);
     
   };

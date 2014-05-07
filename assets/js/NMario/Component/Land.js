@@ -10,9 +10,9 @@ require.config({
 });
 
 define('Land', ['Phaser'], function (Phaser) {
-  var Land = function(game, group, x, y, attr) {
+  var Land = function(game, objects, x, y, attr) {
     Phaser.Sprite.call(this, game, x * 16 * localStorage.scale, y * 16 * localStorage.scale, 'land', 1);
-    group.add(this);
+    objects.add(this);
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
     this.body.immovable = true;

@@ -14,11 +14,11 @@ require.config({
 });
 
 define('RemoteMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
-  var RemoteMario = function (identity, game, group, solids, collectibles) {
+  var RemoteMario = function (identity, game, objects) {
     var self = this;
     var lastestPhysics = null;
 
-    Mario.call(this, identity, game, group, solids);
+    Mario.call(this, identity, objects);
 
     this.__defineSetter__('lastestData', function (data) {
 

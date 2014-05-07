@@ -28,7 +28,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     }
   };
 
-  var Mario = function (identity, game, group, solids, collectibles) {
+  var Mario = function (identity, game, objects) {
     // stupid javascript scoping
     var self = this;
 
@@ -37,7 +37,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     var keypress = { 'up': false, 'down': false, 'left': false, 'right': false };
 
     Phaser.Sprite.call(this, game, 16 * localStorage.scale, 16 * localStorage.scale, 'mario', 0 + spriteOffset);
-    group.add(this);
+    objects.add(this);
 
     this.body.maxVelocity.x = 133 * localStorage.scale;
     this.body.gravity.y = 333 * localStorage.scale;
@@ -76,8 +76,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     }
 
     this.update = function () {
-      // game.physics.arcade.collide(this, collectibles);
-      game.physics.arcade.collide(this, solids);
+      game.physics.arcade.collide(this, objects);
 
       if (state == 'small') {
         smallMario();

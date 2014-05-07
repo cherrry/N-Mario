@@ -28,7 +28,8 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
   var socket = null, isOwner = false;
 
-  var solids = null, collectibles = null, players = null;
+  var objects = null;
+  // var solids = null, collectibles = null, players = null;
   var player = null, remote_players = {}, ref_collectibles = {};
   var keyboard = null;
 
@@ -108,25 +109,34 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     phaser.world.removeAll();
     phaser.add.tileSprite(0, 0, phaser.world.width, phaser.world.height, 'sky');
 
+    /*
     solids = phaser.add.group();
     solids.enableBody = true;
+    */
 
+    objects = phaser.add.group();
+    objects.enableBody = true;
+
+    /*
     collectibles = phaser.add.group();
     collectibles.enableBody = true;
+    */
     ref_collectibles = {};
 
+    /*
     players = phaser.add.group();
     players.enableBody = true;
+    */
     remote_players = {};
 
     for (var i = 0; i < world.solids.length; i++) {
       var solid = world.solids[i];
-      var component = new Component[solid.type](phaser, solids, solid.x, solid.y, solid.attr);
+      var component = new Component[solid.type](phaser, objects, solid.x, solid.y, solid.attr);
     }
 
     for (var i = 0; i < world.collectibles.length; i++) {
       var collectible = world.collectibles[i];
-      ref_collectibles[collectible.attr.id] = new Collectible[collectible.type](phaser, solids, collectible.x, collectible.y, collectible.attr, solids, players);
+      ref_collectibles[collectible.attr.id] = new Collectible[collectible.type](phaser, objects, collectible.x, collectible.y, collectible.attr);
       debug_object = ref_collectibles[collectible.attr.id];
     }
 
@@ -138,9 +148,9 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
           if (identity.isOwner) {
             isOwner = true;
           }
-          player = new Player.ControllableMario(identity, phaser, players, solids, collectibles);
+          player = new Player.ControllableMario(identity, phaser, objects);
         } else {
-          remote_players[identity.id] = new Player.RemoteMario(identity, phaser, players, solids, collectibles);
+          remote_players[identity.id] = new Player.RemoteMario(identity, phaser, objects);
           
         }
       }

@@ -11,10 +11,9 @@ require.config({
 });
 
 define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
-  var Mushroom = function(game, group, x, y, attr, solids, players) {
+  var Mushroom = function(game, objects, x, y, attr) {
     
-    BaseCollectible.call(this, game, group, x, y, attr, solids, players, 'mushroom');
-    group.add(this);
+    BaseCollectible.call(this, game, objects, x, y, attr, 'mushroom');
 
     this.animations.add('moving', [0, 1], 15, true);
     this.animations.play('moving');
@@ -31,10 +30,12 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
     var lastestPhysics = null;
 
     this.update = function () {
-      game.physics.arcade.collide(this, solids);
+      game.physics.arcade.collide(this, objects);
+      /*
       game.physics.arcade.collide(this, players, function (mushroom, player) {
         console.log(mushroom, player);
       });
+      */
 
       if (lastestPhysics != null) {
         this.body.x = lastestPhysics.position.x * localStorage.scale;

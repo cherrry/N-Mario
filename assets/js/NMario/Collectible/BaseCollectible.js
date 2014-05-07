@@ -10,10 +10,10 @@ require.config({
 });
 
 define('BaseCollectible', ['Phaser'], function (Phaser) {
-  var BaseCollectible = function (game, group, x, y, attr, solids, players, sprite) {
+  var BaseCollectible = function (game, objects, x, y, attr, sprite) {
 
     Phaser.Sprite.call(this, game, x * 16 * localStorage.scale, y * 16 * localStorage.scale, sprite, 0);
-    group.add(this);
+    objects.add(this);
 
     this.body.collideWorldBounds = true;
     this.scale.setTo(localStorage.scale, localStorage.scale);
