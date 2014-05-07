@@ -16,6 +16,9 @@ define('Land', ['Phaser'], function (Phaser) {
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
     this.body.immovable = true;
+
+    this.anchor.setTo(0, 0);
+    this.body.setSize(16, 16, 0, 0);
   };
   Land.prototype = Object.create(Phaser.Sprite.prototype);
   Land.prototype.constructor = Land;

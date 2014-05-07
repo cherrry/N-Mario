@@ -32,6 +32,8 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
   var player = null, remote_players = {}, ref_collectibles = {};
   var keyboard = null;
 
+  var debug_object = null;
+
   Game.resize = function (world) {
     var container_width = document.getElementById('ruler').offsetWidth;
     
@@ -88,11 +90,14 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
   }
 
   function render() {
+    /*
     if (player != null) {
       player.render();
     }
-    if (solids != null) {
-      // solids.forEach(phaser.debug.body, this);
+    */
+
+    if (debug_object != null) {
+      phaser.debug.body(debug_object);
     }
   }
 
@@ -116,14 +121,14 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
     for (var i = 0; i < world.solids.length; i++) {
       var solid = world.solids[i];
-      new Component[solid.type](phaser, solids, solid.x, solid.y, solid.attr);
+      var component = new Component[solid.type](phaser, solids, solid.x, solid.y, solid.attr);
     }
 
     for (var i = 0; i < world.collectibles.length; i++) {
       var collectible = world.collectibles[i];
       ref_collectibles[collectible.attr.id] = new Collectible[collectible.type](phaser, collectibles, collectible.x, collectible.y, collectible.attr, solids, players);
+      debug_object = ref_collectibles[collectible.attr.id];
     }
-    console.log(ref_collectibles);
 
     for (var i = 0; i < 4; i++) {
       var identity = players_identity[i];
@@ -175,6 +180,10 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     });
 
     socket.on('collectible data update', function (data) {
+      if (player != null && data.id in ref_collectibles) {
+        var collectible = ref_collectibles[data.id];
+        collectible.lastestData = data;
+      }
     });
   });
 

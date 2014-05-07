@@ -16,32 +16,44 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
     BaseCollectible.call(this, game, group, x, y, attr, solids, players, 'mushroom');
     group.add(this);
 
-    this.animations.add('moving', [0, 1], 10, true);
+    this.animations.add('moving', [0, 1], 15, true);
     this.animations.play('moving');
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
     this.body.velocity.x = 40 * localStorage.scale;
+    this.body.gravity.y = 50 * localStorage.scale;
     this.body.bounce.x = 1;
 
+    this.anchor.setTo(0.5, 0.5);
+    this.body.setSize(16, 16, 0, 0);
+
+    var lastestPhysics = null;
+
     this.update = function () {
-      game.physics.arcade.collide(this, solids, function (mushroom, solid) {
-        console.log('hit by object');
-        console.log(mushroom);
-        console.log(solid);
-      });
-      game.physics.arcade.collide(this, players, function (mushroom, player) {
-        console.log('hit by player');
-        console.log(mushroom);
-        console.log(player);
-      });
+      game.physics.arcade.collide(this, solids);
+
+      if (lastestPhysics != null) {
+        this.body.x = lastestPhysics.position.x * localStorage.scale;
+        this.body.y = lastestPhysics.position.y * localStorage.scale;
+
+        this.velocity.x = lastestPhysics.position.x * localStorage.scale;
+        this.velocity.y = lastestPhysics.position.y * localStorage.scale;
+
+        lastestPhysics = null;
+      }
     };
+
+    this.__defineSetter__('lastestData', function (data) {
+      lastestPhysics = data.physics;
+    });
 
     this.__defineGetter__('lastestData', function () {
       return {
         id: attr.id,
         physics: {
-          position: { x: this.body.x / localStorage.scale, y: this.body.y / localStorage.scale }
+          position: { x: this.body.x / localStorage.scale, y: this.body.y / localStorage.scale },
+          velocity: { x: this.body.velocity.x / localStorage.scale, y: this.body.velocity.x / localStorage.scale }
         }
       };
     });

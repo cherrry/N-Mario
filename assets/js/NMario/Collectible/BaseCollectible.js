@@ -15,6 +15,7 @@ define('BaseCollectible', ['Phaser'], function (Phaser) {
     Phaser.Sprite.call(this, game, x * 16 * localStorage.scale, y * 16 * localStorage.scale, sprite, 0);
     group.add(this);
 
+    this.body.collideWorldBounds = true;
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
     this.broadcast = function (socket) {
