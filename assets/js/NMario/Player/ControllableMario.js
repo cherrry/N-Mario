@@ -26,6 +26,7 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
 					//If it is hit by player from above, kill the mushroom
 					if (target.body.touching.up == true) {
 						target.collected();
+            self.body.velocity.y = -0.8 * self.body.velocity.y;
             self.send('player collect object', { id: target.id });
 					}
 					break;

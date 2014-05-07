@@ -59,6 +59,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     phaser.load.spritesheet('coin', 'assets/sprites/coin.png', 16, 16);
     phaser.load.spritesheet('flagpole', 'assets/sprites/flagpole.png', 32, 128);
     phaser.load.spritesheet('powerup', 'assets/sprites/power-up.png', 16, 16);
+
   }
 
   function create() {
