@@ -75,6 +75,14 @@ define('Mario', ['Phaser'], function (Phaser) {
       state = 'super';
     }
 
+    this.setKeyState = function (key, state) {
+      keypress[key] = state;
+    };
+
+    this.getKeyState = function (key) {
+      return keypress[key];
+    };
+
     this.update = function () {
       // game.physics.arcade.collide(this, objects);
 
@@ -104,7 +112,7 @@ define('Mario', ['Phaser'], function (Phaser) {
           this.animations.play(anim.walk);
         }
 
-      } else if (this.getKeyState('right')) {
+      } else if (self.getKeyState('right')) {
         // move to right
 
         if (this.body.velocity.x < 0) {
@@ -166,14 +174,6 @@ define('Mario', ['Phaser'], function (Phaser) {
 
     this.render = function () {
       game.debug.body(this);
-    };
-
-    this.setKeyState = function (key, state) {
-      keypress[key] = state;
-    };
-
-    this.getKeyState = function (key) {
-      return keypress[key];
     };
 
     this.broadcast = function (socket) {
