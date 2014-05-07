@@ -37,11 +37,13 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
         console.log(object);
       });
       */
+      /*
       if (self.body.velocity.x > 0) {
         self.body.velocity.x = 40 * localStorage.scale;
       } else {
         self.body.velocity.x = -40 * localStorage.scale;
       }
+      */
 
       if (lastestPhysics != null) {
         self.body.x = lastestPhysics.position.x * localStorage.scale;
