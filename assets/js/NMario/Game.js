@@ -63,6 +63,15 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
   }
 
   function update() {
+    phaser.physics.arcade.collide(objects, objects, function (source, target) {
+      if (source == player && target == ref_collectibles['mushroom_0']) {
+        console.log(source, target);
+      }
+      if (target == player && source == ref_collectibles['mushroom_0']) {
+        console.log(source, target);
+      }
+    });
+
     if (player != null) {
       var just_change = false;
 
@@ -109,24 +118,10 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     phaser.world.removeAll();
     phaser.add.tileSprite(0, 0, phaser.world.width, phaser.world.height, 'sky');
 
-    /*
-    solids = phaser.add.group();
-    solids.enableBody = true;
-    */
-
     objects = phaser.add.group();
     objects.enableBody = true;
 
-    /*
-    collectibles = phaser.add.group();
-    collectibles.enableBody = true;
-    */
     ref_collectibles = {};
-
-    /*
-    players = phaser.add.group();
-    players.enableBody = true;
-    */
     remote_players = {};
 
     for (var i = 0; i < world.solids.length; i++) {

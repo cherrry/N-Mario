@@ -76,7 +76,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     }
 
     this.update = function () {
-      game.physics.arcade.collide(this, objects);
+      // game.physics.arcade.collide(this, objects);
 
       if (state == 'small') {
         smallMario();
