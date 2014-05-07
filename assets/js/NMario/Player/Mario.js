@@ -195,7 +195,7 @@ define('Mario', ['Phaser'], function (Phaser) {
 
   Mario.prototype = Object.create(Phaser.Sprite.prototype);
   Mario.prototype.constructor = Mario;
-  Maior.prototype.Type = 'Mario';
+  Mario.prototype.Type = 'Mario';
 
   return Mario;
 });
