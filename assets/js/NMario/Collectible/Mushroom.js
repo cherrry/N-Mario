@@ -93,6 +93,7 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
 
   Mushroom.prototype = Object.create(BaseCollectible.prototype);
   Mushroom.prototype.constructor = Mushroom;
+  Mushroom.prototype.Type = 'Mushroom';
 
   return Mushroom;
 });

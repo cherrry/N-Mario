@@ -1,11 +1,15 @@
 require.config({
   paths: {
     'Mushroom': 'NMario/Collectible/Mushroom',
+    'Coin': 'NMario/Collectible/Coin',
     'Flagpole': 'NMario/Collectible/Flagpole'
   },
   shim: {
     'Mushroom': {
       exports: 'Mushroom'
+    },
+    'Coin': {
+      exports: 'Coin'
     },
     'Flagpole': {
       exports: 'Flagpole'
@@ -13,11 +17,12 @@ require.config({
   }
 });
 
-define('Collectible', ['Mushroom', 'Flagpole'], function (Mushroom, Flagpole) {
+define('Collectible', ['Mushroom', 'Coin', 'Flagpole'], function (Mushroom, Coin, Flagpole) {
   var Collectible = {};
 
   Collectible.Mushroom = Mushroom;
+  Collectible.Coin = Coin;
   Collectible.Flagpole = Flagpole;
-
+  
   return Collectible;
 });

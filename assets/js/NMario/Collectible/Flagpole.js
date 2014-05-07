@@ -24,6 +24,7 @@ define('Flagpole', ['Phaser'], function (Phaser) {
 
   Flagpole.prototype = Object.create(Phaser.Sprite.prototype);
   Flagpole.prototype.constructor = Flagpole;
+  Flagpole.prototype.Type = 'Flagpole';
 
   return Flagpole;
 });
