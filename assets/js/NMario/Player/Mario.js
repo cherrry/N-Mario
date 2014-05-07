@@ -133,6 +133,7 @@ define('Mario', ['Phaser'], function (Phaser) {
         }
       } else {
         // stand still
+        console.log(this);
 
         if (Math.abs(this.body.velocity.x) < localStorage.scale) {
           this.body.velocity.x = 0;
