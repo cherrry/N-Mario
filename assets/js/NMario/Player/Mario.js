@@ -42,6 +42,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     this.body.maxVelocity.x = 133 * localStorage.scale;
     this.body.gravity.y = 333 * localStorage.scale;
     this.body.collideWorldBounds = true;
+    this.body.mass = 0;
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
