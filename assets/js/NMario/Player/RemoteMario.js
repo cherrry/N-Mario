@@ -33,14 +33,14 @@ define('RemoteMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
     var super_update = this.update;
     this.update = function () {
       if (lastestPhysics != null) {
-        this.body.x = lastestPhysics.position.x;
-        this.body.y = lastestPhysics.position.y;
+        self.body.x = lastestPhysics.position.x;
+        self.body.y = lastestPhysics.position.y;
 
-        this.body.velocity.x = lastestPhysics.velocity.x;
-        this.body.velocity.y = lastestPhysics.velocity.y;
+        self.body.velocity.x = lastestPhysics.velocity.x;
+        self.body.velocity.y = lastestPhysics.velocity.y;
         
-        this.body.acceleration.x = lastestPhysics.velocity.x;
-        this.body.acceleration.y = lastestPhysics.velocity.y;
+        self.body.acceleration.x = lastestPhysics.velocity.x;
+        self.body.acceleration.y = lastestPhysics.velocity.y;
 
         lastestPhysics = null;
       }
