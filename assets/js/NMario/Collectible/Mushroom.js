@@ -64,7 +64,7 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
         id: attr.id,
         physics: {
           position: { x: self.body.x / localStorage.scale, y: self.body.y / localStorage.scale },
-          velocity: { x: self.body.velocity.x / localStorage.scale, y: self.body.velocity.x / localStorage.scale }
+          velocity: { x: self.body.velocity.x / localStorage.scale, y: self.body.velocity.y / localStorage.scale }
         }
       };
     });
