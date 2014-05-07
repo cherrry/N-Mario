@@ -47,8 +47,8 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
         self.body.x = lastestPhysics.position.x * localStorage.scale;
         self.body.y = lastestPhysics.position.y * localStorage.scale;
 
-        self.body.velocity.x = lastestPhysics.position.x * localStorage.scale;
-        self.body.velocity.y = lastestPhysics.position.y * localStorage.scale;
+        self.body.velocity.x = lastestPhysics.velocity.x * localStorage.scale;
+        self.body.velocity.y = lastestPhysics.velocity.y * localStorage.scale;
 
         lastestPhysics = null;
       }
