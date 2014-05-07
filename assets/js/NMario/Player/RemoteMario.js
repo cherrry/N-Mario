@@ -18,7 +18,7 @@ define('RemoteMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
     var self = this;
     var lastestPhysics = null;
 
-    Mario.call(this, identity, objects);
+    Mario.call(this, identity, game, objects);
 
     this.__defineSetter__('lastestData', function (data) {
 
