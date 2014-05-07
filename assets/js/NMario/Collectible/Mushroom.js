@@ -32,6 +32,9 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
 
     this.update = function () {
       game.physics.arcade.collide(this, solids);
+      game.physics.arcade.collide(this, players, function (mushroom, player) {
+        console.log(mushroom, player);
+      });
 
       if (lastestPhysics != null) {
         this.body.x = lastestPhysics.position.x * localStorage.scale;

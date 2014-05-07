@@ -126,7 +126,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
     for (var i = 0; i < world.collectibles.length; i++) {
       var collectible = world.collectibles[i];
-      ref_collectibles[collectible.attr.id] = new Collectible[collectible.type](phaser, collectibles, collectible.x, collectible.y, collectible.attr, solids, players);
+      ref_collectibles[collectible.attr.id] = new Collectible[collectible.type](phaser, solids, collectible.x, collectible.y, collectible.attr, solids, players);
       debug_object = ref_collectibles[collectible.attr.id];
     }
 
