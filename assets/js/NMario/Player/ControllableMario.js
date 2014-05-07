@@ -21,14 +21,18 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
     game.camera.follow(this,  Phaser.Camera.FOLLOW_LOCKON);
     
 		this.collide = function(target) {
-			switch (target.Type){
+			switch (target.Type) {
 				case 'Mushroom':
 					//If it is hit by player from above, kill the mushroom
-					if (target.body.touching.up == true){
+					if (target.body.touching.up == true) {
 						target.collected();
             self.send('player collect object', { id: target.id });
 					}
 					break;
+        case 'Coin':
+          target.collected();
+          self.send('player collect object', { id: target.id });
+          break;
 			}
 		};
   };
