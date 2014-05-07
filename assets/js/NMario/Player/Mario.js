@@ -134,25 +134,25 @@ define('Mario', ['Phaser'], function (Phaser) {
       } else {
         // stand still
 
-        if (Math.abs(this.body.velocity.x) < localStorage.scale) {
-          this.body.velocity.x = 0;
-          this.body.acceleration.x = 0;
-          this.animations.play(anim.stand);
+        if (Math.abs(self.body.velocity.x) < localStorage.scale) {
+          self.body.velocity.x = 0;
+          self.body.acceleration.x = 0;
+          self.animations.play(anim.stand);
         } else {
           // sliding
 
-          if (this.body.velocity.x > 0) {
-            this.body.acceleration.x = -100 * localStorage.scale;
+          if (self.body.velocity.x > 0) {
+            self.body.acceleration.x = -100 * localStorage.scale;
           } else {
-            this.body.acceleration.x = 100 * localStorage.scale;
+            self.body.acceleration.x = 100 * localStorage.scale;
           }
 
-          if (this.getKeyState('down') && state == 'super') {
-            this.animations.play(anim.head);
-            this.body.setSize(14, 16, 0, 8 * localStorage.scale);
+          if (self.getKeyState('down') && state == 'super') {
+            self.animations.play(anim.head);
+            self.body.setSize(14, 16, 0, 8 * localStorage.scale);
 
           } else {
-            this.animations.play(anim.slide);
+            self.animations.play(anim.slide);
           }
         }
       }
