@@ -15,7 +15,7 @@ define('Coin', ['BaseCollectible'], function (BaseCollectible) {
 
     var self = this;
     
-    BaseCollectible.call(this, game, objects, x, y, attr, 'mushroom');
+    BaseCollectible.call(this, game, objects, x, y, attr, 'coin');
 
     this.animations.add('flipping', [0, 1, 2, 3], 15, true);
     this.animations.play('flipping');

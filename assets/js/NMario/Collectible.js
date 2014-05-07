@@ -17,7 +17,6 @@ require.config({
   }
 });
 
-<<<<<<< HEAD
 define('Collectible', ['Mushroom', 'Coin', 'Flagpole'], function (Mushroom, Coin, Flagpole) {
   var Collectible = {};
 
