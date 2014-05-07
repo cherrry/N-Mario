@@ -30,6 +30,7 @@ define('BaseCollectible', ['Phaser'], function (Phaser) {
 
   BaseCollectible.prototype = Object.create(Phaser.Sprite.prototype);
   BaseCollectible.prototype.constructor = BaseCollectible;
+  BaseCollectible.prototype.Type = 'Collectible';
 
   return BaseCollectible;
 });

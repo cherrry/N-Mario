@@ -20,10 +20,14 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
     Mario.call(this, identity, game, objects);
     game.camera.follow(this,  Phaser.Camera.FOLLOW_LOCKON);
     
+		this.collide = function(target){
+			
+		};
   };
 
   ControllableMario.prototype = Object.create(Mario.prototype);
   ControllableMario.prototype.constructor = ControllableMario;
+  ControllableMario.prototype.Type = 'ControllableMario';
 
   return ControllableMario;
 });

@@ -172,6 +172,10 @@ define('Mario', ['Phaser'], function (Phaser) {
       }
     };
 
+		this.collide = function(target) {
+			console.log("superclass");
+		};
+
     this.render = function () {
       game.debug.body(self);
     };
@@ -195,6 +199,7 @@ define('Mario', ['Phaser'], function (Phaser) {
 
   Mario.prototype = Object.create(Phaser.Sprite.prototype);
   Mario.prototype.constructor = Mario;
+  Mario.prototype.Type = 'Mario';
 
   return Mario;
 });

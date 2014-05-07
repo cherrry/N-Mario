@@ -28,7 +28,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
   var socket = null, isOwner = false;
 
-  var objects = null;
+  var collide_objects = null, overlap_objects = null;
   // var solids = null, collectibles = null, players = null;
   var player = null, remote_players = {}, ref_collectibles = {};
   var keyboard = null;
@@ -56,7 +56,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     phaser.load.spritesheet('brick', 'assets/sprites/brick.png', 16, 16);
 
     phaser.load.spritesheet('mushroom', 'assets/sprites/mushroom.png', 16, 16);
-
+    phaser.load.spritesheet('coin', 'assets/sprites/coin.png', 16, 16);
     phaser.load.spritesheet('flagpole', 'assets/sprites/flagpole.png', 32, 128);
   }
 
@@ -66,15 +66,24 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
   }
 
   function update() {
+		// Collision detection
     phaser.physics.arcade.collide(objects, objects, function (source, target) {
-      if (source == player && target == ref_collectibles['mushroom_0']) {
-        console.log(source, target);
-      }
-      if (target == player && source == ref_collectibles['mushroom_0']) {
-        console.log(source, target);
-      }
+			// If collision involves player, ask player to collide with the other object
+			if (source == player){
+				player.collide(target);
+			} else if (target == player){
+				player.collide(source);
+			}
+
+//      if (source == player && target == ref_collectibles['mushroom_0']) {
+//        console.log("player -> mushroom");
+//      }
+//      if (target == player && source == ref_collectibles['mushroom_0']) {
+//        console.log("mushroom -> player");
+//      }
     });
 
+		// Self player control
     if (player != null) {
       var just_change = false;
 
@@ -121,22 +130,29 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     phaser.world.removeAll();
     phaser.add.tileSprite(0, 0, phaser.world.width, phaser.world.height, 'sky');
 
-    objects = phaser.add.group();
-    objects.enableBody = true;
+    collide_objects = phaser.add.group();
+    collide_objects.enableBody = true;
+
+    overlap_objects = phaser.add.group();
+    overlap_objects.enableBody = true;
 
     ref_collectibles = {};
     remote_players = {};
 
     for (var i = 0; i < world.solids.length; i++) {
       var solid = world.solids[i];
-      var component = new Component[solid.type](phaser, objects, solid.x, solid.y, solid.attr);
+      var component = new Component[solid.type](phaser, collide_objects, solid.x, solid.y, solid.attr);
     }
 
     for (var i = 0; i < world.collectibles.length; i++) {
       var collectible = world.collectibles[i];
-      console.log(collectible, Collectible);
-      ref_collectibles[collectible.attr.id] = new Collectible[collectible.type](phaser, objects, collectible.x, collectible.y, collectible.attr);
-      debug_object = ref_collectibles[collectible.attr.id];
+      //console.log(collectible, Collectible);
+      if (collectible.collidable){
+        ref_collectibles[collectible.attr.id] = new Collectible[collectible.type](phaser, collide_objects, collectible.x, collectible.y, collectible.attr);
+      } else {
+        ref_collectibles[collectible.attr.id] = new Collectible[collectible.type](phaser, overlap_objects, collectible.x, collectible.y, collectible.attr);
+      }
+      //debug_object = ref_collectibles[collectible.attr.id];
     }
 
     for (var i = 0; i < 4; i++) {
@@ -147,9 +163,9 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
           if (identity.isOwner) {
             isOwner = true;
           }
-          player = new Player.ControllableMario(identity, phaser, objects);
+          player = new Player.ControllableMario(identity, phaser, collide_objects);
         } else {
-          remote_players[identity.id] = new Player.RemoteMario(identity, phaser, objects);
+          remote_players[identity.id] = new Player.RemoteMario(identity, phaser, collide_objects);
           
         }
       }
