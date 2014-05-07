@@ -18,7 +18,7 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
     BaseCollectible.call(this, game, objects, x, y, attr, 'mushroom');
 
     this.animations.add('moving', [0, 1], 15, true);
-		this.animations.add('dying', [2], 1, true);
+		this.animations.add('dead', [2], 2, false);
     this.animations.play('moving');
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
@@ -60,18 +60,27 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
       }
     };
 
-	this.die = function () {
-		//Set body to static
-		self.body.velocity.x = 0;
-		self.body.velocity.y = 0;
-		self.body.acceleration.x = 0;
-		self.body.acceleration.y = 0;
+	this.collected = function () {
+		if (attr.state != 'dead'){
+			attr.state = 'dead';
 
-		//Disable physics
-		self.body.setSize(0, 0, 0, 0);
+			//Set body to static
+			self.body.velocity.x = 0;
+			self.body.velocity.y = 0;
+			self.body.acceleration.x = 0;
+			self.body.acceleration.y = 0;
 
-		//Change to dying animation
-		self.animations.play('dying');
+			//Set body box
+			self.body.setSize(16, 8, 0, 4 * localStorage.scale);
+
+			//Change to dying animation
+			self.animations.play('dead');
+
+			//Kill object after animation
+			self.events.onAnimationComplete.add(function(){
+					self.kill();
+			}, this);
+		}
 	};
 
     this.__defineSetter__('lastestData', function (data) {

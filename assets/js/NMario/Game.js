@@ -152,7 +152,10 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
       } else {
         ref_collectibles[collectible.attr.id] = new Collectible[collectible.type](phaser, overlap_objects, collectible.x, collectible.y, collectible.attr);
       }
-      //debug_object = ref_collectibles[collectible.attr.id];
+			console.log(collectible);
+//			if (collectible.type == 'Mushroom') {
+//				debug_object = ref_collectibles[collectible.attr.id];
+//			}
     }
 
     for (var i = 0; i < 4; i++) {
