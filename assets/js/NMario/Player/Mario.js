@@ -102,14 +102,14 @@ define('Mario', ['Phaser'], function (Phaser) {
             self.scale.x = localStorage.scale;
             self.animations.play(anim.turn);
           } else {
-            this.body.acceleration.x = -100 * localStorage.scale;
-            this.scale.x = - localStorage.scale;
-            this.animations.play(anim.walk);
+            self.body.acceleration.x = -100 * localStorage.scale;
+            self.scale.x = - localStorage.scale;
+            self.animations.play(anim.walk);
           }
         } else {
-          this.body.acceleration.x = -50 * localStorage.scale;
-          this.scale.x = - localStorage.scale;
-          this.animations.play(anim.walk);
+          self.body.acceleration.x = -50 * localStorage.scale;
+          self.scale.x = - localStorage.scale;
+          self.animations.play(anim.walk);
         }
 
       } else if (self.getKeyState('right')) {
@@ -117,19 +117,19 @@ define('Mario', ['Phaser'], function (Phaser) {
 
         if (self.body.velocity.x < 0) {
 
-          if (this.body.velocity.x < -10 * localStorage.scale) {
-            this.body.acceleration.x = 200 * localStorage.scale;
-            this.scale.x = - localStorage.scale;
-            this.animations.play(anim.turn);
+          if (self.body.velocity.x < -10 * localStorage.scale) {
+            self.body.acceleration.x = 200 * localStorage.scale;
+            self.scale.x = - localStorage.scale;
+            self.animations.play(anim.turn);
           } else {
-            this.body.acceleration.x = 100 * localStorage.scale;
-            this.scale.x = localStorage.scale;
-            this.animations.play(anim.walk);
+            self.body.acceleration.x = 100 * localStorage.scale;
+            self.scale.x = localStorage.scale;
+            self.animations.play(anim.walk);
           }
         } else {
-          this.body.acceleration.x = 50 * localStorage.scale;
-          this.scale.x = localStorage.scale;
-          this.animations.play(anim.walk);
+          self.body.acceleration.x = 50 * localStorage.scale;
+          self.scale.x = localStorage.scale;
+          self.animations.play(anim.walk);
         }
       } else {
         // stand still
@@ -158,22 +158,22 @@ define('Mario', ['Phaser'], function (Phaser) {
       }
 
       // jumping control
-      if (!this.body.touching.down) {
-        this.animations.play(anim.jump);
+      if (!self.body.touching.down) {
+        self.animations.play(anim.jump);
       }
 
-      if (this.getKeyState('up') && this.body.touching.down) {
+      if (self.getKeyState('up') && self.body.touching.down) {
 
-        if (this.getKeyState('left') || this.getKeyState('right')) {
-          this.body.velocity.y = -200 * localStorage.scale;
+        if (self.getKeyState('left') || self.getKeyState('right')) {
+          self.body.velocity.y = -200 * localStorage.scale;
         } else {
-          this.body.velocity.y = -220 * localStorage.scale;
+          self.body.velocity.y = -220 * localStorage.scale;
         }
       }
     };
 
     this.render = function () {
-      game.debug.body(this);
+      game.debug.body(self);
     };
 
     this.broadcast = function (socket) {
