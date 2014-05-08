@@ -79,7 +79,7 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
 			//Kill object after animation
 			self.events.onAnimationComplete.add(function(){
 					self.kill();
-			}, this);
+			}, self);
 		}
 	};
 
