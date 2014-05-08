@@ -46,6 +46,9 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
               self.send('player collect object', { id: target.id });
             }
             break;
+          case 'Flagpole':
+            self.send('player collect object', { id: target.id });
+            break;
         }
       }
     };
