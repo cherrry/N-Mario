@@ -41,8 +41,12 @@ define('Mario', ['Phaser'], function (Phaser) {
     Phaser.Sprite.call(this, game, 32 * (identity.color + 1) * localStorage.scale, 16 * localStorage.scale, 'mario', 0 + spriteOffset);
     objects.add(this);    
 
-    var textStyle = {font:"16px SMB Filled", fill: "#FFFFFF", align:"center"};
-    this.playerName = game.add.text(32 * (identity.color + 1) * localStorage.scale, 16 * localStorage.scale-16, identity.name, textStyle);
+    var text_style = {
+      font: (12 * localStorage.scale) + 'px SMB Filled',
+      fill: '#ffffff',
+      align: 'center'
+    };
+    this.playerName = game.add.text(0, 0, identity.name, text_style);
     this.playerName.anchor.setTo(0.5, 0.5);
     
     this.body.maxVelocity.x = 133 * localStorage.scale;
@@ -177,7 +181,7 @@ define('Mario', ['Phaser'], function (Phaser) {
         }
       }
 
-      self.playerName.x = self.body.x ;
+      self.playerName.x = self.body.x + 16 ;
       self.playerName.y = self.body.y - 16;
     };
 
