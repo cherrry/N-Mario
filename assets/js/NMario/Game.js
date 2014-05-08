@@ -224,6 +224,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
       if (data.player != sessionStorage.id) {
         ref_collectibles[data.collectible].collected(remote_players[data.player]);
       } else {
+        console.log(ref_collectibles[data.collectible]);
         ref_collectibles[data.collectible].collected(player);
       }
     });

@@ -1,8 +1,7 @@
 require.config({
   paths: {
     'Land': 'NMario/Component/Land',
-    'Tube': 'NMario/Component/Tube',
-    'Brick': 'NMario/Component/Brick'
+    'Tube': 'NMario/Component/Tube'
   },
   shim: {
     'Land': {
@@ -10,19 +9,15 @@ require.config({
     },
     'Tube': {
       exports: 'Tube'
-    },
-    'Brick': {
-      exports: 'Brick'
     }
   }
 });
 
-define('Component', ['Land', 'Tube', 'Brick'], function (Land, Tube, Brick) {
+define('Component', ['Land', 'Tube'], function (Land, Tube) {
   var Component = {};
 
   Component.Land = Land;
   Component.Tube = Tube;
-  Component.Brick = Brick;
 
   return Component;
 });

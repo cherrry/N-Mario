@@ -32,11 +32,9 @@ define('BaseCollectible', ['Phaser'], function (Phaser) {
       return attr.id;
     });
 
-    /*
-    this.collected = function () {
-      console.log('collect: ' + this.Type);
+
+    this.broadcast = function (socket) {
     };
-    */
 
     this.collected = function (player) {
       console.log('collect: ' + self.Type);

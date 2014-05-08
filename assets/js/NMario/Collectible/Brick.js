@@ -1,7 +1,7 @@
 require.config({
   paths: {
-    'BaseCollectible': 'NMario/Collectible/BaseCollectible',
-    'Phaser': '../libs/phaser/phaser.min'
+    'Phaser': '../libs/phaser/phaser.min',
+    'BaseCollectible': 'NMario/Collectible/BaseCollectible'
   },
   shim: {
     'Phaser': {
@@ -10,24 +10,24 @@ require.config({
   }
 });
 
-define('Brick', ['Phaser', 'BaseCollectible'], function (Phaser, BaseCollectible) {
+define('Brick', ['BaseCollectible'], function (BaseCollectible) {
   var Brick = function(game, objects, x, y, attr) {
     var self = this;
 
-    Phaser.Sprite.call(this, game, x * 16 * localStorage.scale, y * 16 * localStorage.scale, 'brick', 8);
-    objects.add(this);
+    BaseCollectible.call(this, game, objects, x, y, attr, 'brick');
 
     this.animations.add('ques', [4, 5, 6, 7], 10, true);
     this.animations.add('empty', [8], 1, true);
-    if (attr.itemNum > 0){
+    if (attr.itemNum > 0) {
       this.animations.play('ques');
+    } else {
+      this.animations.play('empty');
     }
 
-    this.scale.setTo(localStorage.scale, localStorage.scale);
     this.body.immovable = true;
-
-    this.anchor.setTo(0, 0);
     this.body.setSize(16, 16, 0, 0);
+
+    this.broadcast = function (socket) {};
 
     this.collected = function (player) {
       attr.itemNum--;
