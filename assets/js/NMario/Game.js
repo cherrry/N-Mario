@@ -32,6 +32,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
   // var solids = null, collectibles = null, players = null;
   var player = null, remote_players = {}, ref_collectibles = {};
   var keyboard = null;
+  var scoreboard;
 
   var debug_object = null;
 
@@ -107,6 +108,8 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
       if (just_change) {
         player.broadcast(socket);
       }
+
+      updateScoreboard();
     }
 
   }
@@ -123,12 +126,31 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     }
   }
 
+  function updateScoreboard(){
+    var text = 'name     lives    coins\n';
+    text += player.playerName.text+'  '+player.lives+'        '+player.coins+'\n';
+    for(var key in remote_players){
+      var p = remote_players[key];
+      text += p.playerName.text+'  '+p.lives+'        '+p.coins+'\n';
+    }
+    scoreboard.text= text;
+  }
+
   Game.__defineSetter__('game', function (game) {
     var world = game.world, players_identity = game.players;
 
     Game.resize(world);
     phaser.world.removeAll();
     phaser.add.tileSprite(0, 0, phaser.world.width, phaser.world.height, 'sky');
+
+    // create a scoreboard on the top left hand corner
+    var text_style = {
+      font: (12 * localStorage.scale) + 'px SMB Filled',
+      fill: '#ffffff',
+      align: 'left'
+    };
+    scoreboard = phaser.add.text(16, 16, '', text_style);
+    scoreboard.fixedToCamera = true;
 
     structure_objects = phaser.add.group();
     structure_objects.enableBody = true;
@@ -221,6 +243,21 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
     socket.on('player collect object', function (data) {
       console.log(data);
+      var p;
+      // reduce player's lives or increate player's coins
+        
+      //if it is the player
+      if (sessionStorage.id == data.player){
+        p = player;
+      } else {
+        p = remote_players[data.player];
+      }
+      // increase coins by 1
+      if(ref_collectibles[data.collectible].Type == "Coin") {
+        p.coins += 1;
+        //console.log(p.coins);
+      }      
+      
       if (data.player != sessionStorage.id) {
         ref_collectibles[data.collectible].collected(remote_players[data.player]);
       } else {

@@ -52,6 +52,8 @@ define('Mario', ['Phaser'], function (Phaser) {
     };
     this.playerName = game.add.text(0, 0, identity.name, text_style);
     this.playerName.anchor.setTo(0.5, 0.5);
+    this.lives = identity.lives;
+    this.coins = identity.coins;
     
     this.body.maxVelocity.x = 133 * localStorage.scale;
     this.body.gravity.y = 333 * localStorage.scale;
