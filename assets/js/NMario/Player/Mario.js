@@ -193,6 +193,9 @@ define('Mario', ['Phaser'], function (Phaser) {
       } else if (state == 'super') {
         superMario();
       } else if (state == 'small2super') {
+        self.body.setSize(14, 27, 0 * localStorage.scale, 2 * localStorage.scale);
+        self.playerName.x = self.body.x + 16 ;
+        self.playerName.y = self.body.y - 24;
         return;
       }
 
