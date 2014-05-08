@@ -18,7 +18,15 @@ define('Brick', ['BaseCollectible'], function (BaseCollectible) {
 
     this.animations.add('ques', [4, 5, 6, 7], 10, true);
     this.animations.add('empty', [8], 1, true);
-    if (attr.item.length > 0) {
+    this.animations.add('tranparent', [9], 1, true);
+
+    if(attr.visible == false){
+      self.body.checkCollision.up = false;
+      self.body.checkCollision.down = true;
+      self.body.checkCollision.left = false;
+      self.body.checkCollision.right = false;
+      this.animations.play('tranparent');
+    }else if (attr.item.length > 0) {
       this.animations.play('ques');
     } else {
       this.animations.play('empty');
@@ -31,8 +39,22 @@ define('Brick', ['BaseCollectible'], function (BaseCollectible) {
 
     this.collected = function (player) {
       var itemRelease = attr.item.pop();
-      if (attr.item.length == 0){
+      if (attr.visible == false){
+        //Set have collision
+        self.body.checkCollision.up = true;
+        self.body.checkCollision.down = true;
+        self.body.checkCollision.left = true;
+        self.body.checkCollision.right = true;
+      }
+      if (attr.visible == false || attr.item.length == 0){
+        attr.visible = true;
         self.animations.play("empty");
+      }
+      switch (target.Type) {
+        case 'Power-Up':
+          break;
+        case 'Coin':
+          break;
       }
       console.log('Brick relesed : ' + itemRelease);
     };
