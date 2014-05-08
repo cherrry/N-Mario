@@ -17,7 +17,7 @@ define('Mario', ['Phaser'], function (Phaser) {
       jump: 'small-jump',
       turn: 'small-turn',
       slide: 'small-slide',
-			dead: 'small-dead'
+      dead: 'small-dead'
     },
     super: {
       stand: 'super-stand',
@@ -26,7 +26,7 @@ define('Mario', ['Phaser'], function (Phaser) {
       turn: 'super-turn',
       slide: 'super-slide',
       head: 'super-head',
-			dead: 'super-dead'
+      dead: 'super-dead'
     }
   };
 
@@ -40,8 +40,8 @@ define('Mario', ['Phaser'], function (Phaser) {
     var anim = anim_key.small, state = 'small';
     var keypress = { 'up': false, 'down': false, 'left': false, 'right': false };
 
-		var rebornX = 32 * (identity.color + 1) * localStorage.scale; 
-		var rebornY = 16 * localStorage.scale;
+    var rebornX = 32 * (identity.color + 1) * localStorage.scale; 
+    var rebornY = 16 * localStorage.scale;
     Phaser.Sprite.call(this, game, rebornX, rebornY, 'mario', 0 + spriteOffset);
     objects.add(this);    
 
@@ -58,8 +58,8 @@ define('Mario', ['Phaser'], function (Phaser) {
     this.body.maxVelocity.x = 133 * localStorage.scale;
     this.body.gravity.y = 333 * localStorage.scale;
     this.body.collideWorldBounds = true;
-		this.checkWorldBounds = true;
-		this.outOfBoundsKill = false;
+    this.checkWorldBounds = true;
+    this.outOfBoundsKill = false;
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
@@ -72,8 +72,8 @@ define('Mario', ['Phaser'], function (Phaser) {
     this.animations.add('small-dead', [6 + spriteOffset], 1, true);
     this.animations.add('small-flag', [7 + spriteOffset], 1, true);
 
-    this.animations.add('small2super', [8 + spriteOffset, 9 + spriteOffset, 10 + spriteOffset, 11 + spriteOffset, 12 + spriteOffset, 13 + spriteOffset, 14 + spriteOffset], 15, false);
-    this.animations.add('super2small', [14 + spriteOffset, 13 + spriteOffset, 12 + spriteOffset, 11 + spriteOffset, 10 + spriteOffset, 9 + spriteOffset, 8 + spriteOffset], 15, false);
+    this.animations.add('small2super', [8 + spriteOffset, 9 + spriteOffset, 10 + spriteOffset, 11 + spriteOffset, 12 + spriteOffset, 13 + spriteOffset, 14 + spriteOffset], 6, false);
+    this.animations.add('super2small', [14 + spriteOffset, 13 + spriteOffset, 12 + spriteOffset, 11 + spriteOffset, 10 + spriteOffset, 9 + spriteOffset, 8 + spriteOffset], 6, false);
 
     this.animations.add('super-stand', [15 + spriteOffset], 1, true);
     this.animations.add('super-walk', [16 + spriteOffset, 17 + spriteOffset, 16 + spriteOffset, 15 + spriteOffset], 25, true);
@@ -87,13 +87,13 @@ define('Mario', ['Phaser'], function (Phaser) {
     // set anchor and start animation
     this.anchor.setTo(0.5, 0.5);
     this.animations.play(anim.stand);
-    smallMario();
 
     function smallMario() {
       self.body.setSize(14, 16, 0 * localStorage.scale, 8 * localStorage.scale);
       anim = anim_key.small;
       state = 'small';
     }
+
     function superMario() {
       self.body.setSize(14, 27, 0 * localStorage.scale, 2 * localStorage.scale);
       anim = anim_key.super;
@@ -108,162 +108,211 @@ define('Mario', ['Phaser'], function (Phaser) {
       return keypress[key];
     };
 
-		this.die = function () {
-			if (state != 'dead'){
-				console.log('dead!');
-				state = 'dead';
+    this.grow = function () {
+      if (state == 'small') {
+        state = 'small2super';
 
-				//Set body to bounce upword
-				self.body.velocity.x = 0;
-				self.body.velocity.y = -300 * localStorage.scale;
-				self.body.acceleration.x = 0;
-				self.body.acceleration.y = 0;
+        // stop moving when growing up
+        self.body.velocity.x = 0;
+        self.body.velocity.y = 0;
+        self.body.acceleration.x = 0;
+        self.body.acceleration.y = 0;
+        self.body.allowGravity = false;
 
-				//Set no collision
-				self.body.checkCollision.up = false;
-				self.body.checkCollision.down = false;
-				self.body.checkCollision.left = false;
-				self.body.checkCollision.right = false;
-				self.body.collideWorldBounds = false;
+        self.animations.play('small2super');
+      }
+    };
 
-				//Change to dying animation
-				self.animations.play(anim.dead);
+		this.shrink = function () {
+			if (state == 'super') {
+				state = 'super2small';
 
-				self.events.onOutOfBounds.add(function () {
-					self.reborn();
-				}, self);
+        // stop moving when shrinking
+        self.body.velocity.x = 0;
+        self.body.velocity.y = 0;
+        self.body.acceleration.x = 0;
+        self.body.acceleration.y = 0;
+        self.body.allowGravity = false;
+				
+        self.animations.play('super2small');
 			}
 		};
 
-		this.reborn = function () {
-			//Reset the state and physics, go back to last reborn point
-			state = 'small';
-			self.x = rebornX;
-			self.y = rebornY;
-			self.scale.x = localStorage.scale;
-			self.body.velocity.x = 0;
-			self.body.velocity.y = 0;
-			self.body.acceleration.x = 0;
-			self.body.acceleration.y = 0;
-			self.body.checkCollision.up = true;
-			self.body.checkCollision.down = true;
-			self.body.checkCollision.left = true;
-			self.body.checkCollision.right = true;
-			self.body.collideWorldBounds = true;
-		};
+    this.die = function () {
+      if (state != 'dead'){
+        state = 'dead';
 
-		this.hit = function () {
-			//Mario is being hit.
-			//If its state is 'super', change to 'small'
-			//Othwise, kill the player.
-			switch (state) {
-				case 'small':
-					self.die();
-					break;
-				case 'super':
-					//TODO change to 'small'
-					break;
-			}
-		};
+        //Set body to bounce upword
+        self.body.velocity.x = 0;
+        self.body.velocity.y = -300 * localStorage.scale;
+        self.body.acceleration.x = 0;
+        self.body.acceleration.y = 0;
+
+        //Set no collision
+        self.body.checkCollision.up = false;
+        self.body.checkCollision.down = false;
+        self.body.checkCollision.left = false;
+        self.body.checkCollision.right = false;
+        self.body.collideWorldBounds = false;
+
+        //Change to dying animation
+        self.animations.play(anim.dead);
+      }
+    };
+    self.events.onOutOfBounds.add(function () {
+      self.reborn();
+    }, self);
+
+    self.events.onAnimationComplete.add(function () {
+      switch (state){
+        case 'small2super':
+          state = 'super';
+          self.body.allowGravity = true;
+          break;
+        case 'super2small':
+          state = 'small';
+          self.body.allowGravity = true;
+          break;
+      }
+    }, self);
+
+    this.reborn = function () {
+      //Reset the state and physics, go back to last reborn point
+      state = 'small';
+      self.x = rebornX;
+      self.y = rebornY;
+      self.scale.x = localStorage.scale;
+      self.body.velocity.x = 0;
+      self.body.velocity.y = 0;
+      self.body.acceleration.x = 0;
+      self.body.acceleration.y = 0;
+      self.body.checkCollision.up = true;
+      self.body.checkCollision.down = true;
+      self.body.checkCollision.left = true;
+      self.body.checkCollision.right = true;
+      self.body.collideWorldBounds = true;
+    };
+
+    this.hit = function () {
+      //Mario is being hit.
+      //If its state is 'super', change to 'small'
+      //Othwise, kill the player.
+      switch (state) {
+        case 'small':
+          self.die();
+          break;
+        case 'super':
+					self.shrink();
+          break;
+      }
+    };
 
     this.update = function () {
       // game.physics.arcade.collide(this, objects);
 
-			//Update parameters according to state
+      //Update parameters according to state
       if (state == 'small') {
         smallMario();
       } else if (state == 'super') {
         superMario();
+      } else if (state == 'small2super') {
+        self.body.setSize(14, 27, 0 * localStorage.scale, 2 * localStorage.scale);
+        self.playerName.x = self.body.x + 16 ;
+        self.playerName.y = self.body.y - 24;
       }
 
-			//If still alive, update controls
-			if (state != 'dead') {
-				if (self.getKeyState('left')) {
-					// move to left
+      //If still alive, update controls
+      if (['small', 'super'].indexOf(state) >= 0) {
+        if (self.getKeyState('left')) {
+          // move to left
 
-					if (self.body.velocity.x > 0) {
+          if (self.body.velocity.x > 0) {
 
-						if (self.body.velocity.x > 10 * localStorage.scale) {
-							self.body.acceleration.x = -200 * localStorage.scale;
-							self.scale.x = localStorage.scale;
-							self.animations.play(anim.turn);
-						} else {
-							self.body.acceleration.x = -100 * localStorage.scale;
-							self.scale.x = - localStorage.scale;
-							self.animations.play(anim.walk);
-						}
-					} else {
-						self.body.acceleration.x = -50 * localStorage.scale;
-						self.scale.x = - localStorage.scale;
-						self.animations.play(anim.walk);
-					}
+            if (self.body.velocity.x > 10 * localStorage.scale) {
+              self.body.acceleration.x = -200 * localStorage.scale;
+              self.scale.x = localStorage.scale;
+              self.animations.play(anim.turn);
+            } else {
+              self.body.acceleration.x = -100 * localStorage.scale;
+              self.scale.x = - localStorage.scale;
+              self.animations.play(anim.walk);
+            }
+          } else {
+            self.body.acceleration.x = -50 * localStorage.scale;
+            self.scale.x = - localStorage.scale;
+            self.animations.play(anim.walk);
+          }
 
-				} else if (self.getKeyState('right')) {
-					// move to right
+        } else if (self.getKeyState('right')) {
+          // move to right
 
-					if (self.body.velocity.x < 0) {
+          if (self.body.velocity.x < 0) {
 
-						if (self.body.velocity.x < -10 * localStorage.scale) {
-							self.body.acceleration.x = 200 * localStorage.scale;
-							self.scale.x = - localStorage.scale;
-							self.animations.play(anim.turn);
-						} else {
-							self.body.acceleration.x = 100 * localStorage.scale;
-							self.scale.x = localStorage.scale;
-							self.animations.play(anim.walk);
-						}
-					} else {
-						self.body.acceleration.x = 50 * localStorage.scale;
-						self.scale.x = localStorage.scale;
-						self.animations.play(anim.walk);
-					}
-				} else {
-					// stand still
+            if (self.body.velocity.x < -10 * localStorage.scale) {
+              self.body.acceleration.x = 200 * localStorage.scale;
+              self.scale.x = - localStorage.scale;
+              self.animations.play(anim.turn);
+            } else {
+              self.body.acceleration.x = 100 * localStorage.scale;
+              self.scale.x = localStorage.scale;
+              self.animations.play(anim.walk);
+            }
+          } else {
+            self.body.acceleration.x = 50 * localStorage.scale;
+            self.scale.x = localStorage.scale;
+            self.animations.play(anim.walk);
+          }
+        } else {
+          // stand still
 
-					if (Math.abs(self.body.velocity.x) < localStorage.scale) {
-						self.body.velocity.x = 0;
-						self.body.acceleration.x = 0;
-						self.animations.play(anim.stand);
-					} else {
-						// sliding
+          if (Math.abs(self.body.velocity.x) < localStorage.scale) {
+            self.body.velocity.x = 0;
+            self.body.acceleration.x = 0;
+            self.animations.play(anim.stand);
+          } else {
+            // sliding
 
-						if (self.body.velocity.x > 0) {
-							self.body.acceleration.x = -100 * localStorage.scale;
-						} else {
-							self.body.acceleration.x = 100 * localStorage.scale;
-						}
+            if (self.body.velocity.x > 0) {
+              self.body.acceleration.x = -100 * localStorage.scale;
+            } else {
+              self.body.acceleration.x = 100 * localStorage.scale;
+            }
 
-						if (self.getKeyState('down') && state == 'super') {
-							self.animations.play(anim.head);
-							self.body.setSize(14, 16, 0, 8 * localStorage.scale);
+            if (self.getKeyState('down') && state == 'super') {
+              self.animations.play(anim.head);
+              self.body.setSize(14, 16, 0, 8 * localStorage.scale);
 
-						} else {
-							self.animations.play(anim.slide);
-						}
-					}
-				}
+            } else {
+              self.animations.play(anim.slide);
+            }
+          }
+        }
 
-				// jumping control
-				if (!self.body.touching.down) {
-					self.animations.play(anim.jump);
-				}
+        // jumping control
+        if (!self.body.touching.down) {
+          self.animations.play(anim.jump);
+        }
 
-				if (self.getKeyState('up') && self.body.touching.down) {
+        if (self.getKeyState('up') && self.body.touching.down) {
 
-					if (self.getKeyState('left') || self.getKeyState('right')) {
-						self.body.velocity.y = -200 * localStorage.scale;
-					} else {
-						self.body.velocity.y = -220 * localStorage.scale;
-					}
-				}
-			}
+          if (self.getKeyState('left') || self.getKeyState('right')) {
+            self.body.velocity.y = -200 * localStorage.scale;
+          } else {
+            self.body.velocity.y = -220 * localStorage.scale;
+          }
+        }
+      }
 
-			//Set player name above the player
+      //Set player name above the player
       self.playerName.x = self.body.x + 16 ;
-      self.playerName.y = self.body.y - 16;
+      if (state == 'small') {
+        self.playerName.y = self.body.y - 16;
+      } else {
+        self.playerName.y = self.body.y - 24;
+      }
     };
 
-		this.collide = function(target) {};
+    this.collide = function(target) {};
 
     this.render = function () {
       game.debug.body(self);
@@ -285,9 +334,9 @@ define('Mario', ['Phaser'], function (Phaser) {
       }
     };
 
-		this.__defineGetter__('state', function () {
-			return state;
-		});
+    this.__defineGetter__('state', function () {
+      return state;
+    });
 
     this.__defineSetter__('state', function (value) {
       state = value;

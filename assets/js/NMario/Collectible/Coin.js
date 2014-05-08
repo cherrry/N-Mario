@@ -20,6 +20,8 @@ define('Coin', ['BaseCollectible'], function (BaseCollectible) {
     this.animations.add('flipping', [0, 1, 2, 3], 5, true);
     this.animations.play('flipping');
 
+    this.body.allowGravity = false;
+
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
     this.body.setSize(10, 16, 3 * localStorage.scale, 0);

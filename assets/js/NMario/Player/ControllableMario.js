@@ -41,6 +41,9 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
             // target.collected();
             self.send('player collect object', { id: target.id });
             break;
+          case 'Brick':
+            self.send('player collect object', { id: target.id });
+            break;
         }
       }
     };
