@@ -81,6 +81,8 @@ define('Mario', ['Phaser'], function (Phaser) {
     this.animations.add('super-dead', [21 + spriteOffset], 1, true);
     this.animations.add('super-flag', [22 + spriteOffset], 1, true);
     this.animations.add('super-head', [23 + spriteOffset], 1, true);
+		
+		this.animations.add('super2small', [15 + spriteOffset, 0 + spriteOffset], 1, true);
 
     // set anchor and start animation
     this.anchor.setTo(0.5, 0.5);
@@ -90,7 +92,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     function smallMario() {
       self.body.setSize(14, 16, 0 * localStorage.scale, 8 * localStorage.scale);
       anim = anim_key.small;
-      state = 'small';
+      state = 'super';
     }
     function superMario() {
       self.body.setSize(14, 27, 0 * localStorage.scale, 2 * localStorage.scale);
@@ -106,9 +108,30 @@ define('Mario', ['Phaser'], function (Phaser) {
       return keypress[key];
     };
 
+		this.hit = function () {
+			//Mario is being hit.
+			//If its state is 'super', change to 'small'
+			//Othwise, kill the player.
+			switch (state) {
+				case 'small':
+					self.die();
+					break;
+				case 'super':
+					self.shrink();
+					break;
+			}
+		};
+
+		this.shrink = function () {
+			console.log('shrink');
+			if (state == 'super') {
+				state = 'shrinking';
+				self.animations.play('super2small');
+			}
+		};
+
 		this.die = function () {
 			if (state != 'dead'){
-				console.log('dead!');
 				state = 'dead';
 
 				//Set body to bounce upword
@@ -148,20 +171,6 @@ define('Mario', ['Phaser'], function (Phaser) {
 			self.body.checkCollision.left = true;
 			self.body.checkCollision.right = true;
 			self.body.collideWorldBounds = true;
-		};
-
-		this.hit = function () {
-			//Mario is being hit.
-			//If its state is 'super', change to 'small'
-			//Othwise, kill the player.
-			switch (state) {
-				case 'small':
-					self.die();
-					break;
-				case 'super':
-					//TODO change to 'small'
-					break;
-			}
 		};
 
     this.update = function () {
