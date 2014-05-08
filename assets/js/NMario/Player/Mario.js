@@ -40,7 +40,9 @@ define('Mario', ['Phaser'], function (Phaser) {
     var anim = anim_key.small, state = 'small';
     var keypress = { 'up': false, 'down': false, 'left': false, 'right': false };
 
-    Phaser.Sprite.call(this, game, 32 * (identity.color + 1) * localStorage.scale, 16 * localStorage.scale, 'mario', 0 + spriteOffset);
+		var rebornX = 32 * (identity.color + 1) * localStorage.scale; 
+		var rebornY = 16 * localStorage.scale;
+    Phaser.Sprite.call(this, game, rebornX, rebornY, 'mario', 0 + spriteOffset);
     objects.add(this);    
 
     var text_style = {
@@ -54,6 +56,8 @@ define('Mario', ['Phaser'], function (Phaser) {
     this.body.maxVelocity.x = 133 * localStorage.scale;
     this.body.gravity.y = 333 * localStorage.scale;
     this.body.collideWorldBounds = true;
+		this.checkWorldBounds = true;
+		this.outOfBoundsKill = false;
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
@@ -123,11 +127,27 @@ define('Mario', ['Phaser'], function (Phaser) {
 				//Change to dying animation
 				self.animations.play(anim.dead);
 
-				self.checkWorldBounds = true;
 				self.events.onOutOfBounds.add(function () {
-					console.log('out');
+					self.reborn();
 				}, self);
 			}
+		};
+
+		this.reborn = function () {
+			//Reset the state and physics, go back to last reborn point
+			state = 'small';
+			self.x = rebornX;
+			self.y = rebornY;
+			self.scale.x = localStorage.scale;
+			self.body.velocity.x = 0;
+			self.body.velocity.y = 0;
+			self.body.acceleration.x = 0;
+			self.body.acceleration.y = 0;
+			self.body.checkCollision.up = true;
+			self.body.checkCollision.down = true;
+			self.body.checkCollision.left = true;
+			self.body.checkCollision.right = true;
+			self.body.collideWorldBounds = true;
 		};
 
 		this.hit = function () {
