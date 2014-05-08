@@ -60,7 +60,7 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
       }
     };
 
-	this.collected = function () {
+	this.collected = function (player) {
 		if (attr.state != 'dead'){
 			attr.state = 'dead';
 

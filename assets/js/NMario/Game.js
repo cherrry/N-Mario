@@ -28,7 +28,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
   var socket = null, isOwner = false;
 
-  var collide_objects = null, overlap_objects = null;
+  var structure_objects = null, collide_objects = null, overlap_objects = null;
   // var solids = null, collectibles = null, players = null;
   var player = null, remote_players = {}, ref_collectibles = {};
   var keyboard = null;
@@ -67,29 +67,21 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     keyboard = phaser.input.keyboard;
   }
 
+  function collision_handler (source, target) {
+    // If collision involves player, ask player to collide with the other object
+    if (source == player) {
+      player.collide(target);
+    } else if (target == player) {
+      player.collide(source);
+    }
+  }
+
   function update() {
 		// Collision detection
-    phaser.physics.arcade.collide(collide_objects, collide_objects, function (source, target) {
-			// If collision involves player, ask player to collide with the other object
-			if (source == player){
-				player.collide(target);
-			} else if (target == player){
-				player.collide(source);
-			}
-
-    });
-
-    // handle overlap between collide group and overlap group objects
-    phaser.physics.arcade.overlap(collide_objects, overlap_objects, function (source, target) {
-      
-			// If collision involves player, ask player to collide with the other object
-      console.log(source, target);
-			if (source == player){
-				player.collide(target);
-			} else if (target == player){
-				player.collide(source);
-			}
-    }, null, this);
+    phaser.physics.arcade.collide(collide_objects, structure_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(overlap_objects, structure_objects, collision_handler);
 
 		// Self player control
     if (player != null) {
@@ -138,6 +130,9 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     phaser.world.removeAll();
     phaser.add.tileSprite(0, 0, phaser.world.width, phaser.world.height, 'sky');
 
+    structure_objects = phaser.add.group();
+    structure_objects.enableBody = true;
+
     collide_objects = phaser.add.group();
     collide_objects.enableBody = true;
 
@@ -149,7 +144,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
     for (var i = 0; i < world.solids.length; i++) {
       var solid = world.solids[i];
-      var component = new Component[solid.type](phaser, collide_objects, solid.x, solid.y, solid.attr);
+      var component = new Component[solid.type](phaser, structure_objects, solid.x, solid.y, solid.attr);
     }
 
     for (var i = 0; i < world.collectibles.length; i++) {
@@ -227,7 +222,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     socket.on('player collect object', function (data) {
       console.log(data);
       if (data.player != sessionStorage.id) {
-        ref_collectibles[data.collectible].collected();
+        ref_collectibles[data.collectible].collected(remote_players[data.player]);
       }
     });
   });

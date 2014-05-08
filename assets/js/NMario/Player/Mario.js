@@ -199,6 +199,7 @@ define('Mario', ['Phaser'], function (Phaser) {
         socket.emit('player data update', {
           id: sessionStorage.id,
           keypress: keypress,
+          state: state,
           physics: {
             position: { x: self.body.x / localStorage.scale, y: self.body.y / localStorage.scale },
             velocity: { x: self.body.velocity.x / localStorage.scale, y: self.body.velocity.y / localStorage.scale },
@@ -207,6 +208,10 @@ define('Mario', ['Phaser'], function (Phaser) {
         });
       }
     };
+
+    this.__defineSetter__('state', function (value) {
+      state = value;
+    });
 
     this.__defineSetter__('socket', function (value) { socket = value; });
 

@@ -20,6 +20,10 @@ define('Flagpole', ['Phaser'], function (Phaser) {
     this.body.setSize(4, 111, 22 * localStorage.scale, 17 * localStorage.scale);
 
     this.broadcast = function (socket) {};
+
+    this.collected = function (player) {
+      console.log('end game!');
+    };
   };
 
   Flagpole.prototype = Object.create(Phaser.Sprite.prototype);

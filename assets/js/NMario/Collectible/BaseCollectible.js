@@ -12,6 +12,8 @@ require.config({
 define('BaseCollectible', ['Phaser'], function (Phaser) {
   var BaseCollectible = function (game, objects, x, y, attr, sprite) {
 
+    var self = this;
+
     Phaser.Sprite.call(this, game, x * 16 * localStorage.scale, y * 16 * localStorage.scale, sprite, 0);
     objects.add(this);
 
@@ -30,8 +32,14 @@ define('BaseCollectible', ['Phaser'], function (Phaser) {
       return attr.id;
     });
 
+    /*
     this.collected = function () {
       console.log('collect: ' + this.Type);
+    };
+    */
+
+    this.collected = function (player) {
+      console.log('collect: ' + self.Type);
     };
 
   };

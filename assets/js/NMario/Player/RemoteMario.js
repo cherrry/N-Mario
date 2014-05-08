@@ -22,10 +22,12 @@ define('RemoteMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
 
     this.__defineSetter__('lastestData', function (data) {
 
-      this.setKeyState('left', data.keypress.left);
-      this.setKeyState('right', data.keypress.right);
-      this.setKeyState('up', data.keypress.up);
-      this.setKeyState('down', data.keypress.down);
+      self.state = data.state;
+
+      self.setKeyState('left', data.keypress.left);
+      self.setKeyState('right', data.keypress.right);
+      self.setKeyState('up', data.keypress.up);
+      self.setKeyState('down', data.keypress.down);
 
       lastestPhysics = data.physics;
     });
