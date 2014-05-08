@@ -34,7 +34,7 @@ define('Mario', ['Phaser'], function (Phaser) {
 
     var socket = null;
 
-    var spriteOffset = 26 * identity.color;
+    var spriteOffset = 24 * identity.color;
     var anim = anim_key.small, state = 'small';
     var keypress = { 'up': false, 'down': false, 'left': false, 'right': false };
 
@@ -57,22 +57,30 @@ define('Mario', ['Phaser'], function (Phaser) {
 
     // initialize animations
     this.animations.add('small-stand', [0 + spriteOffset], 1, true);
-    this.animations.add('small-walk', [1 + spriteOffset, 2 + spriteOffset], 15, true);
+    this.animations.add('small-walk', [1 + spriteOffset, 2 + spriteOffset], 20, true);
     this.animations.add('small-jump', [3 + spriteOffset], 1, true);
     this.animations.add('small-turn', [4 + spriteOffset], 1, true);
     this.animations.add('small-slide', [5 + spriteOffset], 1, true);
+    this.animations.add('small-die', [6 + spriteOffset], 1, true);
+    this.animations.add('small-flag', [7 + spriteOffset], 1, true);
 
-    this.animations.add('super-stand', [14 + spriteOffset], 1, true);
-    this.animations.add('super-walk', [15 + spriteOffset, 16 + spriteOffset, 15 + spriteOffset, 14 + spriteOffset], 30, true);
-    this.animations.add('super-jump', [17 + spriteOffset], 1, true);
-    this.animations.add('super-turn', [18 + spriteOffset], 1, true);
-    this.animations.add('super-slide', [19 + spriteOffset], 1, true);
-    this.animations.add('super-head', [25 + spriteOffset], 1, true);
+    this.animations.add('small2super', [8 + spriteOffset, 9 + spriteOffset, 10 + spriteOffset, 11 + spriteOffset, 12 + spriteOffset, 13 + spriteOffset, 14 + spriteOffset], 15, false);
+    this.animations.add('super2small', [14 + spriteOffset, 13 + spriteOffset, 12 + spriteOffset, 11 + spriteOffset, 10 + spriteOffset, 9 + spriteOffset, 8 + spriteOffset], 15, false);
+
+    this.animations.add('super-stand', [15 + spriteOffset], 1, true);
+    this.animations.add('super-walk', [16 + spriteOffset, 17 + spriteOffset, 16 + spriteOffset, 15 + spriteOffset], 25, true);
+    this.animations.add('super-jump', [18 + spriteOffset], 1, true);
+    this.animations.add('super-turn', [19 + spriteOffset], 1, true);
+    this.animations.add('super-slide', [20 + spriteOffset], 1, true);
+    this.animations.add('super-die', [21 + spriteOffset], 1, true);
+    this.animations.add('super-flag', [22 + spriteOffset], 1, true);
+    this.animations.add('super-head', [23 + spriteOffset], 1, true);
 
     // set anchor and start animation
     this.anchor.setTo(0.5, 0.5);
     this.animations.play(anim.stand);
-    smallMario();
+    // smallMario();
+    superMario();
 
     function smallMario() {
       self.body.setSize(14, 16, 0 * localStorage.scale, 8 * localStorage.scale);

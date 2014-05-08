@@ -11,14 +11,17 @@ require.config({
 });
 
 define('PowerUp', ['BaseCollectible'], function (BaseCollectible) {
+  var type2color = {
+    grow: 1
+  };
+
   var PowerUp = function(game, objects, x, y, attr) {
 
     var self = this;
     
-    BaseCollectible.call(this, game, objects, x, y, attr, 'powerup');
+    BaseCollectible.call(this, game, objects, x, y, attr, 'power-up');
 
-    this.animations.add('moving', [attr.color], 15, true);
-    this.animations.play('moving');
+    this.frame = type2color[attr.type];
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
@@ -32,18 +35,6 @@ define('PowerUp', ['BaseCollectible'], function (BaseCollectible) {
     var lastestPhysics = null;
 
     this.update = function () {
-      /*
-      game.physics.arcade.collide(this, objects, function (mushroom, object) {
-        console.log(object);
-      });
-      */
-      /*
-      if (self.body.velocity.x > 0) {
-        self.body.velocity.x = 40 * localStorage.scale;
-      } else {
-        self.body.velocity.x = -40 * localStorage.scale;
-      }
-      */
 
       if (lastestPhysics != null) {
         self.body.x = lastestPhysics.position.x * localStorage.scale;
@@ -74,10 +65,18 @@ define('PowerUp', ['BaseCollectible'], function (BaseCollectible) {
       };
     });
 
+    this.collected = function (player) {
+      if (attr.type == 'grow') {
+        console.log('grow up', player);
+        self.kill();
+      }
+    };
+
   };
 
   PowerUp.prototype = Object.create(BaseCollectible.prototype);
   PowerUp.prototype.constructor = PowerUp;
+  PowerUp.prototype.Type = 'Power-Up';
 
   return PowerUp;
 });

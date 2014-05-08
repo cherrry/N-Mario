@@ -58,7 +58,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     phaser.load.spritesheet('mushroom', 'assets/sprites/mushroom.png', 16, 16);
     phaser.load.spritesheet('coin', 'assets/sprites/coin.png', 16, 16);
     phaser.load.spritesheet('flagpole', 'assets/sprites/flagpole.png', 32, 128);
-    phaser.load.spritesheet('powerup', 'assets/sprites/power-up.png', 16, 16);
+    phaser.load.spritesheet('power-up', 'assets/sprites/power-up.png', 16, 16);
 
   }
 
@@ -223,6 +223,8 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
       console.log(data);
       if (data.player != sessionStorage.id) {
         ref_collectibles[data.collectible].collected(remote_players[data.player]);
+      } else {
+        ref_collectibles[data.collectible].collected(player);
       }
     });
   });
