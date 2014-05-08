@@ -85,13 +85,13 @@ define('Mario', ['Phaser'], function (Phaser) {
     // set anchor and start animation
     this.anchor.setTo(0.5, 0.5);
     this.animations.play(anim.stand);
-    smallMario();
 
     function smallMario() {
       self.body.setSize(14, 16, 0 * localStorage.scale, 8 * localStorage.scale);
       anim = anim_key.small;
       state = 'small';
     }
+
     function superMario() {
       self.body.setSize(14, 27, 0 * localStorage.scale, 2 * localStorage.scale);
       anim = anim_key.super;
@@ -115,14 +115,29 @@ define('Mario', ['Phaser'], function (Phaser) {
         self.body.velocity.y = 0;
         self.body.acceleration.x = 0;
         self.body.acceleration.y = 0;
+        self.body.allowGravity = false;
 
         self.animations.play('small2super');
       }
     };
 
+		this.shrink = function () {
+			if (state == 'super') {
+				state = 'super2small';
+
+        // stop moving when shrinking
+        self.body.velocity.x = 0;
+        self.body.velocity.y = 0;
+        self.body.acceleration.x = 0;
+        self.body.acceleration.y = 0;
+        self.body.allowGravity = false;
+				
+        self.animations.play('super2small');
+			}
+		};
+
     this.die = function () {
       if (state != 'dead'){
-        console.log('dead!');
         state = 'dead';
 
         //Set body to bounce upword
@@ -140,7 +155,6 @@ define('Mario', ['Phaser'], function (Phaser) {
 
         //Change to dying animation
         self.animations.play(anim.dead);
-
       }
     };
     self.events.onOutOfBounds.add(function () {
@@ -148,8 +162,15 @@ define('Mario', ['Phaser'], function (Phaser) {
     }, self);
 
     self.events.onAnimationComplete.add(function () {
-      if (state == 'small2super') {
-        state = 'super';
+      switch (state){
+        case 'small2super':
+          state = 'super';
+          self.body.allowGravity = true;
+          break;
+        case 'super2small':
+          state = 'small';
+          self.body.allowGravity = true;
+          break;
       }
     }, self);
 
@@ -179,7 +200,7 @@ define('Mario', ['Phaser'], function (Phaser) {
           self.die();
           break;
         case 'super':
-          //TODO change to 'small'
+					self.shrink();
           break;
       }
     };
@@ -196,11 +217,10 @@ define('Mario', ['Phaser'], function (Phaser) {
         self.body.setSize(14, 27, 0 * localStorage.scale, 2 * localStorage.scale);
         self.playerName.x = self.body.x + 16 ;
         self.playerName.y = self.body.y - 24;
-        return;
       }
 
       //If still alive, update controls
-      if (state != 'dead') {
+      if (['small', 'super'].indexOf(state) >= 0) {
         if (self.getKeyState('left')) {
           // move to left
 
