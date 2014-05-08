@@ -79,8 +79,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     // set anchor and start animation
     this.anchor.setTo(0.5, 0.5);
     this.animations.play(anim.stand);
-    // smallMario();
-    superMario();
+    smallMario();
 
     function smallMario() {
       self.body.setSize(14, 16, 0 * localStorage.scale, 8 * localStorage.scale);
