@@ -26,7 +26,7 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
           case 'Mushroom':
             //If it is hit by player from above, kill the mushroom
             if (target.body.touching.up == true) {
-              target.collected();
+              // target.collected();
               self.body.velocity.y = -0.8 * self.body.velocity.y;
               self.send('player collect object', { id: target.id });
             } else { //Otherwise, hit the player
@@ -34,11 +34,11 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
             }
             break;
           case 'Coin':
-            target.collected();
+            // target.collected();
             self.send('player collect object', { id: target.id });
             break;
           case 'Power-Up':
-            target.collected();
+            // target.collected();
             self.send('player collect object', { id: target.id });
             break;
         }
