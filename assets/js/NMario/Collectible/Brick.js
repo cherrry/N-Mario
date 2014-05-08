@@ -18,7 +18,7 @@ define('Brick', ['BaseCollectible'], function (BaseCollectible) {
 
     this.animations.add('ques', [4, 5, 6, 7], 10, true);
     this.animations.add('empty', [8], 1, true);
-    if (attr.itemNum > 0) {
+    if (attr.item.length > 0) {
       this.animations.play('ques');
     } else {
       this.animations.play('empty');
@@ -30,12 +30,11 @@ define('Brick', ['BaseCollectible'], function (BaseCollectible) {
     this.broadcast = function (socket) {};
 
     this.collected = function (player) {
-      attr.itemNum--;
-      if (attr.itemNum <= 0){
+      var itemRelease = attr.item.pop();
+      if (attr.item.length == 0){
         self.animations.play("empty");
       }
-      self.animations.play('empty');
-      console.log('Brick relesed');
+      console.log('Brick relesed : ' + itemRelease);
     };
 
   };

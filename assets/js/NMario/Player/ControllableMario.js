@@ -42,7 +42,9 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
             self.send('player collect object', { id: target.id });
             break;
           case 'Brick':
-            self.send('player collect object', { id: target.id });
+            if (target.body.touching.down == true) {
+              self.send('player collect object', { id: target.id });
+            }
             break;
         }
       }
