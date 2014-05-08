@@ -68,6 +68,7 @@ define('PowerUp', ['BaseCollectible'], function (BaseCollectible) {
     this.collected = function (player) {
       if (attr.type == 'grow') {
         console.log('grow up', player);
+        player.grow();
         self.kill();
       }
     };
