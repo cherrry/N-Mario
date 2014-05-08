@@ -20,26 +20,30 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
     Mario.call(this, identity, game, objects);
     game.camera.follow(this,  Phaser.Camera.FOLLOW_LOCKON);
     
-		this.collide = function(target) {
-			if (this.state != 'dead') {
-				switch (target.Type) {
-					case 'Mushroom':
-						//If it is hit by player from above, kill the mushroom
-						if (target.body.touching.up == true) {
-							target.collected();
-							self.body.velocity.y = -0.8 * self.body.velocity.y;
-							self.send('player collect object', { id: target.id });
-						} else { //Otherwise, hit the player
-							this.hit();
-						}
-						break;
-					case 'Coin':
-						target.collected();
-						self.send('player collect object', { id: target.id });
-						break;
-				}
-			}
-		};
+    this.collide = function(target) {
+      if (this.state != 'dead') {
+        switch (target.Type) {
+          case 'Mushroom':
+            //If it is hit by player from above, kill the mushroom
+            if (target.body.touching.up == true) {
+              target.collected();
+              self.body.velocity.y = -0.8 * self.body.velocity.y;
+              self.send('player collect object', { id: target.id });
+            } else { //Otherwise, hit the player
+              this.hit();
+            }
+            break;
+          case 'Coin':
+            target.collected();
+            self.send('player collect object', { id: target.id });
+            break;
+          case 'Power-Up':
+            target.collected();
+            self.send('player collect object', { id: target.id });
+            break;
+        }
+      }
+    };
   };
 
   ControllableMario.prototype = Object.create(Mario.prototype);
