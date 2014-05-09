@@ -242,7 +242,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     });
 
     socket.on('player collect object', function (data) {
-      console.log(data);
+      // console.log(data);
       var p;
       // reduce player's lives or increate player's coins
         

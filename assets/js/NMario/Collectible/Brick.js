@@ -38,21 +38,23 @@ define('Brick', ['BaseCollectible'], function (BaseCollectible) {
     this.broadcast = function (socket) {};
 
     this.collected = function (player, collect_index) {
-      var itemRelease = attr.item.pop();
-      if (attr.visible == false){
+      if (attr.visible == false) {
         //Set have collision
         self.body.checkCollision.up = true;
         self.body.checkCollision.down = true;
         self.body.checkCollision.left = true;
         self.body.checkCollision.right = true;
       }
-      if (attr.visible == false || attr.item.length == 0){
+      if (attr.visible == false || collect_index >= attr.item.length - 1){
         attr.visible = true;
         self.animations.play("empty");
       }
-      // console.log(itemRelease);
-      /*
-      switch (attr.target.Type) {
+      if (collect_index >= attr.item.length) {
+        return;
+      }
+      var itemRelease = attr.item[collect_index];
+      console.log(itemRelease);
+      switch (itemRelease) {
         case 'Power-Up':
           console.log('create power up');
           break;
@@ -60,8 +62,6 @@ define('Brick', ['BaseCollectible'], function (BaseCollectible) {
           console.log('create coin');
           break;
       }
-      console.log('Brick relesed : ' + itemRelease);
-      */
     };
 
   };
