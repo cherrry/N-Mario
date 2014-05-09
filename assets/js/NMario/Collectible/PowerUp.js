@@ -65,7 +65,7 @@ define('PowerUp', ['BaseCollectible'], function (BaseCollectible) {
       };
     });
 
-    this.collected = function (player) {
+    this.collected = function (player, collect_index) {
       if (attr.type == 'grow') {
         console.log('grow up', player);
         player.grow();

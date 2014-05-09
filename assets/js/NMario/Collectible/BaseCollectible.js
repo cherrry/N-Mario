@@ -36,7 +36,7 @@ define('BaseCollectible', ['Phaser'], function (Phaser) {
     this.broadcast = function (socket) {
     };
 
-    this.collected = function (player) {
+    this.collected = function (player, collect_index) {
       console.log('collect: ' + self.Type);
     };
 

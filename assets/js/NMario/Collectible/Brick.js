@@ -37,7 +37,7 @@ define('Brick', ['BaseCollectible'], function (BaseCollectible) {
 
     this.broadcast = function (socket) {};
 
-    this.collected = function (player) {
+    this.collected = function (player, collect_index) {
       var itemRelease = attr.item.pop();
       if (attr.visible == false){
         //Set have collision
@@ -50,13 +50,18 @@ define('Brick', ['BaseCollectible'], function (BaseCollectible) {
         attr.visible = true;
         self.animations.play("empty");
       }
-      switch (target.Type) {
+      // console.log(itemRelease);
+      /*
+      switch (attr.target.Type) {
         case 'Power-Up':
+          console.log('create power up');
           break;
         case 'Coin':
+          console.log('create coin');
           break;
       }
       console.log('Brick relesed : ' + itemRelease);
+      */
     };
 
   };

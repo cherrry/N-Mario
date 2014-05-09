@@ -28,7 +28,7 @@ define('Coin', ['BaseCollectible'], function (BaseCollectible) {
     
     this.broadcast = function (socket) {};
 
-    this.collected = function (player) {
+    this.collected = function (player, collect_index) {
       self.kill();
     };
   };
