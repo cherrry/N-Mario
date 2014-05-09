@@ -80,9 +80,9 @@ define('Mario', ['Phaser'], function (Phaser) {
     this.animations.add('super-jump', [18 + spriteOffset], 1, true);
     this.animations.add('super-turn', [19 + spriteOffset], 1, true);
     this.animations.add('super-slide', [20 + spriteOffset], 1, true);
-    this.animations.add('super-dead', [21 + spriteOffset], 1, true);
-    this.animations.add('super-flag', [22 + spriteOffset], 1, true);
-    this.animations.add('super-head', [23 + spriteOffset], 1, true);
+    this.animations.add('super-head', [21 + spriteOffset], 1, true);
+    this.animations.add('super-dead', [22 + spriteOffset], 1, true);
+    this.animations.add('super-flag', [23 + spriteOffset], 1, true);
 
     // set anchor and start animation
     this.anchor.setTo(0.5, 0.5);
@@ -278,19 +278,26 @@ define('Mario', ['Phaser'], function (Phaser) {
               self.body.acceleration.x = 100 * localStorage.scale;
             }
 
-            if (self.getKeyState('down') && state == 'super') {
-              self.animations.play(anim.head);
-              self.body.setSize(14, 16, 0, 8 * localStorage.scale);
-
-            } else {
-              self.animations.play(anim.slide);
-            }
+            self.animations.play(anim.slide);
           }
         }
 
         // jumping control
         if (!self.body.touching.down) {
+
           self.animations.play(anim.jump);
+        } else if (self.getKeyState('down') && state == 'super') {
+          // super mario cover its head
+
+          // it must slide at that time
+          if (self.body.velocity.x > 0) {
+            self.body.acceleration.x = -100 * localStorage.scale;
+          } else {
+            self.body.acceleration.x = 100 * localStorage.scale;
+          }
+
+          self.animations.play(anim.head);
+          self.body.setSize(14, 16, 0, 8 * localStorage.scale);
         }
 
         if (self.getKeyState('up') && self.body.touching.down) {
