@@ -27,7 +27,6 @@ define('Flagpole', ['BaseCollectible'], function (BaseCollectible) {
 
     this.collected = function (player, collect_index) {
       if (player.Type == 'ControllableMario' && collect_index == 0) {
-        console.log('end game!!!');
         player.send('end game', {});
       }
     };
