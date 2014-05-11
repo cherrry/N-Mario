@@ -12,6 +12,7 @@ require.config({
 define('Flagpole', ['BaseCollectible'], function (BaseCollectible) {
   var Flagpole = function(game, objects, x, y, attr) {
     var self = this;
+    var can_collect = true;
 
     BaseCollectible.call(this, game, objects, x, y, attr, 'flagpole');
     objects.add(this);
@@ -26,9 +27,11 @@ define('Flagpole', ['BaseCollectible'], function (BaseCollectible) {
     this.broadcast = function (socket) {};
 
     this.collected = function (player, collect_index) {
-      if (player.Type == 'ControllableMario' && collect_index == 0) {
+      if (player.Type == 'ControllableMario' && collect_index == 0 && can_collect) {
+        console.log('flagpole', collect_index);
         player.send('end game', {});
       }
+      can_collect = false;
     };
   };
 

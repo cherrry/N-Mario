@@ -178,7 +178,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
       } else {
         ref_collectibles[collectible.attr.id] = new Collectible[collectible.type](phaser, overlap_objects, collectible.x, collectible.y, collectible.attr);
       }
-			console.log(collectible);
+			// console.log(collectible);
 			if (collectible.type == 'Coin') {
 				debug_object = ref_collectibles[collectible.attr.id];
 			}
