@@ -24,7 +24,7 @@ define('Coin', ['BaseCollectible'], function (BaseCollectible) {
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
-    this.body.setSize(10, 16, 3 * localStorage.scale, 0);
+    this.body.setSize(6, 12, 5 * localStorage.scale, 2 * localStorage.scale);
     
     this.broadcast = function (socket) {};
 

@@ -141,6 +141,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
     Game.resize(world);
     phaser.world.removeAll();
+    Phaser.Canvas.setSmoothingEnabled(phaser.context, false);
     phaser.add.tileSprite(0, 0, phaser.world.width, phaser.world.height, 'sky');
 
     // create a scoreboard on the top left hand corner
@@ -261,9 +262,15 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
       if (data.player != sessionStorage.id) {
         ref_collectibles[data.collectible].collected(remote_players[data.player], data.collect_index);
       } else {
-        // console.log(ref_collectibles[data.collectible]);
+        // console.log(player, ref_collectibles[data.collectible], data.collect_index);
         ref_collectibles[data.collectible].collected(player, data.collect_index);
       }
+    });
+
+    socket.on('go back to game room', function (data) {
+      $('#content_index').hide();
+      $('#content_room').show();
+      $('#content_game').hide();
     });
   });
 

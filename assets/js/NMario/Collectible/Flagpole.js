@@ -26,7 +26,10 @@ define('Flagpole', ['BaseCollectible'], function (BaseCollectible) {
     this.broadcast = function (socket) {};
 
     this.collected = function (player, collect_index) {
-      player.send('end game', {});
+      if (collect_index == 0) {
+        console.log('end game!!!');
+        player.send('end game', {});
+      }
     };
   };
 
