@@ -57,6 +57,7 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
         }
       }
     };
+  };
 
   ControllableMario.prototype = Object.create(Mario.prototype);
   ControllableMario.prototype.constructor = ControllableMario;
