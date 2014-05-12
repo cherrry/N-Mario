@@ -160,7 +160,9 @@ define('Mario', ['Phaser'], function (Phaser) {
       }
     };
     self.events.onOutOfBounds.add(function () {
-      self.reborn();
+      if (state != 'game over'){
+        self.reborn();
+      }
     }, self);
 
     self.events.onAnimationComplete.add(function () {
@@ -177,8 +179,15 @@ define('Mario', ['Phaser'], function (Phaser) {
     }, self);
 
     this.reborn = function () {
+      //Subtract lives
+      self.lives -= 1;
+      if (self.lives <= 0) {
+        state = 'game over';
+        self.send('player game over');
+      }
+
       //If there is life remains, reset the state and physics, go back to last reborn point
-      if (self.lives > 1){
+      if (state != 'game over'){
         state = 'small';
         self.x = rebornX;
         self.y = rebornY;
@@ -193,11 +202,7 @@ define('Mario', ['Phaser'], function (Phaser) {
         self.body.checkCollision.right = true;
         self.body.collideWorldBounds = true;
 
-        //Subtract lives
-        self.lives -= 1;
-      } else {
-        self.send('player game over');
-      }
+      } 
     };
 
     this.hit = function () {

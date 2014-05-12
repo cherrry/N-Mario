@@ -128,7 +128,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
   function updateScoreboard(){
     var text = 'name     lives    coins\n';
-    text += player.playerName.text+'  '+player.lives+'        '+player.coins+'\n';
+    text += player.playerName.text+'  '+(player.lives > 99 ? 'oo' : player.lives)+'        '+player.coins+'\n';
     for(var key in remote_players){
       var p = remote_players[key];
       text += p.playerName.text+'  '+p.lives+'        '+p.coins+'\n';
@@ -271,11 +271,12 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     });
 
     socket.on('player die', function (data) {
-      console.log(data.player + ' die');
       var id = data.player;
       if (sessionStorage.id == id) {
+        console.log('self player die');
         player.die();
       } else {
+        console.log('remote player die');
         remote_players[id].die();
       }
     });
