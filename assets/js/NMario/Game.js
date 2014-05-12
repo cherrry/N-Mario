@@ -211,6 +211,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     socket.on('game init', function (data) {
       // console.log(data);
       Game.game = data;
+      socket.emit('stage ready');
       // Game.world = data.world;
       // Game.players = data.players;
     });
