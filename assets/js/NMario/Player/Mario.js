@@ -202,7 +202,7 @@ define('Mario', ['Phaser'], function (Phaser) {
           self.send('player die');
           break;
         case 'super':
-					self.shrink();
+          self.send('player shrink');
           break;
       }
     };

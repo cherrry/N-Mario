@@ -280,6 +280,16 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
       }
     });
 
+    socket.on('player shrink', function (data) {
+      console.log(data.player + ' shrink');
+      var id = data.player;
+      if (sessionStorage.id == id) {
+        player.shrink();
+      } else {
+        remote_players[id].shrink();
+      }
+    });
+
     socket.on('go back to game room', function (data) {
       $('#content_index').hide();
       $('#content_room').show();
