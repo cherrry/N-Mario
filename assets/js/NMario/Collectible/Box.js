@@ -25,7 +25,7 @@ define('Box', ['BaseCollectible'], function (BaseCollectible) {
     this.body.velocity.x = 0;
     this.body.bounce.x = 1;
     this.body.gravity.y = 50 * localStorage.scale;
-    this.body.maxVelocity.x = 80;
+    this.body.maxVelocity.x = 80 * localStorage.scale;
 
     this.anchor.setTo(0.5, 0.5);
     this.body.setSize(16, 16, 0, 0);
