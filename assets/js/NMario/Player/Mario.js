@@ -177,20 +177,27 @@ define('Mario', ['Phaser'], function (Phaser) {
     }, self);
 
     this.reborn = function () {
-      //Reset the state and physics, go back to last reborn point
-      state = 'small';
-      self.x = rebornX;
-      self.y = rebornY;
-      self.scale.x = localStorage.scale;
-      self.body.velocity.x = 0;
-      self.body.velocity.y = 0;
-      self.body.acceleration.x = 0;
-      self.body.acceleration.y = 0;
-      self.body.checkCollision.up = true;
-      self.body.checkCollision.down = true;
-      self.body.checkCollision.left = true;
-      self.body.checkCollision.right = true;
-      self.body.collideWorldBounds = true;
+      //If there is life remains, reset the state and physics, go back to last reborn point
+      if (self.lives > 1){
+        state = 'small';
+        self.x = rebornX;
+        self.y = rebornY;
+        self.scale.x = localStorage.scale;
+        self.body.velocity.x = 0;
+        self.body.velocity.y = 0;
+        self.body.acceleration.x = 0;
+        self.body.acceleration.y = 0;
+        self.body.checkCollision.up = true;
+        self.body.checkCollision.down = true;
+        self.body.checkCollision.left = true;
+        self.body.checkCollision.right = true;
+        self.body.collideWorldBounds = true;
+
+        //Subtract lives
+        self.lives -= 1;
+      } else {
+        self.send('player game over');
+      }
     };
 
     this.hit = function () {
