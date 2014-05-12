@@ -270,9 +270,23 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
       }
     });
 
+    socket.on('player die', function (data) {
+      console.log(data.player + ' die');
+      var id = data.player;
+      if (sessionStorage.id == id) {
+        player.die();
+      } else {
+        remote_players[id].die();
+      }
+    });
+
     socket.on('go back to game room', function (data) {
       $('#content_index').hide();
       $('#content_room').show();
+      $('#content_room #im_ready').prop('checked', false);
+      $('#content_room #message_board')
+        .append('<p>Game over. Thank you for playing!</p>')
+        .scrollTop($('#content_room #message_board').height());
       $('#content_game').hide();
     });
   });

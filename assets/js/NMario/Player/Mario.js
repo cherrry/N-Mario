@@ -199,7 +199,7 @@ define('Mario', ['Phaser'], function (Phaser) {
       //Othwise, kill the player.
       switch (state) {
         case 'small':
-          self.die();
+          self.send('player die');
           break;
         case 'super':
 					self.shrink();
