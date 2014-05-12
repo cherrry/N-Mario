@@ -244,6 +244,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     });
 
     socket.on('player collect object', function (data) {
+      /*
       // console.log(data);
       var p;
       // reduce player's lives or increate player's coins
@@ -258,7 +259,8 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
       if(ref_collectibles[data.collectible].Type == "Coin") {
         p.coins += 1;
         //console.log(p.coins);
-      }      
+      }
+      */
       
       if (data.player != sessionStorage.id) {
         ref_collectibles[data.collectible].collected(remote_players[data.player], data.collect_index);

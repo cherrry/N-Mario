@@ -30,6 +30,7 @@ define('Coin', ['BaseCollectible'], function (BaseCollectible) {
 
     this.collected = function (player, collect_index) {
       if (collect_index == 0) {
+        player.coin += 1;
         self.kill();
       }
     };
