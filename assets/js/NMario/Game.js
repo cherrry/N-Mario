@@ -56,6 +56,10 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     phaser.load.spritesheet('tube', 'assets/sprites/tube.png', 32, 16);
     phaser.load.spritesheet('brick', 'assets/sprites/brick.png', 16, 16);
 
+    phaser.load.spritesheet('box', 'assets/sprites/box.png', 16, 16);
+    phaser.load.spritesheet('water', 'assets/sprites/water.png', 16, 16);
+    phaser.load.spritesheet('boat', 'assets/sprites/boat.png', 32, 16);
+
     phaser.load.spritesheet('mushroom', 'assets/sprites/mushroom.png', 16, 16);
     phaser.load.spritesheet('coin', 'assets/sprites/coin.png', 16, 16);
     phaser.load.spritesheet('flagpole', 'assets/sprites/flagpole.png', 32, 128);

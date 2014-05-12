@@ -15,7 +15,7 @@ define('Box', ['BaseCollectible'], function (BaseCollectible) {
 
     var self = this;
     
-    BaseCollectible.call(this, game, objects, x, y, attr, 'brick');
+    BaseCollectible.call(this, game, objects, x, y, attr, 'box');
 
     this.animations.add('stable', [8], 1, true);
     this.animations.play('stable');
