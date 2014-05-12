@@ -14,9 +14,9 @@ define('Water', ['BaseCollectible'], function (BaseCollectible) {
   var Water = function(game, objects, x, y, attr) {
     var self = this;
 
-    BaseCollectible.call(this, game, objects, x, y, attr, 'brick');
+    BaseCollectible.call(this, game, objects, x, y, attr, 'water');
 
-    this.animations.add('water', [0, 1, 2, 3], 10, true);
+    this.animations.add('water', [0, 1, 2, 3], 2, true);
 
     this.animations.play('water');
 

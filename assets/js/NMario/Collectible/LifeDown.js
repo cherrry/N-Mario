@@ -10,22 +10,24 @@ require.config({
   }
 });
 
-define('Box', ['BaseCollectible'], function (BaseCollectible) {
-  var Box = function(game, objects, x, y, attr) {
+define('LifeDown', ['BaseCollectible'], function (BaseCollectible) {
+  var type2color = {
+    lifedown: 2
+  };
+
+  var LifeDown = function(game, objects, x, y, attr) {
 
     var self = this;
     
-    BaseCollectible.call(this, game, objects, x, y, attr, 'box');
+    BaseCollectible.call(this, game, objects, x, y, attr, 'power-up');
 
-    this.animations.add('stable', [8], 1, true);
-    this.animations.play('stable');
+    this.frame = type2color[attr.type];
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
-    this.body.velocity.x = 0;
-    this.body.bounce.x = 1;
+    this.body.velocity.x = 40 * localStorage.scale;
     this.body.gravity.y = 50 * localStorage.scale;
-    this.body.maxVelocity.x = 80 * localStorage.scale;
+    this.body.bounce.x = 1;
 
     this.anchor.setTo(0.5, 0.5);
     this.body.setSize(16, 16, 0, 0);
@@ -48,9 +50,6 @@ define('Box', ['BaseCollectible'], function (BaseCollectible) {
       }
     };
 
-	this.collected = function (player, collect_index) {
-	};
-
     this.__defineSetter__('lastestData', function (data) {
       lastestPhysics = data.physics;
     });
@@ -66,11 +65,19 @@ define('Box', ['BaseCollectible'], function (BaseCollectible) {
       };
     });
 
+    this.collected = function (player, collect_index) {
+      if (attr.type == 'lifedown') {
+        console.log('life down', player);
+        player.lives-=1;
+        self.kill();
+      }
+    };
+
   };
 
-  Box.prototype = Object.create(BaseCollectible.prototype);
-  Box.prototype.constructor = Box;
-  Box.prototype.Type = 'Box';
+  LifeDown.prototype = Object.create(BaseCollectible.prototype);
+  LifeDown.prototype.constructor = LifeDown;
+  LifeDown.prototype.Type = 'LifeDown';
 
-  return Box;
+  return LifeDown;
 });

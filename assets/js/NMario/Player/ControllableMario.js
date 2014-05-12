@@ -52,6 +52,14 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
           case 'Boat':
             self.send('player collect object', { id: target.id });
             break;
+          case 'LifeUp':
+            // target.collected();
+            self.send('player collect object', { id: target.id });
+            break;
+          case 'LifeDown':
+            // target.collected();
+            self.send('player collect object', { id: target.id });
+            break;
           case 'Water':
             if (target.body.touching.up == true) {
               this.hit();

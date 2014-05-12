@@ -15,20 +15,20 @@ define('Boat', ['BaseCollectible'], function (BaseCollectible) {
 
     var self = this;
     
-    BaseCollectible.call(this, game, objects, x, y, attr, 'brick');
+    BaseCollectible.call(this, game, objects, x, y, attr, 'boat');
 
-    this.animations.add('stable', [8], 1, true);
-    this.animations.play('stable');
+    // this.animations.add('stable', [8], 1, true);
+    // this.animations.play('stable');
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
     this.body.velocity.x = 0;
     this.body.bounce.x = 1;
     this.body.gravity.y = 50 * localStorage.scale;
-    this.body.maxVelocity.x = 80;
+    this.body.maxVelocity.x = 80 * localStorage.scale;
 
-    this.anchor.setTo(0.5, 0.5);
-    this.body.setSize(16, 16, 0, 0);
+    // this.anchor.setTo(0.5, 0.5);
+    this.body.setSize(32, 16, 0, 0);
 
     var lastestPhysics = null;
 
