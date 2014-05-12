@@ -6,7 +6,8 @@ require.config({
     'PowerUp': 'NMario/Collectible/PowerUp',
     'Brick': 'NMario/Collectible/Brick',
     'Box': 'NMario/Collectible/Box',
-    'Water': 'NMario/Collectible/Water'
+    'Water': 'NMario/Collectible/Water',
+    'Boat': 'NMario/Collectible/Boat'
   },
   shim: {
     'Mushroom': {
@@ -24,7 +25,7 @@ require.config({
   }
 });
 
-define('Collectible', ['Mushroom', 'Coin', 'Flagpole', 'PowerUp', 'Brick', 'Box', 'Water'], function (Mushroom, Coin, Flagpole, PowerUp, Brick, Box, Water) {
+define('Collectible', ['Mushroom', 'Coin', 'Flagpole', 'PowerUp', 'Brick', 'Box', 'Water', 'Boat'], function (Mushroom, Coin, Flagpole, PowerUp, Brick, Box, Water, Boat) {
   var Collectible = {};
 
   Collectible.Mushroom = Mushroom;
@@ -34,6 +35,7 @@ define('Collectible', ['Mushroom', 'Coin', 'Flagpole', 'PowerUp', 'Brick', 'Box'
   Collectible.Brick = Brick;
   Collectible.Box = Box;
   Collectible.Water = Water;
-  
+  Collectible.Boat = Boat;
+
   return Collectible;
 });

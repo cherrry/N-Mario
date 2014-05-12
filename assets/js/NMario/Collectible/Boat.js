@@ -10,8 +10,8 @@ require.config({
   }
 });
 
-define('Box', ['BaseCollectible'], function (BaseCollectible) {
-  var Box = function(game, objects, x, y, attr) {
+define('Boat', ['BaseCollectible'], function (BaseCollectible) {
+  var Boat = function(game, objects, x, y, attr) {
 
     var self = this;
     
@@ -49,6 +49,10 @@ define('Box', ['BaseCollectible'], function (BaseCollectible) {
     };
 
 	this.collected = function (player, collect_index) {
+
+			player.body.velocity.x = self.body.velocity.x;
+			player.body.acceleration.x = self.body.acceleration.x;
+
 	};
 
     this.__defineSetter__('lastestData', function (data) {
@@ -68,9 +72,9 @@ define('Box', ['BaseCollectible'], function (BaseCollectible) {
 
   };
 
-  Box.prototype = Object.create(BaseCollectible.prototype);
-  Box.prototype.constructor = Box;
-  Box.prototype.Type = 'Box';
+  Boat.prototype = Object.create(BaseCollectible.prototype);
+  Boat.prototype.constructor = Boat;
+  Boat.prototype.Type = 'Boat';
 
-  return Box;
+  return Boat;
 });
