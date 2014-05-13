@@ -192,32 +192,39 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
     phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
     phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    */
 
     phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
     phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
     phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
     phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
 
+    /*
+    // Mario will fall into the box, rarely, can go out
     phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
     phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
     phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
     phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
 
+    // Box will fall into the ground
     phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
     phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
     phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
     phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
 
+    // Box will fall into the ground
     phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
     phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
     phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
     phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
 
+    // Mario will fall into the box, rarely, can go out
     phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
     phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
     phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
     phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
 
+    // Box will fall into the ground
     phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
     phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
     phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
