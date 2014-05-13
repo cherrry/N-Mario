@@ -205,7 +205,8 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
     scoreboard = new Scoreboard(phaser, player, remote_players);
 
     // Set Music
-    Music.theme('theme');
+    console.log(game.world);
+    Music.theme(game.world.theme);
   });
 
   // define all websocket listener listener here
