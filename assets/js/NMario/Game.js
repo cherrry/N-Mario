@@ -4,6 +4,7 @@ require.config({
     'Component': 'NMario/Component',
     'Collectible': 'NMario/Collectible',
     'Player': 'NMario/Player',
+    'Scoreboard': 'NMario/Scoreboard',
     'Music': 'Music'
   },
   shim: {
@@ -18,11 +19,14 @@ require.config({
     },
     'Player': {
       exports: 'Player'
+    },
+    'Scoreboard': {
+      exports: 'Scoreboard'
     }
   }
 });
 
-define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Music'], function (Phaser, Player, Component, Collectible, Music) {
+define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'Music'], function (Phaser, Player, Component, Collectible, Scoreboard, Music) {
 
   var Game = {};
   var phaser = new Phaser.Game(10, 10, Phaser.CANVAS, 'world', { preload: preload, create: create, update: update, render: render }, false, false);
@@ -51,6 +55,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Music'], functi
   function preload() {
     phaser.load.image('sky', 'assets/sprites/sky.png', 1, 1);
 
+    phaser.load.spritesheet('mario-color', 'assets/sprites/mario-color.png', 16, 16);
     phaser.load.spritesheet('mario', 'assets/sprites/mario.png', 32, 32);
 
     phaser.load.spritesheet('land', 'assets/sprites/land.png', 16, 16);
@@ -120,7 +125,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Music'], functi
         player.broadcast(socket);
       }
 
-      updateScoreboard();
+      scoreboard.update();
     }
 
   }
@@ -137,16 +142,6 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Music'], functi
     }
   }
 
-  function updateScoreboard(){
-    var text = 'name     lives    coins\n';
-    text += player.playerName.text+'  '+(player.lives > 99 ? 'oo' : player.lives)+'        '+player.coins+'\n';
-    for(var key in remote_players){
-      var p = remote_players[key];
-      text += p.playerName.text+'  '+p.lives+'        '+p.coins+'\n';
-    }
-    scoreboard.text= text;
-  }
-
   Game.__defineSetter__('game', function (game) {
     var world = game.world, players_identity = game.players;
 
@@ -154,15 +149,6 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Music'], functi
     phaser.world.removeAll();
     Phaser.Canvas.setSmoothingEnabled(phaser.context, false);
     phaser.add.tileSprite(0, 0, phaser.world.width, phaser.world.height, 'sky');
-
-    // create a scoreboard on the top left hand corner
-    var text_style = {
-      font: (12 * localStorage.scale) + 'px SMB Filled',
-      fill: '#ffffff',
-      align: 'left'
-    };
-    scoreboard = phaser.add.text(16, 16, '', text_style);
-    scoreboard.fixedToCamera = true;
 
     structure_objects = [];
     // structure_objects.enableBody = true;
@@ -215,6 +201,10 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Music'], functi
       }
     }
 
+    // create a scoreboard on the top left hand corner
+    scoreboard = new Scoreboard(phaser, player, remote_players);
+
+    // Set Music
     Music.theme('theme');
   });
 

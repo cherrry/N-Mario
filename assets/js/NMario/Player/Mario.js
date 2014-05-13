@@ -40,7 +40,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
     var self = this;
 
     var socket = null;
-
+    this.playerColor = identity.color;
     var spriteOffset = 26 * identity.color;
     var anim = anim_key.small, state = 'small';
     var keypress = { 'up': false, 'down': false, 'left': false, 'right': false, 'q': false };
