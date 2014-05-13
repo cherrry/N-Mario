@@ -20,6 +20,8 @@ define('BaseCollectible', ['Phaser'], function (Phaser) {
     this.body.collideWorldBounds = true;
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
+    this.body.maxVelocity.y = 300 * localStorage.scale;
+
     this.broadcast = function (socket) {
       socket.emit('collectible data update', this.lastestData);
     };
