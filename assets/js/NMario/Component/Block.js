@@ -11,7 +11,7 @@ require.config({
 
 define('Block', ['Phaser'], function (Phaser) {
   var Block = function(game, objects, x, y, attr) {
-    Phaser.Sprite.call(this, game, x * 16 * localStorage.scale, y * 16 * localStorage.scale, 'block', 1);
+    Phaser.Sprite.call(this, game, x * 16 * localStorage.scale, y * 16 * localStorage.scale, 'brick', 1);
     objects.add(this);
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
