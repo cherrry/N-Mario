@@ -41,7 +41,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
 
     var socket = null;
 
-    var spriteOffset = 24 * identity.color;
+    var spriteOffset = 26 * identity.color;
     var anim = anim_key.small, state = 'small';
     var keypress = { 'up': false, 'down': false, 'left': false, 'right': false, 'q': false };
 
@@ -77,20 +77,20 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
     this.animations.add('small-slide', [5 + spriteOffset], 1, true);
     this.animations.add('small-dead', [6 + spriteOffset], 1, true);
     this.animations.add('small-flag', [7 + spriteOffset], 1, true);
-    this.animations.add('small-yeah', [4 + spriteOffset], 0.5, false);
+    this.animations.add('small-yeah', [8 + spriteOffset], 0.5, false);
 
-    this.animations.add('small2super', [8 + spriteOffset, 9 + spriteOffset, 10 + spriteOffset, 11 + spriteOffset, 12 + spriteOffset, 13 + spriteOffset, 14 + spriteOffset], 6, false);
-    this.animations.add('super2small', [14 + spriteOffset, 13 + spriteOffset, 12 + spriteOffset, 11 + spriteOffset, 10 + spriteOffset, 9 + spriteOffset, 8 + spriteOffset], 6, false);
+    this.animations.add('small2super', [9 + spriteOffset, 10 + spriteOffset, 11 + spriteOffset, 12 + spriteOffset, 13 + spriteOffset, 14 + spriteOffset, 15 + spriteOffset], 6, false);
+    this.animations.add('super2small', [15 + spriteOffset, 14 + spriteOffset, 13 + spriteOffset, 12 + spriteOffset, 11 + spriteOffset, 10 + spriteOffset, 9 + spriteOffset], 6, false);
 
-    this.animations.add('super-stand', [15 + spriteOffset], 1, true);
-    this.animations.add('super-walk', [16 + spriteOffset, 17 + spriteOffset, 16 + spriteOffset, 15 + spriteOffset], 25, true);
-    this.animations.add('super-jump', [18 + spriteOffset], 1, true);
-    this.animations.add('super-turn', [19 + spriteOffset], 1, true);
-    this.animations.add('super-slide', [20 + spriteOffset], 1, true);
-    this.animations.add('super-head', [21 + spriteOffset], 1, true);
-    this.animations.add('super-dead', [22 + spriteOffset], 1, true);
-    this.animations.add('super-flag', [23 + spriteOffset], 1, true);
-    this.animations.add('super-yeah', [20 + spriteOffset], 0.5, false);
+    this.animations.add('super-stand', [16 + spriteOffset], 1, true);
+    this.animations.add('super-walk', [17 + spriteOffset, 18 + spriteOffset, 17 + spriteOffset, 16 + spriteOffset], 25, true);
+    this.animations.add('super-jump', [19 + spriteOffset], 1, true);
+    this.animations.add('super-turn', [20 + spriteOffset], 1, true);
+    this.animations.add('super-slide', [21 + spriteOffset], 1, true);
+    this.animations.add('super-head', [22 + spriteOffset], 1, true);
+    this.animations.add('super-dead', [23 + spriteOffset], 1, true);
+    this.animations.add('super-flag', [24 + spriteOffset], 1, true);
+    this.animations.add('super-yeah', [25 + spriteOffset], 0.5, false);
 
     // set anchor and start animation
     this.anchor.setTo(0.5, 0.5);
