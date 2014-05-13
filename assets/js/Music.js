@@ -28,7 +28,6 @@ define('Music', ['Phaser'], function (Phaser) {
 
   Music.stopTheme = function () {
     if (theme != null) {
-      theme.onMarkerComplete.removeAll();
       theme.stop();
       theme = null;
     }
@@ -36,19 +35,15 @@ define('Music', ['Phaser'], function (Phaser) {
 
   Music.theme = function (_theme) {
     if (theme != null) {
-      theme.onMarkerComplete.removeAll();
       theme.stop();
     }
 
-    theme = phaser.sound.play(_theme);
-    theme.onMarkerComplete.add(function () {
-      theme.restart();
-    });
+    theme = phaser.sound.play(_theme, 1, true);
   };
 
   Music.sound = function (_sound, _callback) {
     sound_playing++;
-    sound = phaser.sound.play(_sound);
+    sound = phaser.sound.play(_sound, 1);
 
     sound.onStop.add(function () {
       sound_playing--;
@@ -65,7 +60,7 @@ define('Music', ['Phaser'], function (Phaser) {
     }
 
     blocking_sound_playing++;
-    blocking_sound = phaser.sound.play(_sound);
+    blocking_sound = phaser.sound.play(_sound, 1);
 
     blocking_sound.onStop.add(function () {
       blocking_sound_playing--;
