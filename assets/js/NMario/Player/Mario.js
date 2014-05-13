@@ -1,6 +1,7 @@
 require.config({
   paths: {
-    'Phaser': '../libs/phaser/phaser.min'
+    'Phaser': '../libs/phaser/phaser.min',
+    'Music': 'Music'
   },
   shim: {
     'Phaser': {
@@ -9,7 +10,7 @@ require.config({
   }
 });
 
-define('Mario', ['Phaser'], function (Phaser) {
+define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
   var anim_key = {
     small: {
       stand: 'small-stand',
@@ -127,6 +128,7 @@ define('Mario', ['Phaser'], function (Phaser) {
         self.body.allowGravity = false;
 
         self.animations.play('small2super');
+        Music.sound('small2super');
       }
     };
 
@@ -142,6 +144,7 @@ define('Mario', ['Phaser'], function (Phaser) {
         self.body.allowGravity = false;
 				
         self.animations.play('super2small');
+        Music.sound('super2small');
 			}
 		};
 
@@ -201,6 +204,7 @@ define('Mario', ['Phaser'], function (Phaser) {
 
         //Change to dying animation
         self.animations.play(anim.dead);
+        Music.blockingSound('dead', null);
       }
     };
 
