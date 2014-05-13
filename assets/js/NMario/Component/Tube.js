@@ -1,6 +1,6 @@
 require.config({
   paths: {
-    'Phaser': '../libs/phaser/phaser'
+    'Phaser': '../libs/phaser/phaser.min'
   },
   shim: {
     'Phaser': {
