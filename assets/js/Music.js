@@ -24,6 +24,9 @@ define('Music', ['Phaser'], function (Phaser) {
     }
 
     theme = phaser.sound.play(_theme);
+    theme.onStop.add(function () {
+      theme.restart();
+    });
   };
 
   Music.sound = function (_sound) {
