@@ -1,6 +1,7 @@
 require.config({
   paths: {
-    'BaseCollectible': 'NMario/Collectible/BaseCollectible'
+    'BaseCollectible': 'NMario/Collectible/BaseCollectible',
+    'Music': 'Music'
   },
   shim: {
     'Phaser': {
@@ -9,7 +10,7 @@ require.config({
   }
 });
 
-define('Coin', ['BaseCollectible'], function (BaseCollectible) {
+define('Coin', ['BaseCollectible', 'Music'], function (BaseCollectible, Music) {
   var Coin = function(game, objects, x, y, attr) {
 
     var self = this;
@@ -30,6 +31,7 @@ define('Coin', ['BaseCollectible'], function (BaseCollectible) {
     this.collected = function (player, collect_index) {
       if (collect_index == 0) {
         player.coins += 1;
+        Music.sound('coin');
         self.kill();
       }
     };

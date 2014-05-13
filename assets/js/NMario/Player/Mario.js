@@ -17,7 +17,9 @@ define('Mario', ['Phaser'], function (Phaser) {
       jump: 'small-jump',
       turn: 'small-turn',
       slide: 'small-slide',
-      dead: 'small-dead'
+      dead: 'small-dead',
+      flag: 'small-flag',
+      yeah: 'small-yeah'
     },
     super: {
       stand: 'super-stand',
@@ -26,7 +28,9 @@ define('Mario', ['Phaser'], function (Phaser) {
       turn: 'super-turn',
       slide: 'super-slide',
       head: 'super-head',
-      dead: 'super-dead'
+      dead: 'super-dead',
+      flag: 'super-flag',
+      yeah: 'super-yeah'
     }
   };
 
@@ -38,7 +42,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     this.playerColor = identity.color;
     var spriteOffset = 24 * identity.color;
     var anim = anim_key.small, state = 'small';
-    var keypress = { 'up': false, 'down': false, 'left': false, 'right': false };
+    var keypress = { 'up': false, 'down': false, 'left': false, 'right': false, 'q': false };
 
     var rebornX = 32 * (identity.color + 1) * localStorage.scale; 
     var rebornY = 16 * localStorage.scale;
@@ -56,6 +60,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     this.coins = identity.coins;
     
     this.body.maxVelocity.x = 133 * localStorage.scale;
+    this.body.maxVelocity.y = 300 * localStorage.scale;
     this.body.gravity.y = 333 * localStorage.scale;
     this.body.collideWorldBounds = true;
     this.checkWorldBounds = true;
@@ -71,6 +76,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     this.animations.add('small-slide', [5 + spriteOffset], 1, true);
     this.animations.add('small-dead', [6 + spriteOffset], 1, true);
     this.animations.add('small-flag', [7 + spriteOffset], 1, true);
+    this.animations.add('small-yeah', [4 + spriteOffset], 0.5, false);
 
     this.animations.add('small2super', [8 + spriteOffset, 9 + spriteOffset, 10 + spriteOffset, 11 + spriteOffset, 12 + spriteOffset, 13 + spriteOffset, 14 + spriteOffset], 6, false);
     this.animations.add('super2small', [14 + spriteOffset, 13 + spriteOffset, 12 + spriteOffset, 11 + spriteOffset, 10 + spriteOffset, 9 + spriteOffset, 8 + spriteOffset], 6, false);
@@ -83,6 +89,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     this.animations.add('super-head', [21 + spriteOffset], 1, true);
     this.animations.add('super-dead', [22 + spriteOffset], 1, true);
     this.animations.add('super-flag', [23 + spriteOffset], 1, true);
+    this.animations.add('super-yeah', [20 + spriteOffset], 0.5, false);
 
     // set anchor and start animation
     this.anchor.setTo(0.5, 0.5);
@@ -138,6 +145,43 @@ define('Mario', ['Phaser'], function (Phaser) {
 			}
 		};
 
+    this.flag = function (position) {
+      if (state != 'flag') {
+        state = 'flag';
+
+        //Set Mario to climb the flag pole
+        self.x = position.x - 10;
+        self.scale.x = localStorage.scale;
+        self.body.velocity.x = 0;
+        self.body.velocity.y = 100 * localStorage.scale;
+        self.body.acceleration.x = 0;
+        self.body.acceleration.y = 0;
+        self.body.allowGravity = false;
+				
+        self.animations.play(anim.flag);
+      }
+    };
+
+    this.yeah = function () {
+      if (state != 'yeah') {
+        state = 'yeah';
+
+        console.log('yeah!');
+
+        // Set Mario move a step right
+        self.x += 48;
+
+        // Stop moving
+        self.body.velocity.x = 0;
+        self.body.velocity.y = 0;
+        self.body.acceleration.x = 0;
+        self.body.acceleration.y = 0;
+        self.body.allowGravity = false;
+				
+        self.animations.play(anim.yeah);
+      }
+    };
+
     this.die = function () {
       if (state != 'dead'){
         state = 'dead';
@@ -159,6 +203,7 @@ define('Mario', ['Phaser'], function (Phaser) {
         self.animations.play(anim.dead);
       }
     };
+
     self.events.onOutOfBounds.add(function () {
       if (state != 'game over'){
         self.reborn();
@@ -174,6 +219,9 @@ define('Mario', ['Phaser'], function (Phaser) {
         case 'super2small':
           state = 'small';
           self.body.allowGravity = true;
+          break;
+        case 'yeah':
+          self.send('end game');
           break;
       }
     }, self);
@@ -233,7 +281,7 @@ define('Mario', ['Phaser'], function (Phaser) {
         self.playerName.y = self.body.y - 24;
       }
 
-      //If still alive, update controls
+      //If still alive, update movements
       if (['small', 'super'].indexOf(state) >= 0) {
         if (self.getKeyState('left')) {
           // move to left
@@ -319,6 +367,18 @@ define('Mario', ['Phaser'], function (Phaser) {
           } else {
             self.body.velocity.y = -220 * localStorage.scale;
           }
+        }
+
+        //Suicide
+        if (self.getKeyState('q')) {
+          self.send('player die');
+        }
+      }
+
+      //If climbing flag pole, change to 'yeah' when touching ground
+      if (state == 'flag') {
+        if (self.body.touching.down) {
+          self.send('player yeah');
         }
       }
 

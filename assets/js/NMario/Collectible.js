@@ -2,6 +2,7 @@ require.config({
   paths: {
     'Mushroom': 'NMario/Collectible/Mushroom',
     'Coin': 'NMario/Collectible/Coin',
+    'Flag': 'NMario/Collectible/Flag',
     'Flagpole': 'NMario/Collectible/Flagpole',
     'PowerUp': 'NMario/Collectible/PowerUp',
     'Brick': 'NMario/Collectible/Brick',
@@ -27,11 +28,12 @@ require.config({
   }
 });
 
-define('Collectible', ['Mushroom', 'Coin', 'Flagpole', 'PowerUp', 'Brick', 'Box', 'Water', 'Boat','LifeUp','LifeDown'], function (Mushroom, Coin, Flagpole, PowerUp, Brick, Box, Water, Boat, LifeUp, LifeDown) {
+define('Collectible', ['Mushroom', 'Coin', 'Flag', 'Flagpole', 'PowerUp', 'Brick', 'Box', 'Water', 'Boat','LifeUp','LifeDown'], function (Mushroom, Coin, Flag, Flagpole, PowerUp, Brick, Box, Water, Boat, LifeUp, LifeDown) {
   var Collectible = {};
 
   Collectible.Mushroom = Mushroom;
   Collectible.Coin = Coin;
+  Collectible.Flag = Flag;
   Collectible.Flagpole = Flagpole;
   Collectible.PowerUp = PowerUp;
   Collectible.Brick = Brick;
