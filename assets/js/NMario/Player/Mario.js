@@ -35,7 +35,7 @@ define('Mario', ['Phaser'], function (Phaser) {
     var self = this;
 
     var socket = null;
-
+    this.playerColor = identity.color;
     var spriteOffset = 24 * identity.color;
     var anim = anim_key.small, state = 'small';
     var keypress = { 'up': false, 'down': false, 'left': false, 'right': false };
