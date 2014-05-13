@@ -227,6 +227,11 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
         just_change = true;
       }
 
+      //Suicide, the 'player die' event will broadcast instead
+      if (player.getKeyState('q') != keyboard.isDown(Phaser.Keyboard.Q)) {
+        player.setKeyState('q', keyboard.isDown(Phaser.Keyboard.Q));
+      }
+
       if (just_change) {
         player.broadcast(socket);
       }

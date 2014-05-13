@@ -38,7 +38,7 @@ define('Mario', ['Phaser'], function (Phaser) {
 
     var spriteOffset = 24 * identity.color;
     var anim = anim_key.small, state = 'small';
-    var keypress = { 'up': false, 'down': false, 'left': false, 'right': false };
+    var keypress = { 'up': false, 'down': false, 'left': false, 'right': false, 'q': false };
 
     var rebornX = 32 * (identity.color + 1) * localStorage.scale; 
     var rebornY = 16 * localStorage.scale;
@@ -319,6 +319,11 @@ define('Mario', ['Phaser'], function (Phaser) {
           } else {
             self.body.velocity.y = -220 * localStorage.scale;
           }
+        }
+
+        //Suicide
+        if (self.getKeyState('q')) {
+          self.send('player die');
         }
       }
 
