@@ -1,6 +1,6 @@
 require.config({
   paths: {
-    'Phaser': '../libs/phaser/phaser.min',
+    'Phaser': '../libs/phaser/phaser',
     'Component': 'NMario/Component',
     'Collectible': 'NMario/Collectible',
     'Player': 'NMario/Player'
@@ -69,6 +69,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
 
   function create() {
     phaser.physics.startSystem(Phaser.Physics.ARCADE);
+    // console.log(phaser.physics);
     keyboard = phaser.input.keyboard;
   }
 
@@ -82,13 +83,130 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
   }
 
   function update() {
-		// Collision detection
-    phaser.physics.arcade.collide(collide_objects, structure_objects, collision_handler);
+    // Collision detection
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+
+    /*
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+
     phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
     phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
-    phaser.physics.arcade.collide(overlap_objects, structure_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
 
-		// Self player control
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+
+    phaser.physics.arcade.overlap(collide_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, overlap_objects, collision_handler);
+    phaser.physics.arcade.collide(structure_objects, collide_objects, collision_handler);
+    phaser.physics.arcade.collide(collide_objects, collide_objects, collision_handler);
+    */
+
+    // Self player control
     if (player != null) {
       var just_change = false;
 
@@ -172,6 +290,8 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
     for (var i = 0; i < world.solids.length; i++) {
       var solid = world.solids[i];
       var component = new Component[solid.type](phaser, structure_objects, solid.x, solid.y, solid.attr);
+
+      console.log(component);
     }
 
     for (var i = 0; i < world.collectibles.length; i++) {
@@ -182,10 +302,10 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
       } else {
         ref_collectibles[collectible.attr.id] = new Collectible[collectible.type](phaser, overlap_objects, collectible.x, collectible.y, collectible.attr);
       }
-			// console.log(collectible);
-			if (collectible.type == 'Coin') {
-				debug_object = ref_collectibles[collectible.attr.id];
-			}
+      // console.log(collectible);
+      if (collectible.type == 'Coin') {
+        debug_object = ref_collectibles[collectible.attr.id];
+      }
     }
 
     for (var i = 0; i < 4; i++) {

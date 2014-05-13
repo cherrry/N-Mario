@@ -1,6 +1,5 @@
 require.config({
   paths: {
-    'Phaser': '../libs/phaser/phaser.min',
     'BaseCollectible': 'NMario/Collectible/BaseCollectible'
   },
   shim: {

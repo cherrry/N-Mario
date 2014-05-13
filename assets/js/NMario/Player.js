@@ -1,6 +1,5 @@
 require.config({
   paths: {
-    'Phaser': '../libs/phaser/phaser.min',
     'ControllableMario': 'NMario/Player/ControllableMario',
     'RemoteMario': 'NMario/Player/RemoteMario'
   },

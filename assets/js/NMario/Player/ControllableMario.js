@@ -1,6 +1,6 @@
 require.config({
   paths: {
-    'Phaser': '../libs/phaser/phaser.min',
+    'Phaser': '../libs/phaser/phaser',
     'Mario': 'NMario/Player/Mario'
   },
   shim: {
