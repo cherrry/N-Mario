@@ -22,17 +22,9 @@ define('Flagpole', ['BaseCollectible'], function (BaseCollectible) {
 
     this.body.allowGravity = false;
 
-    this.body.setSize(4, 111, 22 * localStorage.scale, 17 * localStorage.scale);
+    //this.body.setSize(4, 111, 22 * localStorage.scale, 17 * localStorage.scale);
 
     this.broadcast = function (socket) {};
-
-    this.collected = function (player, collect_index) {
-      if (player.Type == 'ControllableMario' && collect_index == 0 && can_collect) {
-        console.log('flagpole', collect_index);
-        player.send('end game', {});
-      }
-      can_collect = false;
-    };
   };
 
   Flagpole.prototype = Object.create(BaseCollectible.prototype);
