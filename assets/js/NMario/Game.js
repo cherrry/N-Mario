@@ -3,7 +3,8 @@ require.config({
     'Phaser': '../libs/phaser/phaser.min',
     'Component': 'NMario/Component',
     'Collectible': 'NMario/Collectible',
-    'Player': 'NMario/Player'
+    'Player': 'NMario/Player',
+    'Music': 'Music'
   },
   shim: {
     'Phaser': {
@@ -21,7 +22,7 @@ require.config({
   }
 });
 
-define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phaser, Player, Component, Collectible) {
+define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Music'], function (Phaser, Player, Component, Collectible, Music) {
 
   var Game = {};
   var phaser = new Phaser.Game(10, 10, Phaser.CANVAS, 'world', { preload: preload, create: create, update: update, render: render }, false, false);
@@ -357,6 +358,8 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible'], function (Phase
         }
       }
     }
+
+    Music.theme('theme');
   });
 
   // define all websocket listener listener here
