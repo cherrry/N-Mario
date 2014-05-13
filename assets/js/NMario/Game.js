@@ -307,6 +307,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Music'], functi
     });
 
     socket.on('go back to game room', function (data) {
+      Music.stopTheme();
       $('#content_index').hide();
       $('#content_room').show();
       $('#content_room #im_ready').prop('checked', false);
