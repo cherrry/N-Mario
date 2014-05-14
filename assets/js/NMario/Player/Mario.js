@@ -407,7 +407,10 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
             position: { x: self.body.x / localStorage.scale, y: self.body.y / localStorage.scale },
             velocity: { x: self.body.velocity.x / localStorage.scale, y: self.body.velocity.y / localStorage.scale },
             acceleration: { x: self.body.acceleration.x / localStorage.scale, y: self.body.acceleration.y / localStorage.scale }
-          }
+          },
+          lives: self.lives,
+          coins: self.coins,
+          state: self.state
         });
       }
     };

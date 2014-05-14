@@ -244,6 +244,8 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
       if (player != null && data.id in remote_players) {
         var remote_player = remote_players[data.id];
         remote_player.lastestData = data;
+        remote_player.lives = data.lives;
+        remote_player.coins = data.coins;
       }
     });
 
