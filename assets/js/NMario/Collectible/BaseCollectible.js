@@ -10,6 +10,7 @@ require.config({
 });
 
 define('BaseCollectible', ['Phaser'], function (Phaser) {
+
   var BaseCollectible = function (game, objects, x, y, attr, sprite) {
 
     var self = this;
@@ -39,6 +40,11 @@ define('BaseCollectible', ['Phaser'], function (Phaser) {
     };
 
   };
+
+  BaseCollectible.collide_objects = null;
+  BaseCollectible.overlap_objects = null;
+  BaseCollectible.ref_collectibles = {};
+  BaseCollectible.structure_objects = [];
 
   BaseCollectible.prototype = Object.create(Phaser.Sprite.prototype);
   BaseCollectible.prototype.constructor = BaseCollectible;

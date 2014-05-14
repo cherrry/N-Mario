@@ -1,6 +1,7 @@
 require.config({
   paths: {
-    'BaseCollectible': 'NMario/Collectible/BaseCollectible'
+    'BaseCollectible': 'NMario/Collectible/BaseCollectible',
+    'PowerUp': 'NMario/Collectible/PowerUp'
   },
   shim: {
     'Phaser': {
@@ -9,11 +10,12 @@ require.config({
   }
 });
 
-define('Brick', ['BaseCollectible'], function (BaseCollectible) {
+define('Brick', ['BaseCollectible', 'PowerUp'], function (BaseCollectible, PowerUp) {
   var Brick = function(game, objects, x, y, attr) {
     var self = this;
 
     BaseCollectible.call(this, game, objects, x, y, attr, 'brick');
+    BaseCollectible.structure_objects.push(this);
 
     this.animations.add('ques', [4, 5, 6, 7], 10, true);
     this.animations.add('empty', [8], 1, true);
@@ -52,18 +54,19 @@ define('Brick', ['BaseCollectible'], function (BaseCollectible) {
         return;
       }
       var itemRelease = attr.item[collect_index];
-      console.log(itemRelease);
       switch (itemRelease) {
         case 'Power-Up':
-          console.log('create power up');
+          var powerup_id = 'powerup_from_' + attr.id + '_' + collect_index;
+          BaseCollectible.ref_collectibles[powerup_id] = new PowerUp(game, BaseCollectible.overlap_objects, x, y - 1, { id: powerup_id, type: 'grow' });
           break;
         case 'Coin':
-          console.log('create coin');
+          console.log('create coin', BaseCollectible.overlap_objects);
           break;
       }
     };
 
   };
+
   Brick.prototype = Object.create(BaseCollectible.prototype);
   Brick.prototype.constructor = Brick;
   Brick.prototype.Type = 'Brick';
