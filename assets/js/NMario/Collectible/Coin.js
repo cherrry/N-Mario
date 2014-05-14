@@ -30,7 +30,8 @@ define('Coin', ['BaseCollectible', 'Music'], function (BaseCollectible, Music) {
 
     this.collected = function (player, collect_index) {
       if (collect_index == 0) {
-        //player.coins += 1;
+        if(player.id == sessionStorage.id)
+          player.coins += 1;
         Music.sound('coin', null);
         self.kill();
       }
