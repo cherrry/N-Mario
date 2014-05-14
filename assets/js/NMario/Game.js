@@ -217,7 +217,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
     socket.on('game init', function (data) {
       // console.log(data);
       Game.game = data;
-      socket.emit('stage ready');
+      socket.emit('stage ready', { player: sessionStorage.id });
       // Game.world = data.world;
       // Game.players = data.players;
     });
