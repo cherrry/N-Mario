@@ -43,7 +43,7 @@ define(['jquery', 'semantic-ui', 'socket.io', 'N-Mario'], function ($, _, io, NM
 
     // player name
     localStorage.name = localStorage.name || 'Player';
-    localStorage.scale = localStorage.scale || 2;
+    localStorage.scale = 2;
     $('#player_name')
       .html(localStorage.name)
       .popup({

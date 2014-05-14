@@ -1,6 +1,7 @@
 require.config({
   paths: {
-    'BaseCollectible': 'NMario/Collectible/BaseCollectible'
+    'BaseCollectible': 'NMario/Collectible/BaseCollectible',
+    'Music': 'Music'
   },
   shim: {
     'Phaser': {
@@ -9,7 +10,7 @@ require.config({
   }
 });
 
-define('PowerUp', ['BaseCollectible'], function (BaseCollectible) {
+define('PowerUp', ['BaseCollectible', 'Music'], function (BaseCollectible, Music) {
   var type2color = {
     grow: 1
   };
@@ -32,6 +33,8 @@ define('PowerUp', ['BaseCollectible'], function (BaseCollectible) {
     this.body.setSize(16, 16, 0, 0);
 
     var lastestPhysics = null;
+
+    Music.sound('powerup');
 
     this.update = function () {
 
