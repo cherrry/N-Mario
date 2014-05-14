@@ -46,7 +46,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
     var keypress = { 'up': false, 'down': false, 'left': false, 'right': false, 'q': false };
 
     var rebornX = 32 * (identity.color + 1) * localStorage.scale; 
-    var rebornY = 16 * localStorage.scale;
+    var rebornY = 64 * localStorage.scale;
     Phaser.Sprite.call(this, game, rebornX, rebornY, 'mario', 0 + spriteOffset);
     objects.add(this);    
 
@@ -236,7 +236,6 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
 
       //If there is life remains, reset the state and physics, go back to last reborn point
       if (state != 'game over'){
-        state = 'small';
         self.x = rebornX;
         self.y = rebornY;
         self.scale.x = localStorage.scale;
@@ -249,6 +248,9 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
         self.body.checkCollision.left = true;
         self.body.checkCollision.right = true;
         self.body.collideWorldBounds = true;
+        self.animations.play('small-jump');
+        setTimeout(function () { state = 'small'; }, 100);
+        //state = 'small';
       } 
     };
 
