@@ -190,7 +190,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
     };
 
     this.die = function () {
-      if (state != 'dead'){
+      if (state == 'small' || state == 'super'){
         state = 'dead';
 
         //Set body to bounce upword
