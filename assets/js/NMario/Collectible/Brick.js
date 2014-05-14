@@ -1,7 +1,8 @@
 require.config({
   paths: {
     'BaseCollectible': 'NMario/Collectible/BaseCollectible',
-    'PowerUp': 'NMario/Collectible/PowerUp'
+    'PowerUp': 'NMario/Collectible/PowerUp',
+    'BouncingCoin': 'NMario/Collectible/BouncingCoin'
   },
   shim: {
     'Phaser': {
@@ -10,7 +11,7 @@ require.config({
   }
 });
 
-define('Brick', ['BaseCollectible', 'PowerUp'], function (BaseCollectible, PowerUp) {
+define('Brick', ['BaseCollectible', 'PowerUp', 'BouncingCoin'], function (BaseCollectible, PowerUp, BouncingCoin) {
   var Brick = function(game, objects, x, y, attr) {
     var self = this;
 
@@ -60,7 +61,9 @@ define('Brick', ['BaseCollectible', 'PowerUp'], function (BaseCollectible, Power
           BaseCollectible.ref_collectibles[powerup_id] = new PowerUp(game, BaseCollectible.overlap_objects, x, y - 1, { id: powerup_id, type: 'grow' });
           break;
         case 'Coin':
-          console.log('create coin', BaseCollectible.overlap_objects);
+          var coin_id = 'coin_from_' + attr.id + '_' + collect_index;
+          player.coins += 1;
+          BaseCollectible.ref_collectibles[coin_id] = new BouncingCoin(game, BaseCollectible.overlap_objects, x, y - 1, { id: coin_id });
           break;
       }
     };
