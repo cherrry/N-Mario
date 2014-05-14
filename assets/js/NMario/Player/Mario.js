@@ -59,6 +59,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
     this.playerName.anchor.setTo(0.5, 0.5);
     this.lives = identity.lives;
     this.coins = identity.coins;
+    this.id = identity.id;
     
     this.body.maxVelocity.x = 133 * localStorage.scale;
     this.body.maxVelocity.y = 300 * localStorage.scale;
@@ -225,7 +226,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
           self.body.allowGravity = true;
           break;
         case 'yeah':
-          self.send('end game');
+          self.send('end game', { player: sessionStorage.id });
           break;
       }
     }, self);
@@ -235,7 +236,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
       self.lives -= 1;
       if (self.lives <= 0) {
         state = 'game over';
-        self.send('player game over');
+        self.send('player game over', { player: sessionStorage.id });
       }
 
       //If there is life remains, reset the state and physics, go back to last reborn point
@@ -253,7 +254,6 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
         self.body.checkCollision.left = true;
         self.body.checkCollision.right = true;
         self.body.collideWorldBounds = true;
-
       } 
     };
 
@@ -263,10 +263,10 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
       //Othwise, kill the player.
       switch (state) {
         case 'small':
-          self.send('player die');
+          self.send('player die', { player: sessionStorage.id });
           break;
         case 'super':
-          self.send('player shrink');
+          self.send('player shrink', { player: sessionStorage.id });
           break;
       }
     };
@@ -375,14 +375,14 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
 
         //Suicide
         if (self.getKeyState('q')) {
-          self.send('player die');
+          self.send('player die', { player: sessionStorage.id });
         }
       }
 
       //If climbing flag pole, change to 'yeah' when touching ground
       if (state == 'flag') {
         if (self.body.touching.down) {
-          self.send('player yeah');
+          self.send('player yeah', { player: sessionStorage.id });
         }
       }
 
