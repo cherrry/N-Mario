@@ -1,6 +1,7 @@
 require.config({
   paths: {
-    'BaseCollectible': 'NMario/Collectible/BaseCollectible'
+    'BaseCollectible': 'NMario/Collectible/BaseCollectible',
+    'Music': 'Music'
   },
   shim: {
     'Phaser': {
@@ -9,7 +10,7 @@ require.config({
   }
 });
 
-define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
+define('Mushroom', ['BaseCollectible', 'Music'], function (BaseCollectible, Music) {
   var Mushroom = function(game, objects, x, y, attr) {
 
     var self = this;
@@ -74,6 +75,7 @@ define('Mushroom', ['BaseCollectible'], function (BaseCollectible) {
 
 			//Change to dying animation
 			self.animations.play('dead');
+      Music.sound('stomp');
 
 			//Kill object after animation
 			self.events.onAnimationComplete.add(function(){

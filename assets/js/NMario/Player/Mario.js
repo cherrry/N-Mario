@@ -361,6 +361,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
 
         if (self.getKeyState('up') && self.body.touching.down) {
 
+          Music.sound('jump', null, 0.2);
           if (self.getKeyState('left') || self.getKeyState('right')) {
             self.body.velocity.y = -200 * localStorage.scale;
           } else {

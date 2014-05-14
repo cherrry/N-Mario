@@ -15,6 +15,10 @@ define('Music', ['Phaser'], function (Phaser) {
     phaser.load.audio('coin', ['assets/music/coin.mp3', 'assets/music/coin.ogg']);
     phaser.load.audio('dead', ['assets/music/dead.mp3', 'assets/music/dead.ogg']);
 
+    phaser.load.audio('jump', ['assets/music/jump.mp3', 'assets/music/jump.ogg']);
+    phaser.load.audio('stomp', ['assets/music/stomp.mp3', 'assets/music/stomp.ogg']);
+    phaser.load.audio('bump', ['assets/music/bump.mp3', 'assets/music/bump.ogg']);
+
     phaser.load.audio('powerup', ['assets/music/powerup.mp3', 'assets/music/powerup.ogg']);
     phaser.load.audio('small2super', ['assets/music/small2super.mp3', 'assets/music/small2super.ogg']);
     phaser.load.audio('super2small', ['assets/music/super2small.mp3', 'assets/music/super2small.ogg']);
@@ -46,9 +50,9 @@ define('Music', ['Phaser'], function (Phaser) {
     theme = phaser.sound.play(_theme, 1, true);
   };
 
-  Music.sound = function (_sound, _callback) {
+  Music.sound = function (_sound, _callback, _volume) {
     sound_playing++;
-    sound = phaser.sound.play(_sound, 1);
+    sound = phaser.sound.play(_sound, _volume || 1);
 
     sound.onStop.add(function () {
       sound_playing--;
@@ -59,13 +63,13 @@ define('Music', ['Phaser'], function (Phaser) {
     }
   };
 
-  Music.blockingSound = function (_sound, _callback) {
+  Music.blockingSound = function (_sound, _callback, _volume) {
     if (theme != null) {
       theme.pause();
     }
 
     blocking_sound_playing++;
-    blocking_sound = phaser.sound.play(_sound, 1);
+    blocking_sound = phaser.sound.play(_sound, _volume || 1);
 
     blocking_sound.onStop.add(function () {
       blocking_sound_playing--;

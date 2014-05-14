@@ -1,6 +1,7 @@
 require.config({
   paths: {
     'BaseCollectible': 'NMario/Collectible/BaseCollectible',
+    'Music': 'Music',
     'PowerUp': 'NMario/Collectible/PowerUp',
     'BouncingCoin': 'NMario/Collectible/BouncingCoin'
   },
@@ -11,7 +12,7 @@ require.config({
   }
 });
 
-define('Brick', ['BaseCollectible', 'PowerUp', 'BouncingCoin'], function (BaseCollectible, PowerUp, BouncingCoin) {
+define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin'], function (BaseCollectible, Music, PowerUp, BouncingCoin) {
   var Brick = function(game, objects, x, y, attr) {
     var self = this;
 
@@ -52,6 +53,7 @@ define('Brick', ['BaseCollectible', 'PowerUp', 'BouncingCoin'], function (BaseCo
         self.animations.play("empty");
       }
       if (collect_index >= attr.item.length) {
+        Music.sound('bump');
         return;
       }
       var itemRelease = attr.item[collect_index];
@@ -64,6 +66,9 @@ define('Brick', ['BaseCollectible', 'PowerUp', 'BouncingCoin'], function (BaseCo
           var coin_id = 'coin_from_' + attr.id + '_' + collect_index;
           player.coins += 1;
           BaseCollectible.ref_collectibles[coin_id] = new BouncingCoin(game, BaseCollectible.overlap_objects, x, y - 1, { id: coin_id });
+          break;
+        default:
+          Music.sound('bump');
           break;
       }
     };
