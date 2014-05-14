@@ -19,21 +19,21 @@ define('Scoreboard', ['Phaser'], function (Phaser) {
     };
     this.playerName = game.add.text(5 * localStorage.scale, (18*i+5) * localStorage.scale, player.playerName.text, text_style);
     this.playerName.fixedToCamera = true;
-    var life = game.add.sprite(16*8 * localStorage.scale, (18*i+2) * localStorage.scale, 'mario-color');
+    var life = game.add.sprite(16*5 * localStorage.scale, (18*i+2) * localStorage.scale, 'mario-color');
     game.physics.arcade.enable(life);
-    life.animations.add('mario-life', [(player.playerColor+1)%9], 20, true);
-    life.animations.play('mario-life');
     life.scale.setTo(localStorage.scale, localStorage.scale);
     life.fixedToCamera = true;
-    this.lives = game.add.text(16*9 * localStorage.scale, (18*i+5) * localStorage.scale, '', text_style);
+    console.log(player.color);
+    life.animations.add('walking', [10+player.playerColor, 19+player.playerColor], 2, true);
+    life.animations.play('walking');
+    this.lives = game.add.text(16*6 * localStorage.scale, (18*i+5) * localStorage.scale, '', text_style);
     this.lives.fixedToCamera = true;
-    var coin = game.add.sprite(16*11 * localStorage.scale, (18*i+2) * localStorage.scale, 'coin');
+    var coin = game.add.sprite(16*8 * localStorage.scale, (18*i+2) * localStorage.scale, 'coin');
     game.physics.arcade.enable(coin);
-    coin.animations.add('flipping', [0, 1, 2, 3], 5, true);
-    coin.animations.play('flipping');
+    coin.frame = 0;
     coin.scale.setTo(localStorage.scale, localStorage.scale);
     coin.fixedToCamera = true;
-    this.coins = game.add.text(16*12 * localStorage.scale, (18*(i)+5) * localStorage.scale, '', text_style);
+    this.coins = game.add.text(16*9 * localStorage.scale, (18*(i)+5) * localStorage.scale, '', text_style);
     this.coins.fixedToCamera = true;
 
   }
