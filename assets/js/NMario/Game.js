@@ -188,10 +188,12 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
       }
     }
 
+    var k = 0;
     for (var i = 0; i < 4; i++) {
       var identity = players_identity[i];
 
       if (identity != null) {
+        identity.position = k++;
         if (identity.id == sessionStorage.id) {
           if (identity.isOwner) {
             isOwner = true;
