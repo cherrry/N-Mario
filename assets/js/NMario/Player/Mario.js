@@ -46,7 +46,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
     var keypress = { 'up': false, 'down': false, 'left': false, 'right': false, 'q': false };
 
     var rebornX = 32 * (identity.color + 1) * localStorage.scale; 
-    var rebornY = 16 * localStorage.scale;
+    var rebornY = 64 * localStorage.scale;
     Phaser.Sprite.call(this, game, rebornX, rebornY, 'mario', 0 + spriteOffset);
     objects.add(this);    
 
@@ -60,6 +60,9 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
     this.lives = identity.lives;
     this.coins = identity.coins;
     this.id = identity.id;
+    this.state2 = identity.state2;
+    if (this.state2 == 'super')
+      state = 'super';
     
     this.body.maxVelocity.x = 133 * localStorage.scale;
     this.body.maxVelocity.y = 300 * localStorage.scale;
@@ -101,12 +104,14 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
       self.body.setSize(14, 16, 0 * localStorage.scale, 8 * localStorage.scale);
       anim = anim_key.small;
       state = 'small';
+      this.state2 = 'small';
     }
 
     function superMario() {
       self.body.setSize(14, 27, 0 * localStorage.scale, 2 * localStorage.scale);
       anim = anim_key.super;
       state = 'super';
+      this.state2 = 'super';
     }
 
     this.setKeyState = function (key, state) {
@@ -185,7 +190,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
     };
 
     this.die = function () {
-      if (state != 'dead'){
+      if (state == 'small' || state == 'super'){
         state = 'dead';
 
         //Set body to bounce upword
@@ -217,10 +222,12 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
       switch (state){
         case 'small2super':
           state = 'super';
+          this.state2 = 'super';
           self.body.allowGravity = true;
           break;
         case 'super2small':
           state = 'small';
+          this.state2 = 'small';
           self.body.allowGravity = true;
           break;
       }
@@ -236,7 +243,6 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
 
       //If there is life remains, reset the state and physics, go back to last reborn point
       if (state != 'game over'){
-        state = 'small';
         self.x = rebornX;
         self.y = rebornY;
         self.scale.x = localStorage.scale;
@@ -249,6 +255,9 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
         self.body.checkCollision.left = true;
         self.body.checkCollision.right = true;
         self.body.collideWorldBounds = true;
+        self.animations.play('small-jump');
+        setTimeout(function () { state = 'small'; }, 100);
+        //state = 'small';
       } 
     };
 
@@ -411,7 +420,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
           },
           lives: self.lives,
           coins: self.coins,
-          state: self.state
+          state2: self.state2
         });
       }
     };
