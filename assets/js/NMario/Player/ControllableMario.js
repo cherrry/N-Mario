@@ -66,14 +66,6 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
         }
       }
     };
-
-    self.events.onAnimationComplete.add(function () {
-      switch (this.state){
-        case 'yeah':
-          self.send('end game', { player: sessionStorage.id });
-          break;
-      }
-    }, self);
   };
 
   ControllableMario.prototype = Object.create(Mario.prototype);
