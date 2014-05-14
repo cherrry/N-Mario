@@ -61,13 +61,19 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
             self.send('player collect object', { id: target.id });
             break;
           case 'Water':
-            if (target.body.touching.up == true) {
-              this.hit();
-            }
+            this.hit();
             break;
         }
       }
     };
+
+    self.events.onAnimationComplete.add(function () {
+      switch (this.state){
+        case 'yeah':
+          self.send('end game', { player: sessionStorage.id });
+          break;
+      }
+    }, self);
   };
 
   ControllableMario.prototype = Object.create(Mario.prototype);

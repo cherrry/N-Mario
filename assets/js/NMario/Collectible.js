@@ -1,7 +1,9 @@
 require.config({
   paths: {
+    'BaseCollectible': 'NMario/Collectible/BaseCollectible',
     'Mushroom': 'NMario/Collectible/Mushroom',
     'Coin': 'NMario/Collectible/Coin',
+    'BouncingCoin': 'NMario/Collectible/BouncingCoin',
     'Flag': 'NMario/Collectible/Flag',
     'Flagpole': 'NMario/Collectible/Flagpole',
     'PowerUp': 'NMario/Collectible/PowerUp',
@@ -28,11 +30,12 @@ require.config({
   }
 });
 
-define('Collectible', ['Mushroom', 'Coin', 'Flag', 'Flagpole', 'PowerUp', 'Brick', 'Box', 'Water', 'Boat','LifeUp','LifeDown'], function (Mushroom, Coin, Flag, Flagpole, PowerUp, Brick, Box, Water, Boat, LifeUp, LifeDown) {
+define('Collectible', ['BaseCollectible', 'Mushroom', 'Coin', 'BouncingCoin', 'Flag', 'Flagpole', 'PowerUp', 'Brick', 'Box', 'Water', 'Boat','LifeUp','LifeDown'], function (BaseCollectible, Mushroom, Coin, BouncingCoin, Flag, Flagpole, PowerUp, Brick, Box, Water, Boat, LifeUp, LifeDown) {
   var Collectible = {};
 
   Collectible.Mushroom = Mushroom;
   Collectible.Coin = Coin;
+  Collectible.BouncingCoin = BouncingCoin;
   Collectible.Flag = Flag;
   Collectible.Flagpole = Flagpole;
   Collectible.PowerUp = PowerUp;
@@ -42,6 +45,19 @@ define('Collectible', ['Mushroom', 'Coin', 'Flag', 'Flagpole', 'PowerUp', 'Brick
   Collectible.Boat = Boat;
   Collectible.LifeUp = LifeUp;
   Collectible.LifeDown = LifeDown;
+
+  Collectible.__defineSetter__('collide_objects', function (value) {
+    BaseCollectible.collide_objects = value;
+  });
+  Collectible.__defineSetter__('overlap_objects', function (value) {
+    BaseCollectible.overlap_objects = value;
+  });
+  Collectible.__defineSetter__('ref_collectibles', function (value) {
+    BaseCollectible.ref_collectibles = value;
+  });
+  Collectible.__defineSetter__('structure_objects', function (value) {
+    BaseCollectible.structure_objects = value;
+  });
 
   return Collectible;
 });
