@@ -60,6 +60,9 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
     this.lives = identity.lives;
     this.coins = identity.coins;
     this.id = identity.id;
+    this.state2 = identity.state2;
+    if (this.state2 == 'super')
+      state = 'super';
     
     this.body.maxVelocity.x = 133 * localStorage.scale;
     this.body.maxVelocity.y = 300 * localStorage.scale;
@@ -101,12 +104,14 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
       self.body.setSize(14, 16, 0 * localStorage.scale, 8 * localStorage.scale);
       anim = anim_key.small;
       state = 'small';
+      this.state2 = 'small';
     }
 
     function superMario() {
       self.body.setSize(14, 27, 0 * localStorage.scale, 2 * localStorage.scale);
       anim = anim_key.super;
       state = 'super';
+      this.state2 = 'super';
     }
 
     this.setKeyState = function (key, state) {
@@ -217,10 +222,12 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
       switch (state){
         case 'small2super':
           state = 'super';
+          this.state2 = 'super';
           self.body.allowGravity = true;
           break;
         case 'super2small':
           state = 'small';
+          this.state2 = 'small';
           self.body.allowGravity = true;
           break;
       }
@@ -410,7 +417,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
           },
           lives: self.lives,
           coins: self.coins,
-          state: self.state
+          state2: self.state2
         });
       }
     };
