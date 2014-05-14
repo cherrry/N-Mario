@@ -58,8 +58,6 @@ define('Flag', ['BaseCollectible', 'Music'], function (BaseCollectible, Music) {
 
         Music.stopTheme();
         Music.blockingSound(attr.music);
-
-        player.prepare_win();
       }
     };
   };
