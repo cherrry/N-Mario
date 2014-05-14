@@ -175,9 +175,6 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
       if (state != 'yeah') {
         state = 'yeah';
 
-        // Set Mario move a step right
-        self.x += 48;
-
         // Stop moving
         self.body.velocity.x = 0;
         self.body.velocity.y = 0;
@@ -187,6 +184,10 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
 				
         self.animations.play(anim.yeah);
       }
+    };
+
+    this.prepare_win = function () {
+      state = 'prepare';
     };
 
     this.die = function () {
@@ -385,6 +386,8 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
       //If climbing flag pole, change to 'yeah' when touching ground
       if (state == 'flag') {
         if (self.body.touching.down) {
+          // Set Mario move a step right
+          self.x += 48;
           self.send('player yeah', { player: sessionStorage.id });
         }
       }

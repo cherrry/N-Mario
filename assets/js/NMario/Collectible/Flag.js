@@ -43,8 +43,23 @@ define('Flag', ['BaseCollectible', 'Music'], function (BaseCollectible, Music) {
           player.send('end game', { player: sessionStorage.id });
         });
         
-        //player.send('end game', {});
         can_collect = false;
+      }
+    };
+
+    this.fall = function (player, collect_index) {
+      //If the flag is collected by another player, still drop the flag and change theme
+      if (can_collect) {
+        // Set flag falling
+        this.body.setSize(4, 15, 22 * localStorage.scale, 20 * localStorage.scale);
+        this.body.immovable = false;
+        this.body.maxVelocity.y = 100 * localStorage.scale;
+        this.body.velocity.y = 100 * localStorage.scale;
+
+        Music.stopTheme();
+        Music.blockingSound(attr.music);
+
+        player.prepare_win();
       }
     };
   };

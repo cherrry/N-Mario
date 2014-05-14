@@ -267,6 +267,15 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
       }
     });
 
+    socket.on('player collect flag', function (data) {
+      if (data.player != sessionStorage.id) {
+        ref_collectibles[data.collectible].fall(remote_players[data.player], data.collect_index);
+      } else {
+        // console.log(player, ref_collectibles[data.collectible], data.collect_index);
+        ref_collectibles[data.collectible].fall(player, data.collect_index);
+      }
+    });
+
     socket.on('player flag', function (data) {
       var id = data.player;
       var position = data.position;
