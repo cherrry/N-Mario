@@ -26,7 +26,7 @@ define('PowerUp', ['BaseCollectible', 'Music'], function (BaseCollectible, Music
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
     this.body.velocity.x = 20 * localStorage.scale;
-    this.body.gravity.y = 1000 * localStorage.scale;
+    this.body.gravity.y = 800 * localStorage.scale;
     this.body.bounce.x = 1;
 
     this.anchor.setTo(0, 0);

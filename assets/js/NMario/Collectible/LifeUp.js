@@ -1,6 +1,7 @@
 require.config({
   paths: {
-    'BaseCollectible': 'NMario/Collectible/BaseCollectible'
+    'BaseCollectible': 'NMario/Collectible/BaseCollectible',
+    'Music': 'Music'
   },
   shim: {
     'Phaser': {
@@ -9,7 +10,7 @@ require.config({
   }
 });
 
-define('LifeUp', ['BaseCollectible'], function (BaseCollectible) {
+define('LifeUp', ['BaseCollectible', 'Music'], function (BaseCollectible, Music) {
   var type2color = {
     lifeup: 0
   };
@@ -24,11 +25,11 @@ define('LifeUp', ['BaseCollectible'], function (BaseCollectible) {
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
-    this.body.velocity.x = 40 * localStorage.scale;
-    this.body.gravity.y = 50 * localStorage.scale;
+    this.body.velocity.x = 20 * localStorage.scale;
+    this.body.gravity.y = 800 * localStorage.scale;
     this.body.bounce.x = 1;
 
-    this.anchor.setTo(0.5, 0.5);
+    this.anchor.setTo(0, 0);
     this.body.setSize(16, 16, 0, 0);
 
     var lastestPhysics = null;
@@ -68,6 +69,7 @@ define('LifeUp', ['BaseCollectible'], function (BaseCollectible) {
       if (attr.type == 'lifeup') {
         console.log('life up', player);
         player.lives+=1;
+        Music.sound('one-up');
         self.kill();
       }
     };

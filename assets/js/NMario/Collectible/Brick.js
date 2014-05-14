@@ -3,6 +3,7 @@ require.config({
     'BaseCollectible': 'NMario/Collectible/BaseCollectible',
     'Music': 'Music',
     'PowerUp': 'NMario/Collectible/PowerUp',
+    'LifeUp': 'NMario/Collectible/LifeUp',
     'BouncingCoin': 'NMario/Collectible/BouncingCoin'
   },
   shim: {
@@ -12,7 +13,7 @@ require.config({
   }
 });
 
-define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin'], function (BaseCollectible, Music, PowerUp, BouncingCoin) {
+define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp'], function (BaseCollectible, Music, PowerUp, BouncingCoin, LifeUp) {
   var Brick = function(game, objects, x, y, attr) {
     var self = this;
 
@@ -59,8 +60,15 @@ define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin'], functio
       var itemRelease = attr.item[collect_index];
       switch (itemRelease) {
         case 'Power-Up':
+        case 'PowerUp':
           var powerup_id = 'powerup_from_' + attr.id + '_' + collect_index;
           BaseCollectible.ref_collectibles[powerup_id] = new PowerUp(game, BaseCollectible.overlap_objects, x, y - 1, { id: powerup_id, type: 'grow' });
+          break;
+        case 'One-Up':
+        case 'OneUp':
+          console.log('generate power up');
+          var oneup_id = 'oneup_from_' + attr.id + '_' + collect_index;
+          BaseCollectible.ref_collectibles[oneup_id] = new LifeUp(game, BaseCollectible.overlap_objects, x, y - 1, { id: oneup_id, type: 'lifeup' });
           break;
         case 'Coin':
           var coin_id = 'coin_from_' + attr.id + '_' + collect_index;
