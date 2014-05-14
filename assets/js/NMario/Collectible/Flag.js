@@ -1,6 +1,7 @@
 require.config({
   paths: {
-    'BaseCollectible': 'NMario/Collectible/BaseCollectible'
+    'BaseCollectible': 'NMario/Collectible/BaseCollectible',
+    'Music': 'Music'
   },
   shim: {
     'Phaser': {
@@ -9,7 +10,7 @@ require.config({
   }
 });
 
-define('Flag', ['BaseCollectible'], function (BaseCollectible) {
+define('Flag', ['BaseCollectible', 'Music'], function (BaseCollectible, Music) {
   var Flag = function(game, objects, x, y, attr) {
     var self = this;
     var can_collect = true;
@@ -36,6 +37,9 @@ define('Flag', ['BaseCollectible'], function (BaseCollectible) {
         this.body.immovable = false;
         this.body.maxVelocity.y = 100 * localStorage.scale;
         this.body.velocity.y = 100 * localStorage.scale;
+
+        Music.stopTheme();
+        Music.blockingSound(attr.music);
         
         //player.send('end game', {});
         can_collect = false;

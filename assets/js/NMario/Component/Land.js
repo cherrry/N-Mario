@@ -16,7 +16,7 @@ define('Land', ['Phaser'], function (Phaser) {
     attr.repeat = attr.repeat || { x: 1, y: 1 };
     attr.frame = attr.frame || 1;
 
-    Phaser.TileSprite.call(this, game, x * 16 * localStorage.scale, y * 16 * localStorage.scale, attr.repeat.x * 16 * localStorage.scale, attr.repeat.y * 16 * localStorage.scale, 'land', attr.frame);
+    Phaser.TileSprite.call(this, game, x * 16 * localStorage.scale, y * 16 * localStorage.scale, attr.repeat.x * 16, attr.repeat.y * 16, 'land', attr.frame);
 
     objects.add(this);
 

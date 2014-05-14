@@ -16,6 +16,9 @@ define('Music', ['Phaser'], function (Phaser) {
     phaser.load.audio('dead', ['assets/music/dead.mp3', 'assets/music/dead.ogg']);
     phaser.load.audio('small2super', ['assets/music/small2super.mp3', 'assets/music/small2super.ogg']);
     phaser.load.audio('super2small', ['assets/music/super2small.mp3', 'assets/music/super2small.ogg']);
+
+    phaser.load.audio('end-level', ['assets/music/end-level.mp3', 'assets/music/end-level.ogg']);
+    phaser.load.audio('end-game', ['assets/music/end-game.mp3', 'assets/music/end-game.ogg']);
   }
 
   var theme = null;
