@@ -121,6 +121,11 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
         player.setKeyState('q', keyboard.isDown(Phaser.Keyboard.Q));
       }
 
+      //Instant win
+      if (player.getKeyState('w') != keyboard.isDown(Phaser.Keyboard.W)) {
+        player.setKeyState('w', keyboard.isDown(Phaser.Keyboard.W));
+      }
+
       if (just_change) {
         player.broadcast(socket);
       }

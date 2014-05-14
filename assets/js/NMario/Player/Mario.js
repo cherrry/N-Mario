@@ -43,7 +43,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
     this.playerColor = identity.color;
     var spriteOffset = 26 * identity.color;
     var anim = anim_key.small, state = 'small';
-    var keypress = { 'up': false, 'down': false, 'left': false, 'right': false, 'q': false };
+    var keypress = { 'up': false, 'down': false, 'left': false, 'right': false, 'q': false, 'w': false };
 
     var rebornX = 32 * identity.position * localStorage.scale; 
     var rebornY = 64 * localStorage.scale;
@@ -184,10 +184,6 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
 				
         self.animations.play(anim.yeah);
       }
-    };
-
-    this.prepare_win = function () {
-      state = 'prepare';
     };
 
     this.die = function () {
@@ -380,6 +376,17 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
         //Suicide
         if (self.getKeyState('q')) {
           self.send('player die', { player: sessionStorage.id });
+        }
+
+        //Instant win, for debug perpose only.
+        if (self.getKeyState('w')) {
+          if (state != 'debug') {
+            state = 'debug';
+            Music.stopTheme();
+            Music.blockingSound('super2small', function () {
+              self.send('end game', { player: sessionStorage.id });
+            });
+          }
         }
       }
 
