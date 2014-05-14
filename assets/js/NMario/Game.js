@@ -188,7 +188,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
       }
       // console.log(collectible);
       if (collectible.type == 'Flag') {
-        debug_object = ref_collectibles[collectible.attr.id];
+        //debug_object = ref_collectibles[collectible.attr.id];
       }
     }
 

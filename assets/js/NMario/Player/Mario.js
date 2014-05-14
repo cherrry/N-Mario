@@ -195,7 +195,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
 
         //Set body to bounce upword
         self.body.velocity.x = 0;
-        self.body.velocity.y = -300 * localStorage.scale;
+        self.body.velocity.y = -200 * localStorage.scale;
         self.body.acceleration.x = 0;
         self.body.acceleration.y = 0;
 
@@ -208,15 +208,13 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
 
         //Change to dying animation
         self.animations.play(anim.dead);
-        Music.blockingSound('dead', null);
+        Music.blockingSound('dead', function () {
+          if (self.y > 1 && state != 'game over'){
+            self.reborn();
+          }
+        });
       }
     };
-
-    self.events.onOutOfBounds.add(function () {
-      if (self.y > 1 && state != 'game over'){
-        self.reborn();
-      }
-    }, self);
 
     self.events.onAnimationComplete.add(function () {
       switch (state){

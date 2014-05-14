@@ -39,7 +39,9 @@ define('Flag', ['BaseCollectible', 'Music'], function (BaseCollectible, Music) {
         this.body.velocity.y = 100 * localStorage.scale;
 
         Music.stopTheme();
-        Music.blockingSound(attr.music);
+        Music.blockingSound(attr.music, function () {
+          player.send('end game', { player: sessionStorage.id });
+        });
         
         //player.send('end game', {});
         can_collect = false;
