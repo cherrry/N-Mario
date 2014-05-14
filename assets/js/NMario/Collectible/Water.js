@@ -16,9 +16,18 @@ define('Water', ['BaseCollectible'], function (BaseCollectible) {
     BaseCollectible.call(this, game, objects, x, y, attr, 'water');
 
     this.animations.add('water', [0, 1, 2, 3], 2, true);
+    this.animations.add('lava', [10, 11, 12, 13], 2, true);
+    this.animations.add('rightward', [15], 1, true);
+    this.animations.add('downward', [16], 1, true);
+    this.animations.add('upward', [17], 1, true);
+    this.animations.add('leftward', [18], 1, true);
 
-    this.animations.play('water');
-
+    if (attr.type == undefined){
+      this.animations.play('water');
+    }else{
+      this.animations.play(attr.type);
+    }
+   
     this.body.immovable = true;
     this.body.setSize(16, 16, 0, 0);
 

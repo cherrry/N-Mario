@@ -10,6 +10,7 @@ require.config({
 });
 
 define('BaseCollectible', ['Phaser'], function (Phaser) {
+
   var BaseCollectible = function (game, objects, x, y, attr, sprite) {
 
     var self = this;
@@ -19,8 +20,6 @@ define('BaseCollectible', ['Phaser'], function (Phaser) {
 
     this.body.collideWorldBounds = true;
     this.scale.setTo(localStorage.scale, localStorage.scale);
-
-    this.body.maxVelocity.y = 10 * localStorage.scale;
 
     this.broadcast = function (socket) {
       socket.emit('collectible data update', this.lastestData);
@@ -39,6 +38,11 @@ define('BaseCollectible', ['Phaser'], function (Phaser) {
     };
 
   };
+
+  BaseCollectible.collide_objects = null;
+  BaseCollectible.overlap_objects = null;
+  BaseCollectible.ref_collectibles = {};
+  BaseCollectible.structure_objects = [];
 
   BaseCollectible.prototype = Object.create(Phaser.Sprite.prototype);
   BaseCollectible.prototype.constructor = BaseCollectible;

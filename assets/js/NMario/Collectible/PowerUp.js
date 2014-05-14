@@ -24,11 +24,11 @@ define('PowerUp', ['BaseCollectible'], function (BaseCollectible) {
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
-    this.body.velocity.x = 40 * localStorage.scale;
-    this.body.gravity.y = 50 * localStorage.scale;
+    this.body.velocity.x = 20 * localStorage.scale;
+    this.body.gravity.y = 1000 * localStorage.scale;
     this.body.bounce.x = 1;
 
-    this.anchor.setTo(0.5, 0.5);
+    this.anchor.setTo(0, 0);
     this.body.setSize(16, 16, 0, 0);
 
     var lastestPhysics = null;

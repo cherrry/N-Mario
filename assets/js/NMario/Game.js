@@ -151,15 +151,20 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
     phaser.add.tileSprite(0, 0, phaser.world.width, phaser.world.height, 'sky');
 
     structure_objects = [];
+    Collectible.structure_objects = structure_objects;
     // structure_objects.enableBody = true;
 
     collide_objects = phaser.add.group();
     collide_objects.enableBody = true;
+    Collectible.collide_objects = collide_objects;
 
     overlap_objects = phaser.add.group();
     overlap_objects.enableBody = true;
+    Collectible.overlap_objects = overlap_objects;
 
     ref_collectibles = {};
+    Collectible.ref_collectibles = ref_collectibles;
+
     remote_players = {};
 
     for (var i = 0; i < world.solids.length; i++) {
