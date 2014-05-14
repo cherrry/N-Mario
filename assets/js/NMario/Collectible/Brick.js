@@ -4,6 +4,7 @@ require.config({
     'Music': 'Music',
     'PowerUp': 'NMario/Collectible/PowerUp',
     'LifeUp': 'NMario/Collectible/LifeUp',
+    'Mushroom': 'NMario/Collectible/Mushroom',
     'BouncingCoin': 'NMario/Collectible/BouncingCoin'
   },
   shim: {
@@ -13,7 +14,7 @@ require.config({
   }
 });
 
-define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp'], function (BaseCollectible, Music, PowerUp, BouncingCoin, LifeUp) {
+define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp', 'Mushroom'], function (BaseCollectible, Music, PowerUp, BouncingCoin, LifeUp, Mushroom) {
   var Brick = function(game, objects, x, y, attr) {
     var self = this;
 
@@ -74,6 +75,10 @@ define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp'
           var coin_id = 'coin_from_' + attr.id + '_' + collect_index;
           player.coins += 1;
           BaseCollectible.ref_collectibles[coin_id] = new BouncingCoin(game, BaseCollectible.floating_objects, x, y - 1, { id: coin_id });
+          break;
+        case 'Mushroom':
+          var mushroom_id = 'mushroom_from_' + attr.id + '_' + collect_index;
+          BaseCollectible.ref_collectibles[mushroom_id] = new Mushroom(game, BaseCollectible.collide_objects, x, y - 1, { id: mushroom_id });
           break;
         default:
           Music.sound('bump');
