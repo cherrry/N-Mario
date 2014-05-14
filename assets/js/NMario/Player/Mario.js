@@ -45,7 +45,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
     var anim = anim_key.small, state = 'small';
     var keypress = { 'up': false, 'down': false, 'left': false, 'right': false, 'q': false, 'w': false };
 
-    var reborn = [ 0, 2 * 32, 1 * 32 + 16, 3 * 32 + 16 ];
+    var reborn = [ 0, 2 * 32 + 16, 1 * 32, 3 * 32 + 16 ];
     var rebornX = reborn[identity.position] * localStorage.scale; 
     var rebornY = 64 * localStorage.scale;
     Phaser.Sprite.call(this, game, rebornX, rebornY, 'mario', 0 + spriteOffset);
