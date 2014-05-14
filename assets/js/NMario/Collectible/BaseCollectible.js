@@ -41,6 +41,7 @@ define('BaseCollectible', ['Phaser'], function (Phaser) {
 
   BaseCollectible.collide_objects = null;
   BaseCollectible.overlap_objects = null;
+  BaseCollectible.floating_objects = null;
   BaseCollectible.ref_collectibles = {};
   BaseCollectible.structure_objects = [];
 

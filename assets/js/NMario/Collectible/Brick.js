@@ -65,7 +65,7 @@ define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin'], functio
         case 'Coin':
           var coin_id = 'coin_from_' + attr.id + '_' + collect_index;
           player.coins += 1;
-          BaseCollectible.ref_collectibles[coin_id] = new BouncingCoin(game, BaseCollectible.overlap_objects, x, y - 1, { id: coin_id });
+          BaseCollectible.ref_collectibles[coin_id] = new BouncingCoin(game, BaseCollectible.floating_objects, x, y - 1, { id: coin_id });
           break;
         default:
           Music.sound('bump');
