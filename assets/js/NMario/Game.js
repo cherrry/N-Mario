@@ -261,7 +261,6 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
     socket.on('player flag', function (data) {
       var id = data.player;
       var position = data.position;
-      console.log('position = ' + position.x);
       if (sessionStorage.id == id) {
         player.flag(position);
       } else {
@@ -270,6 +269,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
     });
 
     socket.on('player yeah', function (data) {
+      console.log(data.player + ' yeah');
       var id = data.player;
       if (sessionStorage.id == id) {
         player.yeah();

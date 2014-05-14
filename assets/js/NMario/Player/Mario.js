@@ -170,8 +170,6 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
       if (state != 'yeah') {
         state = 'yeah';
 
-        console.log('yeah!');
-
         // Set Mario move a step right
         self.x += 48;
 
@@ -210,7 +208,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
     };
 
     self.events.onOutOfBounds.add(function () {
-      if (state != 'game over'){
+      if (self.y > 1 && state != 'game over'){
         self.reborn();
       }
     }, self);
@@ -224,9 +222,6 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
         case 'super2small':
           state = 'small';
           self.body.allowGravity = true;
-          break;
-        case 'yeah':
-          self.send('end game', { player: sessionStorage.id });
           break;
       }
     }, self);
