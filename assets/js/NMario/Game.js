@@ -33,7 +33,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
 
   var socket = null, isOwner = false;
 
-  var structure_objects = null, collide_objects = null, overlap_objects = null;
+  var structure_objects = null, collide_objects = null, overlap_objects = null, floating_objects = null;
   // var solids = null, collectibles = null, players = null;
   var player = null, remote_players = {}, ref_collectibles = {};
   var keyboard = null;
@@ -164,6 +164,10 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
 
     ref_collectibles = {};
     Collectible.ref_collectibles = ref_collectibles;
+
+    floating_objects = phaser.add.group();
+    floating_objects.enableBody = true;
+    Collectible.floating_objects = floating_objects;
 
     remote_players = {};
 

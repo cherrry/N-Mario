@@ -52,6 +52,9 @@ define('Collectible', ['BaseCollectible', 'Mushroom', 'Coin', 'BouncingCoin', 'F
   Collectible.__defineSetter__('overlap_objects', function (value) {
     BaseCollectible.overlap_objects = value;
   });
+  Collectible.__defineSetter__('floating_objects', function (value) {
+    BaseCollectible.floating_objects = value;
+  });
   Collectible.__defineSetter__('ref_collectibles', function (value) {
     BaseCollectible.ref_collectibles = value;
   });
