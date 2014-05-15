@@ -22,6 +22,7 @@ define('Music', ['Phaser'], function (Phaser) {
     phaser.load.audio('jump', ['assets/music/jump.mp3', 'assets/music/jump.ogg']);
     phaser.load.audio('stomp', ['assets/music/stomp.mp3', 'assets/music/stomp.ogg']);
     phaser.load.audio('bump', ['assets/music/bump.mp3', 'assets/music/bump.ogg']);
+    phaser.load.audio('break-brick', ['assets/music/break-brick.mp3', 'assets/music/break-brick.ogg']);
 
     phaser.load.audio('one-up', ['assets/music/one-up.mp3', 'assets/music/one-up.mp3']);
     phaser.load.audio('powerup', ['assets/music/powerup.mp3', 'assets/music/powerup.ogg']);

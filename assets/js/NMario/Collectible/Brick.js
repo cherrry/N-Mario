@@ -5,7 +5,8 @@ require.config({
     'PowerUp': 'NMario/Collectible/PowerUp',
     'LifeUp': 'NMario/Collectible/LifeUp',
     'Mushroom': 'NMario/Collectible/Mushroom',
-    'BouncingCoin': 'NMario/Collectible/BouncingCoin'
+    'BouncingCoin': 'NMario/Collectible/BouncingCoin',
+    'BreakBrick': 'NMario/Collectible/BreakBrick'
   },
   shim: {
     'Phaser': {
@@ -14,13 +15,14 @@ require.config({
   }
 });
 
-define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp', 'Mushroom'], function (BaseCollectible, Music, PowerUp, BouncingCoin, LifeUp, Mushroom) {
+define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp', 'Mushroom', 'BreakBrick'], function (BaseCollectible, Music, PowerUp, BouncingCoin, LifeUp, Mushroom, BreakBrick) {
   var Brick = function(game, objects, x, y, attr) {
     var self = this;
 
     BaseCollectible.call(this, game, objects, x, y, attr, 'brick');
     BaseCollectible.structure_objects.push(this);
 
+    this.animations.add('breakable', [0, 1, 2, 3], 10, true);
     this.animations.add('ques', [4, 5, 6, 7], 10, true);
     this.animations.add('empty', [8], 1, true);
     this.animations.add('tranparent', [9], 1, true);
@@ -32,9 +34,9 @@ define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp'
       self.body.checkCollision.right = false;
       this.animations.play('tranparent');
     }else if (attr.item.length > 0) {
-      this.animations.play('ques');
+      this.animations.play(attr.breakable == true ? 'breakable' : 'ques');
     } else {
-      this.animations.play('empty');
+      this.animations.play(attr.breakable == true ? 'breakable' : 'empty');
     }
 
     this.body.immovable = true;
@@ -52,9 +54,22 @@ define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp'
       }
       if (attr.visible == false || collect_index >= attr.item.length - 1){
         attr.visible = true;
-        self.animations.play("empty");
+        self.animations.play(attr.breakable == true ? 'break-brick' : "empty");
       }
       if (collect_index >= attr.item.length) {
+        if (attr.breakable == true) {
+
+          // break Brick
+          new BreakBrick(game, BaseCollectible.floating_objects, x - 1, y - 1, { frame: 0 } );
+          new BreakBrick(game, BaseCollectible.floating_objects, x + 1, y - 1, { frame: 1 } );
+          new BreakBrick(game, BaseCollectible.floating_objects, x - 1, y + 1, { frame: 2 } );
+          new BreakBrick(game, BaseCollectible.floating_objects, x + 1, y + 1, { frame: 3 } );
+
+          Music.sound('break-brick');
+          self.kill();
+          return;
+        }
+
         Music.sound('bump');
         return;
       }
