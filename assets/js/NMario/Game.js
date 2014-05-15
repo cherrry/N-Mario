@@ -347,7 +347,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
         if(players[i]){
           text+='<tr><td>'+players[i].name+'</td>'
             +'<td><span class="mario_'+players[i].color+'"></span> x '
-            +players[i].lives+'</td><td>'
+            +(players[i].lives>99?'oo':players[i].lives)+'</td><td>'
             +'<span class="coin_img"></span> x '
             +players[i].coins+'</td></tr>';
         }
