@@ -55,6 +55,9 @@ define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp'
         console.log('show brick');
         self.animations.play(attr.breakable == true ? 'breakable' : 'empty');
       }
+      if (collect_index >= attr.item.length - 1 && attr.breakable != true) {
+        self.animations.play('empty');
+      }
       if (collect_index >= attr.item.length) {
         if (attr.breakable == true) {
 
@@ -68,7 +71,6 @@ define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp'
           self.kill();
           return;
         }
-
         Music.sound('bump');
         return;
       }
