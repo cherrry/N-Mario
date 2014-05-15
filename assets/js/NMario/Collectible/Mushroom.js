@@ -23,11 +23,15 @@ define('Mushroom', ['BaseCollectible', 'Music'], function (BaseCollectible, Musi
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
 
-    this.body.velocity.x = 40 * localStorage.scale;
-    this.body.gravity.y = 50 * localStorage.scale;
+    if (attr.direction == 'left') {
+      this.body.velocity.x = -40 * localStorage.scale;
+    } else {
+      this.body.velocity.x = 40 * localStorage.scale;
+    }
+    this.body.gravity.y = 100 * localStorage.scale;
     this.body.bounce.x = 1;
 
-    this.anchor.setTo(0.5, 0.5);
+    this.anchor.setTo(0, 0);
     this.body.setSize(16, 16, 0, 0);
 
     var lastestPhysics = null;
