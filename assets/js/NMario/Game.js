@@ -336,7 +336,30 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
         .append('<p>Game over. Thank you for playing!</p>')
         .scrollTop($('#content_room #message_board').height());
       $('#content_game').hide();
+      show_end_game_stat(data);
     });
+
+    function show_end_game_stat(rooms) {
+      var text = '';
+      var players = rooms.players;
+      for (var i =0; i < 4;i++){
+        if(players[i]){
+          text+='<tr><td>'+players[i].name+'</td>'
+            +'<td><span class="mario_'+players[i].color+'"></span> x '
+            +players[i].lives+'</td><td>'
+            +'<span class="coin_img"></span> x '
+            +players[i].coins+'</td></tr>';
+        }
+      }
+      $('#result_segment').html(text);
+      $('#end_game_stat')
+        .modal('setting', {
+          closable : false,
+          onApprove : function(){
+          }
+        })
+        .modal('show');
+    }
   });
 
   return Game;
