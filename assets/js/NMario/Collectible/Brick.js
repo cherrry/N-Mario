@@ -51,10 +51,9 @@ define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp'
         self.body.checkCollision.down = true;
         self.body.checkCollision.left = true;
         self.body.checkCollision.right = true;
-      }
-      if (attr.visible == false || collect_index >= attr.item.length - 1){
         attr.visible = true;
-        self.animations.play(attr.breakable == true ? 'break-brick' : "empty");
+        console.log('show brick');
+        self.animations.play(attr.breakable == true ? 'breakable' : 'empty');
       }
       if (collect_index >= attr.item.length) {
         if (attr.breakable == true) {
