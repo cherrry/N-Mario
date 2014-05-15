@@ -54,6 +54,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
 
   function preload() {
     phaser.load.image('sky', 'assets/sprites/sky.png', 1, 1);
+    phaser.load.image('dark', 'assets/sprites/dark.png', 1, 1);
 
     phaser.load.spritesheet('mario-color', 'assets/sprites/mario-color.png', 16, 16);
     phaser.load.spritesheet('mario', 'assets/sprites/mario.png', 32, 32);
@@ -153,7 +154,9 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
     Game.resize(world);
     phaser.world.removeAll();
     Phaser.Canvas.setSmoothingEnabled(phaser.context, false);
-    phaser.add.tileSprite(0, 0, phaser.world.width, phaser.world.height, 'sky');
+
+    var background = world.background || 'sky';
+    phaser.add.tileSprite(0, 0, phaser.world.width, phaser.world.height, background);
 
     structure_objects = [];
     Collectible.structure_objects = structure_objects;
