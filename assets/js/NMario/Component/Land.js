@@ -11,7 +11,7 @@ require.config({
 
 define('Land', ['Phaser'], function (Phaser) {
   var Land = function(game, objects, x, y, attr) {
-    console.log(attr);
+    // console.log(attr);
 
     attr.repeat = attr.repeat || { x: 1, y: 1 };
     attr.frame = attr.frame == 0 ? 0 : attr.frame ? attr.frame : 1;

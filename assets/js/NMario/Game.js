@@ -221,7 +221,7 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
     scoreboard = new Scoreboard(phaser, player, remote_players);
 
     // Set Music
-    console.log(game.world);
+    // console.log(game.world);
     Music.theme(game.world.theme);
   });
 
