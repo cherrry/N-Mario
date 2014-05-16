@@ -233,10 +233,6 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
       //Subtract lives
       self.lives -= 1;
       self.state = 'small';
-      if (self.lives <= 0) {
-        state = 'game over';
-        self.send('player game over', { player: sessionStorage.id });
-      }
 
       //If there is life remains, reset the state and physics, go back to last reborn point
       if (state != 'game over'){
@@ -441,6 +437,14 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
 
     this.__defineSetter__('state', function (value) {
       state = value;
+    });
+
+    this.__defineGetter__('rebornX', function (value) {
+      return rebornX;
+    });
+
+    this.__defineGetter__('rebornY', function (value) {
+      return rebornY;
     });
 
     this.__defineSetter__('socket', function (value) { socket = value; });
