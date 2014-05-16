@@ -45,6 +45,7 @@ define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp'
     this.broadcast = function (socket) {};
 
     this.update = function () {
+      self.body.x = x * 16 * localStorage.scale;
       if (self.body.y > y * 16 * localStorage.scale) {
         self.body.y = y * 16 * localStorage.scale;
         self.body.velocity.y = 0;
