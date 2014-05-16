@@ -66,6 +66,15 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
         }
       }
     };
+
+    var super_reborn = this.reborn;
+    this.reborn = function () {
+      super_reborn();
+      if (self.lives <= 0) {
+        state = 'game over';
+        self.send('player game over', { player: sessionStorage.id });
+      }
+    };
   };
 
   ControllableMario.prototype = Object.create(Mario.prototype);
