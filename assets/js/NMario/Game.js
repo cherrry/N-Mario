@@ -345,10 +345,8 @@ define('Game', ['Phaser', 'Player', 'Component', 'Collectible', 'Scoreboard', 'M
       var players = rooms.players;
       for (var i =0; i < 4;i++){
         if(players[i]){
-          text+='<tr><td>'+players[i].name+'</td>'
-            +'<td><span class="mario_'+players[i].color+'"></span> x '
-            +(players[i].lives-1>99?'oo':players[i].lives-1)+'</td><td>'
-            +'<span class="coin_img"></span> x '
+          text+='<tr><td><span class="mario_'+players[i].color+'"></span> '+players[i].name+'</td>'
+            +'<td><span class="coin_img"></span> x '
             +players[i].coins+'</td></tr>';
         }
       }
