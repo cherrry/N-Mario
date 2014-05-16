@@ -21,6 +21,7 @@ define('Coin', ['BaseCollectible', 'Music'], function (BaseCollectible, Music) {
     this.animations.play('flipping');
 
     this.body.allowGravity = false;
+    this.body.checkCollision.down = false;
 
     this.scale.setTo(localStorage.scale, localStorage.scale);
 

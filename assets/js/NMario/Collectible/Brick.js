@@ -44,6 +44,15 @@ define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp'
 
     this.broadcast = function (socket) {};
 
+    this.update = function () {
+      if (self.body.y > y * 16 * localStorage.scale) {
+        self.body.y = y * 16 * localStorage.scale;
+        self.body.velocity.y = 0;
+        self.body.gravity.y = 0;
+        self.body.immovable = true;
+      }
+    };
+
     this.collected = function (player, collect_index) {
       if (attr.visible == false) {
         //Set have collision
@@ -74,18 +83,27 @@ define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp'
         Music.sound('bump');
         return;
       }
+
+      if (self.body.immovable) {
+        self.body.velocity.y = -100 * localStorage.scale;
+        self.body.gravity.y = 800 * localStorage.scale;
+        self.body.immovable = false;
+      }
+
       var itemRelease = attr.item[collect_index];
       switch (itemRelease) {
         case 'Power-Up':
         case 'PowerUp':
           var powerup_id = 'powerup_from_' + attr.id + '_' + collect_index;
           BaseCollectible.ref_collectibles[powerup_id] = new PowerUp(game, BaseCollectible.overlap_objects, x, y - 1, { id: powerup_id, type: 'grow' });
+          BaseCollectible.ref_collectibles[powerup_id].body.velocity.y = - 100 * localStorage.scale;
           break;
         case 'One-Up':
         case 'OneUp':
           console.log('generate power up');
           var oneup_id = 'oneup_from_' + attr.id + '_' + collect_index;
           BaseCollectible.ref_collectibles[oneup_id] = new LifeUp(game, BaseCollectible.overlap_objects, x, y - 1, { id: oneup_id, type: 'lifeup' });
+          BaseCollectible.ref_collectibles[oneup_id].body.velocity.y = - 100 * localStorage.scale;
           break;
         case 'Coin':
           var coin_id = 'coin_from_' + attr.id + '_' + collect_index;
@@ -95,6 +113,7 @@ define('Brick', ['BaseCollectible', 'Music', 'PowerUp', 'BouncingCoin', 'LifeUp'
         case 'Mushroom':
           var mushroom_id = 'mushroom_from_' + attr.id + '_' + collect_index;
           BaseCollectible.ref_collectibles[mushroom_id] = new Mushroom(game, BaseCollectible.collide_objects, x, y - 1, { id: mushroom_id });
+          BaseCollectible.ref_collectibles[mushroom_id].body.velocity.y = - 100 * localStorage.scale;
           break;
         default:
           Music.sound('bump');

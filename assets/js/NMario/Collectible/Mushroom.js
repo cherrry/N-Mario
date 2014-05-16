@@ -28,7 +28,7 @@ define('Mushroom', ['BaseCollectible', 'Music'], function (BaseCollectible, Musi
     } else {
       this.body.velocity.x = 40 * localStorage.scale;
     }
-    this.body.gravity.y = 100 * localStorage.scale;
+    this.body.gravity.y = 400 * localStorage.scale;
     this.body.bounce.x = 1;
 
     this.anchor.setTo(0, 0);
