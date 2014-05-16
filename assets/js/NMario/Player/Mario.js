@@ -439,6 +439,14 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
       state = value;
     });
 
+    this.__defineGetter__('rebornX', function (value) {
+      return rebornX;
+    });
+
+    this.__defineGetter__('rebornY', function (value) {
+      return rebornY;
+    });
+
     this.__defineSetter__('socket', function (value) { socket = value; });
 
     this.send = function (key, data) {
