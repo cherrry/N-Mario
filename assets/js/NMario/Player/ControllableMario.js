@@ -93,7 +93,7 @@ define('ControllableMario', ['Phaser', 'Mario'], function (Phaser, Mario) {
         self.body.checkCollision.right = true;
         self.body.collideWorldBounds = true;
         self.animations.play('small-jump');
-        setTimeout(function () { state = 'small'; }, 1000);
+        setTimeout(function () { self.state = 'small'; }, 1000);
         //state = 'small';
       } 
     };
