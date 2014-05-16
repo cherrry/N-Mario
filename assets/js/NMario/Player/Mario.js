@@ -232,7 +232,7 @@ define('Mario', ['Phaser', 'Music'], function (Phaser, Music) {
     this.reborn = function () {
       //Subtract lives
       self.lives -= 1;
-      self.state2 = 'small';
+      self.state = 'small';
       if (self.lives <= 0) {
         state = 'game over';
         self.send('player game over', { player: sessionStorage.id });
